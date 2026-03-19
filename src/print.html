@@ -232,8 +232,20 @@
         .divider.light  { background-color: var(--blue-light); width: 35px; height: 3px; }
 
         .service-block {
-            border-left: 3px solid var(--accent);
-            padding-left: 16px;
+            position: relative;
+            padding: 10px 16px;
+            background: linear-gradient(90deg, rgba(30, 61, 116, 0.04) 0%, rgba(30, 61, 116, 0) 100%);
+            border-radius: 0 6px 6px 0;
+        }
+        .service-block::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--accent) 0%, var(--primary) 100%);
+            border-radius: 2px;
         }
         .service-title {
             font-size: 0.9375rem;
@@ -573,7 +585,7 @@
                 <p class="text-body" style="font-size: 0.8125rem; font-weight: 500; line-height: 1.4; color: var(--text-primary); margin-top: 8px;">Ganzheitliches Facility Management, individuell abgestimmt.</p>
             </div>
 
-                <div class="frame-col fill-container justify-center gap-16" style="margin-top: 16px; margin-bottom: 16px;">
+                <div class="frame-col fill-container justify-center gap-4" style="margin-top: 16px; margin-bottom: 16px;">
                     <div class="service-block">
                         <div class="service-title">Persönliche Beratung</div>
                         <div class="service-desc">Individuelle Lösungsansätze.</div>
