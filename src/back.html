@@ -32,13 +32,14 @@
             --space-6: 48px;
             --space-8: 64px;
 
-            /* Semantic Colours — GM Süd Brand */
+            /* Semantic Colours — GM Süd Brand (logo-derived gradient) */
             --bg-primary:   #FFFFFF;
-            --bg-secondary: #E9EDF2;
+            --bg-secondary: #E8F4FA;   /* ice-blue — fresh, modern replacement for grey */
             --text-primary: #1C244B;
             --text-muted:   #4C6A8C;
             --accent:       #3B5FA0;
-            --line:         rgba(28,36,75,0.18);
+            --sky-blue:     #52B1E1;   /* logo bright end — accents, CTAs, energy */
+            --line:         rgba(28,36,75,0.12);
             --line-light:   rgba(255,255,255,0.15);
 
             /* Extended palette */
@@ -46,6 +47,9 @@
             --navy-mid:   #2A3566;
             --blue-mid:   #4C6A8C;
             --blue-light: #7BA0C0;
+
+            /* Brand gradient (visual thread across all panels) */
+            --brand-gradient: linear-gradient(135deg, #1C244B 0%, #3B5FA0 40%, #52B1E1 100%);
         }
 
         /* Clean Chrome */
@@ -225,20 +229,26 @@
            7. STRUCTURAL COMPONENTS
            ============================================ */
         .divider        { width: 100%; height: 1px; background-color: var(--line); }
-        .divider.accent { background-color: var(--accent); width: 48px; height: 4px; }
+        .divider.accent { background: var(--brand-gradient); width: 48px; height: 4px; border-radius: 2px; }
         .divider.navy   { background-color: var(--navy); width: 35px; height: 3px; }
-        .divider.light  { background-color: var(--blue-light); width: 35px; height: 3px; }
+        .divider.light  { background: var(--brand-gradient); width: 35px; height: 3px; border-radius: 1.5px; }
+
+        /* Gradient accent bar — visual thread across panels */
+        .gradient-bar {
+            height: 4px;
+            background: var(--brand-gradient);
+            border-radius: 2px;
+        }
 
         .service-block {
-            border-left: 3px solid var(--accent);
+            border-left: 3px solid var(--sky-blue);
             padding-left: 16px;
         }
         .service-title {
             font-size: 0.9375rem;
             font-weight: 700;
             color: var(--navy);
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
+            letter-spacing: 0.02em;
             margin-bottom: 2px;
             line-height: 1.2;
         }
@@ -397,70 +407,77 @@
         <div class="fold-guide" style="left: calc(200mm + var(--bleed));"></div>
 
         <!-- Panel 4: Inside Left (Zielgruppe / Expertise) -->
-        <div class="panel panel-s2-left bg-navy justify-start fill-height" style="position: relative; padding: 252px 32px 32px 32px; box-sizing: border-box;">
-            <div style="position: absolute; top: 0; left: 0; right: 0; height: 220px; overflow: hidden;">
-                <img alt="Firma Gebäude" src="../assets/Firma02.webp" style="object-position: center; width: 100%; height: 100%; object-fit: cover;">
-            </div>
+        <!-- White safety margin around navy: prevents dark ink at trim edge (rispeln) -->
+        <div class="panel panel-s2-left fill-height" style="background: #FFFFFF; padding: 5mm;">
+            <div class="frame-col fill-height" style="background: var(--navy); position: relative; overflow: hidden; border-radius: 2px;">
+                <div style="height: 200px; flex-shrink: 0; overflow: hidden; position: relative;">
+                    <img alt="Firma Gebäude" src="../assets/Firma02.webp" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+                    <!-- Gradient fade from photo to navy -->
+                    <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 60px; background: linear-gradient(to bottom, transparent, var(--navy));"></div>
+                </div>
 
-            <div class="frame-col gap-8">
-                <div class="text-label text-light" style="letter-spacing: 0.18em;">Expertise</div>
-                <h2 class="text-h1 text-white">Für wen wir<br>arbeiten</h2>
-                <div class="divider light"></div>
-                <p class="text-body text-light" style="font-size: 0.8125rem; font-weight: 500; line-height: 1.4; margin-top: 8px;">Unsere Leistungen richten sich an Unternehmen und Organisationen, die Wert auf funktionierende Prozesse und einen zuverlässigen Partner legen.</p>
-            </div>
+                <div class="frame-col gap-8" style="padding: 20px 24px 24px 24px;">
+                    <h2 class="text-h1 text-white">Für wen wir<br>arbeiten</h2>
+                    <div class="divider light"></div>
+                    <p class="text-body text-light" style="font-size: 0.8125rem; font-weight: 500; line-height: 1.4; margin-top: 8px;">Unsere Leistungen richten sich an Unternehmen und Organisationen, die Wert auf funktionierende Prozesse und einen zuverlässigen Partner legen.</p>
+                </div>
 
-            <ul class="target-list frame-col gap-0" style="margin-top: 20px; list-style: none; padding-left: 0;">
-                <li style="display: flex; align-items: center; gap: 16px; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 0;">
+            <ul class="frame-col gap-0" style="list-style: none; padding-left: 0; padding: 0 24px;">
+                <li style="display: flex; align-items: center; gap: 16px; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 10px 0;">
                     <div style="width: 20px; height: 20px; background: rgba(255,255,255,0.05); border: 2px solid #52B1E1; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                         <svg width="12" height="10" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M3.5 6.2L0.8 3.5L0 4.3L3.5 7.8L10 1.3L9.2 0.5L3.5 6.2Z" fill="#52B1E1"/>
                         </svg>
                     </div>
-                    <span style="color: white; font-size: 0.8125rem; font-weight: 600; letter-spacing: 0;">Unternehmen &amp; Gewerbebetriebe</span>
+                    <span style="color: white; font-size: 0.75rem; font-weight: 600;">Unternehmen &amp; Gewerbebetriebe</span>
                 </li>
-                <li style="display: flex; align-items: center; gap: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 0;">
+                <li style="display: flex; align-items: center; gap: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 10px 0;">
                     <div style="width: 20px; height: 20px; background: rgba(255,255,255,0.05); border: 2px solid #52B1E1; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                         <svg width="12" height="10" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M3.5 6.2L0.8 3.5L0 4.3L3.5 7.8L10 1.3L9.2 0.5L3.5 6.2Z" fill="#52B1E1"/>
                         </svg>
                     </div>
-                    <span style="color: white; font-size: 0.8125rem; font-weight: 600; letter-spacing: 0;">Immobilienverwaltungen</span>
+                    <span style="color: white; font-size: 0.75rem; font-weight: 600;">Immobilienverwaltungen</span>
                 </li>
-                <li style="display: flex; align-items: center; gap: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 0;">
+                <li style="display: flex; align-items: center; gap: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 10px 0;">
                     <div style="width: 20px; height: 20px; background: rgba(255,255,255,0.05); border: 2px solid #52B1E1; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                         <svg width="12" height="10" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M3.5 6.2L0.8 3.5L0 4.3L3.5 7.8L10 1.3L9.2 0.5L3.5 6.2Z" fill="#52B1E1"/>
                         </svg>
                     </div>
-                    <span style="color: white; font-size: 0.8125rem; font-weight: 600; letter-spacing: 0;">Facility Manager</span>
+                    <span style="color: white; font-size: 0.75rem; font-weight: 600;">Facility Manager</span>
                 </li>
-                <li style="display: flex; align-items: center; gap: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 0;">
+                <li style="display: flex; align-items: center; gap: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 10px 0;">
                     <div style="width: 20px; height: 20px; background: rgba(255,255,255,0.05); border: 2px solid #52B1E1; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                         <svg width="12" height="10" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M3.5 6.2L0.8 3.5L0 4.3L3.5 7.8L10 1.3L9.2 0.5L3.5 6.2Z" fill="#52B1E1"/>
                         </svg>
                     </div>
-                    <span style="color: white; font-size: 0.8125rem; font-weight: 600; letter-spacing: 0;">Bauherren &amp; Projektentwickler</span>
+                    <span style="color: white; font-size: 0.75rem; font-weight: 600;">Bauherren &amp; Projektentwickler</span>
                 </li>
-                <li style="display: flex; align-items: center; gap: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px 0;">
+                <li style="display: flex; align-items: center; gap: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 10px 0;">
                     <div style="width: 20px; height: 20px; background: rgba(255,255,255,0.05); border: 2px solid #52B1E1; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                         <svg width="12" height="10" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M3.5 6.2L0.8 3.5L0 4.3L3.5 7.8L10 1.3L9.2 0.5L3.5 6.2Z" fill="#52B1E1"/>
                         </svg>
                     </div>
-                    <span style="color: white; font-size: 0.8125rem; font-weight: 600; letter-spacing: 0;">Öffentliche Auftraggeber &amp; Architekten</span>
+                    <span style="color: white; font-size: 0.75rem; font-weight: 600;">Öffentliche Auftraggeber &amp; Architekten</span>
                 </li>
             </ul>
 
-            <div style="border-left: 3px solid var(--primary); padding-left: 16px; margin-top: auto;">
-                <p class="text-body" style="color: rgba(255,255,255,0.9); font-size: 0.8125rem; font-style: italic; line-height: 1.4; margin: 0;">„Ob laufender Betrieb oder neue Projekte – wir sorgen dafür, dass Ihr Gebäude in professionellen Händen ist.“</p>
+            <div style="border-left: 3px solid var(--sky-blue); padding-left: 16px; margin-top: auto; padding: 0 24px 24px 24px;">
+                <div style="border-left: 3px solid var(--sky-blue); padding-left: 16px;">
+                    <p class="text-body" style="color: rgba(255,255,255,0.9); font-size: 0.75rem; font-style: italic; line-height: 1.4; margin: 0;">„Ob laufender Betrieb oder neue Projekte – wir sorgen dafür, dass Ihr Gebäude in professionellen Händen ist.“</p>
+                </div>
+            </div>
             </div>
         </div>
 
         <!-- Panel 5: Inside Center (Leistungen) -->
-        <div class="panel panel-center bg-grey p-32 justify-start fill-height">
+        <div class="panel panel-center bg-grey p-32 justify-start fill-height" style="position: relative;">
+            <!-- Horizontal gradient bar at top -->
+            <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--brand-gradient);"></div>
             <div class="frame-col gap-8">
-                <div class="text-label">Im Überblick</div>
                 <h2 class="text-h1">Unsere<br>Leistungen</h2>
                 <div class="divider accent"></div>
                 <p class="text-body" style="font-size: 0.8125rem; font-weight: 500; line-height: 1.4; color: var(--text-primary); margin-top: 8px;">Ganzheitliches Facility Management, individuell abgestimmt.</p>
@@ -509,9 +526,10 @@
         </div>
 
         <!-- Panel 6: Inside Right/Flap (USPs / Vorteile) -->
-        <div class="panel panel-s2-right bg-white p-32 justify-start fill-height">
+        <div class="panel panel-s2-right bg-white p-32 justify-start fill-height" style="position: relative;">
+            <!-- Gradient bar at top -->
+            <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--brand-gradient);"></div>
             <div class="frame-col gap-8">
-                <div class="text-label">Vorteile</div>
                 <h2 class="text-h1">Was uns<br>auszeichnet</h2>
                 <div class="divider accent"></div>
                 <p class="text-body" style="font-size: 0.8125rem; font-weight: 500; line-height: 1.4; color: var(--text-primary); margin-top: 8px;">Qualität ist kein Zufall. Wir setzen auf strukturierte Prozesse und geschultes Personal.</p>
@@ -523,35 +541,35 @@
 
             <div class="frame-col gap-16 fill-container justify-center" style="margin-top: 12px;">
                 <div style="display: grid; grid-template-columns: 48px 1fr; gap: 16px; align-items: start; padding-bottom: 8px; border-bottom: 1px solid rgba(30, 61, 116, 0.1);">
-                    <div class="text-accent" style="font-size: 2.25rem; font-weight: 800; line-height: 0.75; letter-spacing: -0.04em; margin-top: 4px; text-align: right; font-variant-numeric: tabular-nums;">01</div>
+                    <div style="font-size: 2.25rem; font-weight: 800; line-height: 0.75; letter-spacing: -0.04em; margin-top: 4px; text-align: right; font-variant-numeric: tabular-nums; color: var(--sky-blue);">01</div>
                     <div class="frame-col gap-4">
                         <strong class="text-primary" style="font-size: 0.875rem; font-weight: 800; line-height: 1.1;">Zuverlässigkeit</strong>
                         <p class="text-body" style="font-size: 0.625rem; line-height: 1.4;">auf die Sie sich verlassen können. Wir denken mit und handeln proaktiv.</p>
                     </div>
                 </div>
                 <div style="display: grid; grid-template-columns: 48px 1fr; gap: 16px; align-items: start; padding-bottom: 8px; border-bottom: 1px solid rgba(30, 61, 116, 0.1);">
-                    <div class="text-accent" style="font-size: 2.25rem; font-weight: 800; line-height: 0.75; letter-spacing: -0.04em; margin-top: 4px; text-align: right; font-variant-numeric: tabular-nums;">02</div>
+                    <div style="font-size: 2.25rem; font-weight: 800; line-height: 0.75; letter-spacing: -0.04em; margin-top: 4px; text-align: right; font-variant-numeric: tabular-nums; color: var(--sky-blue);">02</div>
                     <div class="frame-col gap-4">
                         <strong class="text-primary" style="font-size: 0.875rem; font-weight: 800; line-height: 1.1;">Fachkräfte</strong>
                         <p class="text-body" style="font-size: 0.625rem; line-height: 1.4;">Aus- und weitergebildet: Unser Team ist auf dem neusten Technik-Stand.</p>
                     </div>
                 </div>
                 <div style="display: grid; grid-template-columns: 48px 1fr; gap: 16px; align-items: start; padding-bottom: 8px; border-bottom: 1px solid rgba(30, 61, 116, 0.1);">
-                    <div class="text-accent" style="font-size: 2.25rem; font-weight: 800; line-height: 0.75; letter-spacing: -0.04em; margin-top: 4px; text-align: right; font-variant-numeric: tabular-nums;">03</div>
+                    <div style="font-size: 2.25rem; font-weight: 800; line-height: 0.75; letter-spacing: -0.04em; margin-top: 4px; text-align: right; font-variant-numeric: tabular-nums; color: var(--sky-blue);">03</div>
                     <div class="frame-col gap-4">
                         <strong class="text-primary" style="font-size: 0.875rem; font-weight: 800; line-height: 1.1;">Praxis-Know-how</strong>
                         <p class="text-body" style="font-size: 0.625rem; line-height: 1.4;">Keine Theorie. Wir verstehen, worauf es im Alltag wirklich ankommt.</p>
                     </div>
                 </div>
                 <div style="display: grid; grid-template-columns: 48px 1fr; gap: 16px; align-items: start; padding-bottom: 8px; border-bottom: 1px solid rgba(30, 61, 116, 0.1);">
-                    <div class="text-accent" style="font-size: 2.25rem; font-weight: 800; line-height: 0.75; letter-spacing: -0.04em; margin-top: 4px; text-align: right; font-variant-numeric: tabular-nums;">04</div>
+                    <div style="font-size: 2.25rem; font-weight: 800; line-height: 0.75; letter-spacing: -0.04em; margin-top: 4px; text-align: right; font-variant-numeric: tabular-nums; color: var(--sky-blue);">04</div>
                     <div class="frame-col gap-4">
                         <strong class="text-primary" style="font-size: 0.875rem; font-weight: 800; line-height: 1.1;">Maßgeschneidert</strong>
                         <p class="text-body" style="font-size: 0.625rem; line-height: 1.4;">Individuelle Lösungen statt Standardkonzepte. Ihre Anforderungen zählen.</p>
                     </div>
                 </div>
                 <div style="display: grid; grid-template-columns: 48px 1fr; gap: 16px; align-items: start;">
-                    <div class="text-accent" style="font-size: 2.25rem; font-weight: 800; line-height: 0.75; letter-spacing: -0.04em; margin-top: 4px; text-align: right; font-variant-numeric: tabular-nums;">05</div>
+                    <div style="font-size: 2.25rem; font-weight: 800; line-height: 0.75; letter-spacing: -0.04em; margin-top: 4px; text-align: right; font-variant-numeric: tabular-nums; color: var(--sky-blue);">05</div>
                     <div class="frame-col gap-4">
                         <strong class="text-primary" style="font-size: 0.875rem; font-weight: 800; line-height: 1.1;">Partnerschaft</strong>
                         <p class="text-body" style="font-size: 0.625rem; line-height: 1.4;">Wir begleiten Sie nachhaltig – nicht nur projektbezogen.</p>

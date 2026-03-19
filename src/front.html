@@ -32,13 +32,14 @@
             --space-6: 48px;
             --space-8: 64px;
 
-            /* Semantic Colours — GM Süd Brand */
+            /* Semantic Colours — GM Süd Brand (logo-derived gradient) */
             --bg-primary:   #FFFFFF;
-            --bg-secondary: #E9EDF2;
+            --bg-secondary: #E8F4FA;   /* ice-blue — fresh, modern replacement for grey */
             --text-primary: #1C244B;
             --text-muted:   #4C6A8C;
             --accent:       #3B5FA0;
-            --line:         rgba(28,36,75,0.18);
+            --sky-blue:     #52B1E1;   /* logo bright end — accents, CTAs, energy */
+            --line:         rgba(28,36,75,0.12);
             --line-light:   rgba(255,255,255,0.15);
 
             /* Extended palette */
@@ -46,6 +47,9 @@
             --navy-mid:   #2A3566;
             --blue-mid:   #4C6A8C;
             --blue-light: #7BA0C0;
+
+            /* Brand gradient (visual thread across all panels) */
+            --brand-gradient: linear-gradient(135deg, #1C244B 0%, #3B5FA0 40%, #52B1E1 100%);
         }
 
         /* Clean Chrome */
@@ -232,9 +236,22 @@
            7. STRUCTURAL COMPONENTS
            ============================================ */
         .divider        { width: 100%; height: 1px; background-color: var(--line); }
-        .divider.accent { background-color: var(--accent); width: 48px; height: 4px; }
+        .divider.accent { background: var(--brand-gradient); width: 48px; height: 4px; border-radius: 2px; }
         .divider.navy   { background-color: var(--navy); width: 35px; height: 3px; }
-        .divider.light  { background-color: var(--blue-light); width: 35px; height: 3px; }
+        .divider.light  { background: var(--brand-gradient); width: 35px; height: 3px; border-radius: 1.5px; }
+
+        /* Gradient accent bar — visual thread across panels */
+        .gradient-bar {
+            height: 4px;
+            background: var(--brand-gradient);
+            border-radius: 2px;
+        }
+        .gradient-bar.vertical {
+            width: 4px;
+            height: 100%;
+            background: var(--brand-gradient);
+            border-radius: 2px;
+        }
 
         .service-block {
             border-left: 3px solid var(--accent);
@@ -295,7 +312,7 @@
             display: flex;
             align-items: center;
             gap: var(--space-2);
-            border: 2px solid var(--navy);
+            border: 2px solid var(--sky-blue);
             padding: 12px;
             background: var(--bg-primary);
         }
@@ -390,10 +407,11 @@
         <div class="fold-guide" style="left: calc(197mm + var(--bleed));"></div>
 
         <!-- Panel 1: Flap (Das Unternehmen) -->
-        <div class="panel panel-s1-left bg-grey justify-start fill-height">
-            <div class="frame-col p-32 fill-container">
+        <div class="panel panel-s1-left bg-grey justify-start fill-height" style="position: relative;">
+            <!-- Vertical gradient accent bar (visual thread) -->
+            <div style="position: absolute; top: 0; left: 0; bottom: 0; width: 4px; background: var(--brand-gradient); z-index: 2;"></div>
+            <div class="frame-col p-32 fill-container" style="padding-left: 28px;">
                 <div class="frame-col gap-8">
-                    <div class="text-label">Das Unternehmen</div>
                     <h2 class="text-h1">Ihr Partner für<br>professionelles FM</h2>
                     <div class="divider accent"></div>
                 </div>
@@ -409,19 +427,19 @@
 
                 <div class="stats-grid" style="margin-top: auto; padding-top: 24px; border-top: 1px solid var(--line);">
                     <div class="frame-col">
-                        <span class="stat-num">10+</span>
+                        <span class="stat-num" style="color: var(--sky-blue);">10+</span>
                         <span class="stat-text">Jahre<br>Erfahrung</span>
                     </div>
                     <div class="frame-col">
-                        <span class="stat-num">24/7</span>
+                        <span class="stat-num" style="color: var(--sky-blue);">24/7</span>
                         <span class="stat-text">Bereitschaft<br>Notdienst</span>
                     </div>
                     <div class="frame-col">
-                        <span class="stat-num">100%</span>
+                        <span class="stat-num" style="color: var(--sky-blue);">100%</span>
                         <span class="stat-text">Fachkraft<br>Kontrolle</span>
                     </div>
                     <div class="frame-col">
-                        <span class="stat-num">8+</span>
+                        <span class="stat-num" style="color: var(--sky-blue);">8+</span>
                         <span class="stat-text">Feste Leistungs-<br>bereiche</span>
                     </div>
                 </div>
@@ -431,8 +449,9 @@
         <!-- Panel 2: Back Cover (Kontakt) -->
         <div class="panel panel-center bg-white justify-center fill-height">
             <div class="frame-col p-32 fill-container justify-center">
+                <!-- Horizontal gradient bar at top -->
+                <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--brand-gradient);"></div>
                 <div class="frame-col gap-8">
-                    <div class="text-label">Direkter Draht</div>
                     <h2 class="text-h1" style="color: var(--navy);">Lassen Sie uns<br>sprechen.</h2>
                     <div class="divider accent"></div>
                     <p class="text-body" style="font-size: 0.8125rem; font-weight: 500; line-height: 1.4; color: var(--text-primary); margin-top: 8px;">Sie suchen einen zuverlässigen Partner für Ihr Facility Management? Dann kommen Sie gerne direkt auf uns zu, wir freuen uns auf den Austausch.</p>
@@ -458,8 +477,8 @@
                         <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://gmsued.de/kontakt&color=1C244B&bgcolor=ffffff&margin=0" alt="QR Code gmsued.de">
                     </div>
                     <div class="frame-col gap-4">
-                        <span class="text-h3" style="font-size: 0.75rem;">Mehr erfahren</span>
-                        <span class="text-accent" style="font-size: 0.8125rem; font-weight: 700;">gmsued.de/kontakt</span>
+                        <span style="font-size: 0.75rem; font-weight: 700; color: var(--navy);">Mehr erfahren</span>
+                        <span style="font-size: 0.8125rem; font-weight: 700; color: var(--sky-blue);">gmsued.de/kontakt</span>
                     </div>
                 </div>
             </div>
@@ -471,12 +490,13 @@
                 <img src="https://www.gmsued.de/wp-content/uploads/2022/12/gms1.jpg"
                      class="cover-image" alt="GM Süd Facility Management Service" style="object-position: center top; transform-origin: center top; transform: scale(1.15);">
             </div>
+            <!-- Gradient strip between photo and navy = visual thread -->
+            <div style="height: 5px; background: var(--brand-gradient); margin-right: calc(var(--bleed) * -1); flex-shrink: 0;"></div>
             <div class="frame-col p-40 justify-between bg-navy" style="flex: 0 0 auto; padding-right: calc(36px + var(--bleed)); margin-right: calc(var(--bleed) * -1); box-shadow: 0 -10px 40px rgba(0,0,0,0.4);">
                 <div style="position: relative; z-index: 1; margin-bottom: 20px;">
                     <img alt="GM Süd Logo" src="../assets/gmsued_logo.png" style="height: 28px; filter: brightness(0) invert(1);">
                 </div>
                 <div class="frame-col gap-8" style="position: relative; z-index: 1;">
-                    <div class="text-label text-light" style="letter-spacing: 0.18em;">Facility Management</div>
                     <h1 class="text-h1 text-white">Werte erhalten.<br>Abläufe sichern.</h1>
                     <p class="text-body" style="font-size: 0.8125rem; font-weight: 500; line-height: 1.4; color: rgba(255,255,255,0.9); margin-top: 8px;">Technisches und infrastrukturelles Gebäudemanagement für den Großraum München.</p>
                 </div>

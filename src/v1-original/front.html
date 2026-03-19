@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GM Süd GmbH – Flyer Print Ready</title>
+    <title>GM Süd GmbH – Flyer Outside Spread</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -32,14 +32,13 @@
             --space-6: 48px;
             --space-8: 64px;
 
-            /* Semantic Colours — GM Süd Brand (logo-derived gradient) */
+            /* Semantic Colours — GM Süd Brand */
             --bg-primary:   #FFFFFF;
-            --bg-secondary: #E8F4FA;   /* ice-blue — fresh, modern replacement for grey */
+            --bg-secondary: #E9EDF2;
             --text-primary: #1C244B;
             --text-muted:   #4C6A8C;
             --accent:       #3B5FA0;
-            --sky-blue:     #52B1E1;   /* logo bright end — accents, CTAs, energy */
-            --line:         rgba(28,36,75,0.12);
+            --line:         rgba(28,36,75,0.18);
             --line-light:   rgba(255,255,255,0.15);
 
             /* Extended palette */
@@ -47,9 +46,6 @@
             --navy-mid:   #2A3566;
             --blue-mid:   #4C6A8C;
             --blue-light: #7BA0C0;
-
-            /* Brand gradient (visual thread across all panels) */
-            --brand-gradient: linear-gradient(135deg, #1C244B 0%, #3B5FA0 40%, #52B1E1 100%);
         }
 
         /* Clean Chrome */
@@ -236,32 +232,20 @@
            7. STRUCTURAL COMPONENTS
            ============================================ */
         .divider        { width: 100%; height: 1px; background-color: var(--line); }
-        .divider.accent { background: var(--brand-gradient); width: 48px; height: 4px; border-radius: 2px; }
+        .divider.accent { background-color: var(--accent); width: 48px; height: 4px; }
         .divider.navy   { background-color: var(--navy); width: 35px; height: 3px; }
-        .divider.light  { background: var(--brand-gradient); width: 35px; height: 3px; border-radius: 1.5px; }
-
-        /* Gradient accent bar — visual thread across panels */
-        .gradient-bar {
-            height: 4px;
-            background: var(--brand-gradient);
-            border-radius: 2px;
-        }
-        .gradient-bar.vertical {
-            width: 4px;
-            height: 100%;
-            background: var(--brand-gradient);
-            border-radius: 2px;
-        }
+        .divider.light  { background-color: var(--blue-light); width: 35px; height: 3px; }
 
         .service-block {
-            border-left: 3px solid var(--sky-blue);
+            border-left: 3px solid var(--accent);
             padding-left: 16px;
         }
         .service-title {
             font-size: 0.9375rem;
             font-weight: 700;
             color: var(--navy);
-            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
             margin-bottom: 2px;
             line-height: 1.2;
         }
@@ -311,7 +295,7 @@
             display: flex;
             align-items: center;
             gap: var(--space-2);
-            border: 2px solid var(--sky-blue);
+            border: 2px solid var(--navy);
             padding: 12px;
             background: var(--bg-primary);
         }
@@ -398,8 +382,7 @@
     </style>
 </head>
 <body>
-        
-
+<div class="spread-label">Outside (Folded Flat)</div>
 <!-- Outer Spread (Side 1) -->
     <!-- [Left: Flap/Leistungen] | [Middle: Back Cover/Kontakt] | [Right: Front Cover/Hero] -->
     <section class="spread frame-row fill-width" id="outer-spread">
@@ -407,11 +390,10 @@
         <div class="fold-guide" style="left: calc(197mm + var(--bleed));"></div>
 
         <!-- Panel 1: Flap (Das Unternehmen) -->
-        <div class="panel panel-s1-left bg-grey justify-start fill-height" style="position: relative;">
-            <!-- Vertical gradient accent bar (visual thread) -->
-            <div style="position: absolute; top: 0; left: 0; bottom: 0; width: 4px; background: var(--brand-gradient); z-index: 2;"></div>
-            <div class="frame-col p-32 fill-container" style="padding-left: 28px;">
+        <div class="panel panel-s1-left bg-grey justify-start fill-height">
+            <div class="frame-col p-32 fill-container">
                 <div class="frame-col gap-8">
+                    <div class="text-label">Das Unternehmen</div>
                     <h2 class="text-h1">Ihr Partner für<br>professionelles FM</h2>
                     <div class="divider accent"></div>
                 </div>
@@ -427,19 +409,19 @@
 
                 <div class="stats-grid" style="margin-top: auto; padding-top: 24px; border-top: 1px solid var(--line);">
                     <div class="frame-col">
-                        <span class="stat-num" style="color: var(--sky-blue);">10+</span>
+                        <span class="stat-num">10+</span>
                         <span class="stat-text">Jahre<br>Erfahrung</span>
                     </div>
                     <div class="frame-col">
-                        <span class="stat-num" style="color: var(--sky-blue);">24/7</span>
+                        <span class="stat-num">24/7</span>
                         <span class="stat-text">Bereitschaft<br>Notdienst</span>
                     </div>
                     <div class="frame-col">
-                        <span class="stat-num" style="color: var(--sky-blue);">100%</span>
+                        <span class="stat-num">100%</span>
                         <span class="stat-text">Fachkraft<br>Kontrolle</span>
                     </div>
                     <div class="frame-col">
-                        <span class="stat-num" style="color: var(--sky-blue);">8+</span>
+                        <span class="stat-num">8+</span>
                         <span class="stat-text">Feste Leistungs-<br>bereiche</span>
                     </div>
                 </div>
@@ -449,9 +431,8 @@
         <!-- Panel 2: Back Cover (Kontakt) -->
         <div class="panel panel-center bg-white justify-center fill-height">
             <div class="frame-col p-32 fill-container justify-center">
-                <!-- Horizontal gradient bar at top -->
-                <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--brand-gradient);"></div>
                 <div class="frame-col gap-8">
+                    <div class="text-label">Direkter Draht</div>
                     <h2 class="text-h1" style="color: var(--navy);">Lassen Sie uns<br>sprechen.</h2>
                     <div class="divider accent"></div>
                     <p class="text-body" style="font-size: 0.8125rem; font-weight: 500; line-height: 1.4; color: var(--text-primary); margin-top: 8px;">Sie suchen einen zuverlässigen Partner für Ihr Facility Management? Dann kommen Sie gerne direkt auf uns zu, wir freuen uns auf den Austausch.</p>
@@ -477,8 +458,8 @@
                         <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://gmsued.de/kontakt&color=1C244B&bgcolor=ffffff&margin=0" alt="QR Code gmsued.de">
                     </div>
                     <div class="frame-col gap-4">
-                        <span style="font-size: 0.75rem; font-weight: 700; color: var(--navy);">Mehr erfahren</span>
-                        <span style="font-size: 0.8125rem; font-weight: 700; color: var(--sky-blue);">gmsued.de/kontakt</span>
+                        <span class="text-h3" style="font-size: 0.75rem;">Mehr erfahren</span>
+                        <span class="text-accent" style="font-size: 0.8125rem; font-weight: 700;">gmsued.de/kontakt</span>
                     </div>
                 </div>
             </div>
@@ -490,13 +471,12 @@
                 <img src="https://www.gmsued.de/wp-content/uploads/2022/12/gms1.jpg"
                      class="cover-image" alt="GM Süd Facility Management Service" style="object-position: center top; transform-origin: center top; transform: scale(1.15);">
             </div>
-            <!-- Gradient strip between photo and navy = visual thread -->
-            <div style="height: 5px; background: var(--brand-gradient); margin-right: calc(var(--bleed) * -1); flex-shrink: 0;"></div>
             <div class="frame-col p-40 justify-between bg-navy" style="flex: 0 0 auto; padding-right: calc(36px + var(--bleed)); margin-right: calc(var(--bleed) * -1); box-shadow: 0 -10px 40px rgba(0,0,0,0.4);">
                 <div style="position: relative; z-index: 1; margin-bottom: 20px;">
                     <img alt="GM Süd Logo" src="../assets/gmsued_logo.png" style="height: 28px; filter: brightness(0) invert(1);">
                 </div>
                 <div class="frame-col gap-8" style="position: relative; z-index: 1;">
+                    <div class="text-label text-light" style="letter-spacing: 0.18em;">Facility Management</div>
                     <h1 class="text-h1 text-white">Werte erhalten.<br>Abläufe sichern.</h1>
                     <p class="text-body" style="font-size: 0.8125rem; font-weight: 500; line-height: 1.4; color: rgba(255,255,255,0.9); margin-top: 8px;">Technisches und infrastrukturelles Gebäudemanagement für den Großraum München.</p>
                 </div>
@@ -523,197 +503,5 @@
             }
         });
     </script>
-
-
-
-<!-- Inner Spread (Side 2) -->
-    <!-- [Left: Unternehmen] | [Middle: USPs] | [Right: Zielgruppe] -->
-    <section class="spread frame-row fill-width" id="inner-spread">
-        <div class="fold-guide" style="left: calc(100mm + var(--bleed));"></div>
-        <div class="fold-guide" style="left: calc(200mm + var(--bleed));"></div>
-
-        <!-- Panel 4: Inside Left (Zielgruppe / Expertise) -->
-        <!-- White safety margin around navy: prevents dark ink at trim edge (rispeln) -->
-        <div class="panel panel-s2-left fill-height" style="background: #FFFFFF; padding: 5mm;">
-            <div class="frame-col fill-height" style="background: var(--navy); position: relative; overflow: hidden; border-radius: 2px;">
-                <div style="height: 200px; flex-shrink: 0; overflow: hidden; position: relative;">
-                    <img alt="Firma Gebäude" src="../assets/Firma02.webp" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
-                    <!-- Gradient fade from photo to navy -->
-                    <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 60px; background: linear-gradient(to bottom, transparent, var(--navy));"></div>
-                </div>
-
-                <div class="frame-col gap-8" style="padding: 20px 24px 24px 24px;">
-                    <h2 class="text-h1 text-white">Für wen wir<br>arbeiten</h2>
-                    <div class="divider light"></div>
-                    <p class="text-body text-light" style="font-size: 0.8125rem; font-weight: 500; line-height: 1.4; margin-top: 8px;">Unsere Leistungen richten sich an Unternehmen und Organisationen, die Wert auf funktionierende Prozesse und einen zuverlässigen Partner legen.</p>
-                </div>
-
-            <ul class="frame-col gap-0" style="list-style: none; padding-left: 0; padding: 0 24px;">
-                <li style="display: flex; align-items: center; gap: 16px; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 10px 0;">
-                    <div style="width: 20px; height: 20px; background: rgba(255,255,255,0.05); border: 2px solid #52B1E1; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                        <svg width="12" height="10" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3.5 6.2L0.8 3.5L0 4.3L3.5 7.8L10 1.3L9.2 0.5L3.5 6.2Z" fill="#52B1E1"/>
-                        </svg>
-                    </div>
-                    <span style="color: white; font-size: 0.75rem; font-weight: 600;">Unternehmen &amp; Gewerbebetriebe</span>
-                </li>
-                <li style="display: flex; align-items: center; gap: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 10px 0;">
-                    <div style="width: 20px; height: 20px; background: rgba(255,255,255,0.05); border: 2px solid #52B1E1; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                        <svg width="12" height="10" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3.5 6.2L0.8 3.5L0 4.3L3.5 7.8L10 1.3L9.2 0.5L3.5 6.2Z" fill="#52B1E1"/>
-                        </svg>
-                    </div>
-                    <span style="color: white; font-size: 0.75rem; font-weight: 600;">Immobilienverwaltungen</span>
-                </li>
-                <li style="display: flex; align-items: center; gap: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 10px 0;">
-                    <div style="width: 20px; height: 20px; background: rgba(255,255,255,0.05); border: 2px solid #52B1E1; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                        <svg width="12" height="10" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3.5 6.2L0.8 3.5L0 4.3L3.5 7.8L10 1.3L9.2 0.5L3.5 6.2Z" fill="#52B1E1"/>
-                        </svg>
-                    </div>
-                    <span style="color: white; font-size: 0.75rem; font-weight: 600;">Facility Manager</span>
-                </li>
-                <li style="display: flex; align-items: center; gap: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 10px 0;">
-                    <div style="width: 20px; height: 20px; background: rgba(255,255,255,0.05); border: 2px solid #52B1E1; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                        <svg width="12" height="10" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3.5 6.2L0.8 3.5L0 4.3L3.5 7.8L10 1.3L9.2 0.5L3.5 6.2Z" fill="#52B1E1"/>
-                        </svg>
-                    </div>
-                    <span style="color: white; font-size: 0.75rem; font-weight: 600;">Bauherren &amp; Projektentwickler</span>
-                </li>
-                <li style="display: flex; align-items: center; gap: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 10px 0;">
-                    <div style="width: 20px; height: 20px; background: rgba(255,255,255,0.05); border: 2px solid #52B1E1; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                        <svg width="12" height="10" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3.5 6.2L0.8 3.5L0 4.3L3.5 7.8L10 1.3L9.2 0.5L3.5 6.2Z" fill="#52B1E1"/>
-                        </svg>
-                    </div>
-                    <span style="color: white; font-size: 0.75rem; font-weight: 600;">Öffentliche Auftraggeber &amp; Architekten</span>
-                </li>
-            </ul>
-
-            <div style="border-left: 3px solid var(--sky-blue); padding-left: 16px; margin-top: auto; padding: 0 24px 24px 24px;">
-                <div style="border-left: 3px solid var(--sky-blue); padding-left: 16px;">
-                    <p class="text-body" style="color: rgba(255,255,255,0.9); font-size: 0.75rem; font-style: italic; line-height: 1.4; margin: 0;">„Ob laufender Betrieb oder neue Projekte – wir sorgen dafür, dass Ihr Gebäude in professionellen Händen ist.“</p>
-                </div>
-            </div>
-            </div>
-        </div>
-
-        <!-- Panel 5: Inside Center (Leistungen) -->
-        <div class="panel panel-center bg-grey p-32 justify-start fill-height" style="position: relative;">
-            <!-- Horizontal gradient bar at top -->
-            <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--brand-gradient);"></div>
-            <div class="frame-col gap-8">
-                <h2 class="text-h1">Unsere<br>Leistungen</h2>
-                <div class="divider accent"></div>
-                <p class="text-body" style="font-size: 0.8125rem; font-weight: 500; line-height: 1.4; color: var(--text-primary); margin-top: 8px;">Ganzheitliches Facility Management, individuell abgestimmt.</p>
-            </div>
-
-                <div class="frame-col fill-container justify-center gap-32" style="margin-top: 16px; margin-bottom: 16px;">
-                    <div class="service-block">
-                        <div class="service-title">Persönliche Beratung</div>
-                        <div class="service-desc">Individuelle Lösungsansätze.</div>
-                    </div>
-                    <div class="service-block">
-                        <div class="service-title">Hausmeisterservice</div>
-                        <div class="service-desc">Fachgerechte Objektbetreuung.</div>
-                    </div>
-                    <div class="service-block">
-                        <div class="service-title">Brandschutz</div>
-                        <div class="service-desc">Prüfung &amp; Wartung von Anlagen.</div>
-                    </div>
-                    <div class="service-block">
-                        <div class="service-title">Feuerlöscher</div>
-                        <div class="service-desc">Verkauf, Vermietung &amp; Instandhaltung.</div>
-                    </div>
-                    <div class="service-block">
-                        <div class="service-title">Schulungen</div>
-                        <div class="service-desc">Brandschutzhelfer &amp; Einweisung.</div>
-                    </div>
-                    <div class="service-block">
-                        <div class="service-title">Winterdienst</div>
-                        <div class="service-desc">Professioneller Räum- und Streudienst.</div>
-                    </div>
-                    <div class="service-block">
-                        <div class="service-title">Spielplatzprüfer</div>
-                        <div class="service-desc">Zertifiziert nach DIN SPEC 79161.</div>
-                    </div>
-                    <div class="service-block">
-                        <div class="service-title">24h Notdienst</div>
-                        <div class="service-desc">Rund-um-die-Uhr in Bereitschaft.</div>
-                    </div>
-                </div>
-
-                <div class="frame-col" style="margin-top: auto; padding-top: 14px; border-top: 2px solid var(--navy);">
-                    <div class="contact-line">
-                        Vollständiges Portfolio <span>gmsued.de/leistungen</span>
-                    </div>
-                </div>
-        </div>
-
-        <!-- Panel 6: Inside Right/Flap (USPs / Vorteile) -->
-        <div class="panel panel-s2-right bg-white p-32 justify-start fill-height" style="position: relative;">
-            <!-- Gradient bar at top -->
-            <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--brand-gradient);"></div>
-            <div class="frame-col gap-8">
-                <h2 class="text-h1">Was uns<br>auszeichnet</h2>
-                <div class="divider accent"></div>
-                <p class="text-body" style="font-size: 0.8125rem; font-weight: 500; line-height: 1.4; color: var(--text-primary); margin-top: 8px;">Qualität ist kein Zufall. Wir setzen auf strukturierte Prozesse und geschultes Personal.</p>
-            </div>
-
-            <div style="margin-top: 16px; margin-bottom: 8px; overflow: hidden; height: 232px;">
-                <img src="https://www.gmsued.de/wp-content/uploads/2022/12/gms2.jpg" style="width: 100%; height: 100%; object-fit: cover; object-position: center 15%;" alt="GMSUD Dispatcher">
-            </div>
-
-            <div class="frame-col gap-16 fill-container justify-center" style="margin-top: 12px;">
-                <div style="display: grid; grid-template-columns: 48px 1fr; gap: 16px; align-items: start; padding-bottom: 8px; border-bottom: 1px solid rgba(30, 61, 116, 0.1);">
-                    <div style="font-size: 2.25rem; font-weight: 800; line-height: 0.75; letter-spacing: -0.04em; margin-top: 4px; text-align: right; font-variant-numeric: tabular-nums; color: var(--sky-blue);">01</div>
-                    <div class="frame-col gap-4">
-                        <strong class="text-primary" style="font-size: 0.875rem; font-weight: 800; line-height: 1.1;">Zuverlässigkeit</strong>
-                        <p class="text-body" style="font-size: 0.625rem; line-height: 1.4;">auf die Sie sich verlassen können. Wir denken mit und handeln proaktiv.</p>
-                    </div>
-                </div>
-                <div style="display: grid; grid-template-columns: 48px 1fr; gap: 16px; align-items: start; padding-bottom: 8px; border-bottom: 1px solid rgba(30, 61, 116, 0.1);">
-                    <div style="font-size: 2.25rem; font-weight: 800; line-height: 0.75; letter-spacing: -0.04em; margin-top: 4px; text-align: right; font-variant-numeric: tabular-nums; color: var(--sky-blue);">02</div>
-                    <div class="frame-col gap-4">
-                        <strong class="text-primary" style="font-size: 0.875rem; font-weight: 800; line-height: 1.1;">Fachkräfte</strong>
-                        <p class="text-body" style="font-size: 0.625rem; line-height: 1.4;">Aus- und weitergebildet: Unser Team ist auf dem neusten Technik-Stand.</p>
-                    </div>
-                </div>
-                <div style="display: grid; grid-template-columns: 48px 1fr; gap: 16px; align-items: start; padding-bottom: 8px; border-bottom: 1px solid rgba(30, 61, 116, 0.1);">
-                    <div style="font-size: 2.25rem; font-weight: 800; line-height: 0.75; letter-spacing: -0.04em; margin-top: 4px; text-align: right; font-variant-numeric: tabular-nums; color: var(--sky-blue);">03</div>
-                    <div class="frame-col gap-4">
-                        <strong class="text-primary" style="font-size: 0.875rem; font-weight: 800; line-height: 1.1;">Praxis-Know-how</strong>
-                        <p class="text-body" style="font-size: 0.625rem; line-height: 1.4;">Keine Theorie. Wir verstehen, worauf es im Alltag wirklich ankommt.</p>
-                    </div>
-                </div>
-                <div style="display: grid; grid-template-columns: 48px 1fr; gap: 16px; align-items: start; padding-bottom: 8px; border-bottom: 1px solid rgba(30, 61, 116, 0.1);">
-                    <div style="font-size: 2.25rem; font-weight: 800; line-height: 0.75; letter-spacing: -0.04em; margin-top: 4px; text-align: right; font-variant-numeric: tabular-nums; color: var(--sky-blue);">04</div>
-                    <div class="frame-col gap-4">
-                        <strong class="text-primary" style="font-size: 0.875rem; font-weight: 800; line-height: 1.1;">Maßgeschneidert</strong>
-                        <p class="text-body" style="font-size: 0.625rem; line-height: 1.4;">Individuelle Lösungen statt Standardkonzepte. Ihre Anforderungen zählen.</p>
-                    </div>
-                </div>
-                <div style="display: grid; grid-template-columns: 48px 1fr; gap: 16px; align-items: start;">
-                    <div style="font-size: 2.25rem; font-weight: 800; line-height: 0.75; letter-spacing: -0.04em; margin-top: 4px; text-align: right; font-variant-numeric: tabular-nums; color: var(--sky-blue);">05</div>
-                    <div class="frame-col gap-4">
-                        <strong class="text-primary" style="font-size: 0.875rem; font-weight: 800; line-height: 1.1;">Partnerschaft</strong>
-                        <p class="text-body" style="font-size: 0.625rem; line-height: 1.4;">Wir begleiten Sie nachhaltig – nicht nur projektbezogen.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <script>
-        // Cmd+G / Ctrl+G — toggle the debug grid overlay
-        document.addEventListener('keydown', (e) => {
-            if ((e.ctrlKey || e.metaKey) && e.key === 'g') {
-                e.preventDefault();
-                document.body.classList.toggle('debug-grid');
-            }
-        });
-    </script>
-
-
 </body>
 </html>
