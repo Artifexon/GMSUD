@@ -9,65 +9,48 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         /* ============================================
-           1. GLOBAL RESET — Kill rogue margins (Figma)
+           1. GLOBAL RESET
            ============================================ */
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         h1, h2, h3, h4, h5, h6, p, ul, ol, figure { margin: 0; }
 
-        
         /* ============================================
-           2. DESIGN TOKENS (Centralised Local Variables)
+           2. DESIGN TOKENS
            ============================================ */
         :root {
-            /* Page Dimensions - DIN lang Tri-fold (Letter-fold) */
-            --spread-w: 303mm; /* 297mm trim + 6mm bleed */
-            --spread-h: 216mm; /* 210mm trim + 6mm bleed */
+            --spread-w: 303mm;
+            --spread-h: 216mm;
             --bleed: 3mm;
 
-            /* 8-Point Spacing Scale */
-            --space-1: 8px;
-            --space-2: 16px;
-            --space-3: 24px;
-            --space-4: 32px;
-            --space-6: 48px;
-            --space-8: 64px;
-
-            /* Semantic Colours — GM Süd Brand (logo-derived gradient) */
-            --bg-primary:   #FFFFFF;
-            --bg-secondary: #E8F4FA;   /* ice-blue — fresh, modern replacement for grey */
-            --text-primary: #1C244B;
-            --text-muted:   #4C6A8C;
-            --accent:       #3B5FA0;
-            --sky-blue:     #52B1E1;   /* logo bright end — accents, CTAs, energy */
-            --line:         rgba(28,36,75,0.12);
-            --line-light:   rgba(255,255,255,0.15);
-
-            /* Extended palette */
             --navy:       #1C244B;
-            --navy-mid:   #2A3566;
-            --blue-mid:   #4C6A8C;
-            --blue-light: #7BA0C0;
-
-            /* Brand gradient (visual thread across all panels) */
-            --brand-gradient: linear-gradient(135deg, #1C244B 0%, #3B5FA0 40%, #52B1E1 100%);
+            --navy-90:    rgba(28, 36, 75, 0.92);
+            --navy-80:    rgba(28, 36, 75, 0.82);
+            --navy-70:    rgba(28, 36, 75, 0.72);
+            --navy-60:    rgba(28, 36, 75, 0.62);
+            --sky-blue:   #52B1E1;
+            --accent:     #3B5FA0;
+            --white:      #FFFFFF;
+            --white-90:   rgba(255, 255, 255, 0.9);
+            --white-70:   rgba(255, 255, 255, 0.7);
+            --white-50:   rgba(255, 255, 255, 0.5);
+            --white-20:   rgba(255, 255, 255, 0.2);
+            --white-10:   rgba(255, 255, 255, 0.1);
         }
 
-        /* Clean Chrome */
-        html { font-size: 16px; background: #D0D5DD; }
+        html { font-size: 16px; background: #2a2a2a; }
         body {
             font-family: 'Poppins', sans-serif;
-            background: #D0D5DD;
+            background: #2a2a2a;
             display: flex;
             flex-direction: column;
             align-items: center;
             margin: 0; gap: 40px; padding: 48px;
-            color: var(--text-primary);
+            color: var(--white);
             min-height: 100vh;
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
         }
 
-        /* Print setup — clean output */
         @media print {
             html { background: none; }
             body { background: transparent; gap: 0; padding: 0; display: block; }
@@ -76,303 +59,214 @@
         }
 
         /* ============================================
-           3. TYPOGRAPHY STYLES
-           ============================================ */
-
-        .text-h1       { font-size: 1.875rem; font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; }
-        .text-h2       { font-size: 1.5rem; font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; color: var(--text-primary); }
-        .text-h3       { font-size: 0.65625rem; font-weight: 700; line-height: 1.2; text-transform: uppercase; letter-spacing: 0.04em; }
-        .text-body     { font-size: 0.625rem; font-weight: 500; line-height: 1.5; color: var(--text-muted); }
-        .text-body-sm  { font-size: 0.5rem; font-weight: 400; line-height: 1.6; color: var(--text-muted); }
-        .text-label    { font-size: 0.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.18em; color: var(--text-muted); }
-        .text-accent   { color: var(--accent); }
-        .text-primary  { color: var(--text-primary); }
-        .text-white    { color: #FFFFFF; }
-        .text-light    { color: rgba(255,255,255,0.85); }
-        .text-light-muted { color: rgba(255,255,255,0.7); }
-
-        /* ============================================
-           4. AUTO LAYOUT FRAMES
-           ============================================ */
-        .frame      { display: flex; flex-direction: column; }
-        .frame.row  { flex-direction: row; }
-
-        /* Legacy frame aliases (keeps existing HTML stable) */
-        .frame-col { display: flex; flex-direction: column; }
-        .frame-row { display: flex; flex-direction: row; }
-
-        /* Sizing Modes */
-        .hug            { flex: 0 0 auto; }
-        .fill           { flex: 1 1 0; min-width: 0; min-height: 0; }
-        .fill-container { flex: 1 1 0%; }
-        .fill-height    { height: 100%; }
-        .fill-width     { width: 100%; }
-        .hug-content    { flex: 0 0 auto; }
-
-        /* Alignment */
-        .align-center    { align-items: center; }
-        .align-start     { align-items: flex-start; }
-        .justify-center  { justify-content: center; }
-        .justify-between { justify-content: space-between; }
-        .justify-start   { justify-content: flex-start; }
-        .justify-end     { justify-content: flex-end; }
-
-        /* Gap scale */
-        .gap-8  { gap: var(--space-1); }
-        .gap-16 { gap: var(--space-2); }
-        .gap-24 { gap: var(--space-3); }
-        .gap-32 { gap: var(--space-4); }
-        .gap-48 { gap: var(--space-6); }
-        .gap-64 { gap: var(--space-8); }
-
-        /* Padding */
-        .p-32  { padding: 32px 24px 24px 24px; --pad-l: 24px; --pad-r: 24px; }
-        .p-40  { padding: 40px; --pad-l: 40px; --pad-r: 40px; }
-        .pt-64 { padding-top: var(--space-8); }
-        .pb-64 { padding-bottom: var(--space-8); }
-
-        /* Backgrounds */
-        .bg-white { background-color: var(--bg-primary); }
-        .bg-grey  { background-color: var(--bg-secondary); }
-        .bg-navy  { background-color: var(--navy); }
-
-
-        /* Spread Labels */
-        .spread-label {
-            font-size: 14px;
-            font-weight: 700;
-            color: #667085;
-            margin: 0 auto;
-            width: var(--spread-w);
-            text-align: left;
-        }
-        /* ============================================
-           5. THE CANVAS & PANELS
+           3. SPREAD & PANEL STRUCTURE
            ============================================ */
         .spread {
             width: var(--spread-w);
             height: var(--spread-h);
-            background-color: var(--bg-primary);
-            flex-shrink: 0;
-            overflow: hidden;
-            position: relative;
             display: flex;
             flex-direction: row;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            margin: 0 auto;
-            page-break-after: always;
-            break-after: page;
-            page-break-inside: avoid;
-            break-inside: avoid;
-        }
-        .spread:last-child { page-break-after: auto; break-after: auto; }
-
-        .panel {
             position: relative;
-            height: var(--spread-h);
-            flex-shrink: 0;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            flex-shrink: 0;
+        }
+        .spread-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
         }
 
-        /* Panel Bleed Adjustments - Letter Fold
-           Spread 2 (Inside): Left=InsideLeft(100), Middle=InsideCenter(100), Right=InsideFlap(97) */
-        .panel-s1-left { padding-left: calc(var(--bleed) + var(--pad-l, 0px)); width: calc(97mm + var(--bleed)); }
-        .panel-s1-right { padding-right: calc(var(--bleed) + var(--pad-r, 0px)); width: calc(100mm + var(--bleed)); }
-        .panel-s2-left { padding-left: calc(var(--bleed) + var(--pad-l, 0px)); width: calc(100mm + var(--bleed)); }
-        .panel-s2-right { padding-right: calc(var(--bleed) + var(--pad-r, 0px)); width: calc(97mm + var(--bleed)); }
-        .panel-center { flex: 1; }
+        .panel-left   { width: calc(100mm + var(--bleed)); flex-shrink: 0; }
+        .panel-center  { width: 100mm; flex-shrink: 0; }
+        .panel-right   { width: calc(103mm + var(--bleed)); flex-shrink: 0; flex-grow: 1; }
 
-        /* Fold Guides */
         .fold-guide {
-            position: absolute; top: 0; bottom: 0;
-            width: 1px; background: rgba(0, 50, 200, 0.4);
-            z-index: 100; pointer-events: none;
-        }
-
-        /* RED dashed = bleed boundary */
-        .spread { outline: 1.5px dashed rgba(220,60,60,0.7); }
-
-        /* BLUE dashed = safe zone (3mm inside bleed edge) */
-        .spread::after {
-            content: ''; position: absolute; inset: calc(var(--bleed) + 3mm);
-            border: 1px dashed rgba(0,140,255,0.4);
-            z-index: 9999; pointer-events: none;
-        }
-
-        @media print {
-            .fold-guide { display: none !important; }
-            .spread { outline: none !important; }
-            .spread::after { display: none !important; }
+            position: absolute;
+            top: 0; bottom: 0;
+            width: 1px;
+            background: rgba(255, 0, 0, 0.15);
+            z-index: 100;
         }
 
         /* ============================================
-           6. IMAGE FILLS (Figma Image Fill pattern)
+           4. PHOTO PANEL
            ============================================ */
-
-        .image-fill-wrapper {
+        .photo-panel {
             position: relative;
+            display: flex;
+            flex-direction: column;
             overflow: hidden;
         }
-        .image-fill-wrapper img {
+        .photo-panel__bg {
             position: absolute;
             inset: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center;
-            display: block;
+            z-index: 0;
+        }
+        .photo-panel__overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+        }
+        .photo-panel__content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 32px;
         }
 
         /* ============================================
-           7. STRUCTURAL COMPONENTS
+           5. TYPOGRAPHY
            ============================================ */
-        .divider        { width: 100%; height: 1px; background-color: var(--line); }
-        .divider.accent { background: var(--brand-gradient); width: 48px; height: 4px; border-radius: 2px; }
-        .divider.navy   { background-color: var(--navy); width: 35px; height: 3px; }
-        .divider.light  { background: var(--brand-gradient); width: 35px; height: 3px; border-radius: 1.5px; }
-
-        /* Gradient accent bar — visual thread across panels */
-        .gradient-bar {
-            height: 4px;
-            background: var(--brand-gradient);
-            border-radius: 2px;
-        }
-
-        .service-block {
-            border-left: 3px solid var(--sky-blue);
-            padding-left: 16px;
-        }
-        .service-title {
-            font-size: 0.9375rem;
-            font-weight: 700;
-            color: var(--navy);
-            letter-spacing: 0.02em;
-            margin-bottom: 2px;
-            line-height: 1.2;
-        }
-        .service-desc {
-            font-size: 0.6875rem;
-            color: var(--text-muted);
-            line-height: 1.4;
-        }        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px 20px;
-        }
-        .stat-num {
-            font-size: 2.125rem;
+        .heading-xl {
+            font-size: 2rem;
             font-weight: 800;
-            color: var(--navy);
-            line-height: 1;
-            margin-bottom: 4px;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            color: var(--white);
         }
-        .stat-text {
+        .heading-lg {
+            font-size: 1.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            color: var(--white);
+        }
+        .heading-md {
+            font-size: 1.125rem;
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -0.01em;
+            color: var(--white);
+        }
+        .body-text {
+            font-size: 0.75rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: var(--white-70);
+        }
+        .label-text {
             font-size: 0.625rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: var(--text-muted);
-            line-height: 1.3;
+            letter-spacing: 0.12em;
+            color: var(--white-50);
         }
 
-        .photo-split {
-            width: 100%;
-            height: 220px;
-            overflow: hidden;
-        }
-        .photo-split img {
-            width: 100%; height: 100%;
-            object-fit: cover; object-position: center;
-            display: block;
-        }
-        .photo-caption {
-            font-size: 0.4375rem;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--text-muted);
-            text-align: right;
-        }
-
-        .usp-list {
-            position: relative;
+        /* ============================================
+           6. CHECKMARK SERVICE LIST (from reference)
+           ============================================ */
+        .check-list {
+            list-style: none;
+            padding: 0;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 0;
         }
-        .usp-block {
-            position: relative;
+        .check-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--white-10);
+        }
+        .check-item:first-child {
+            border-top: 1px solid var(--white-10);
+        }
+        .check-icon {
+            width: 22px;
+            height: 22px;
+            background: var(--sky-blue);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .check-icon svg {
+            width: 14px;
+            height: 14px;
+        }
+        .check-item__text {
             display: flex;
             flex-direction: column;
-            gap: 4px;
-            z-index: 1;
-            padding: 16px 20px;
-            background: #FFFFFF;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-            border: 1px solid rgba(0,0,0,0.05);
-            overflow: hidden;
+            gap: 1px;
         }
-        .usp-number {
-            position: absolute;
-            right: -10px;
-            bottom: -20px;
-            font-size: 6rem;
-            font-weight: 800;
-            color: var(--accent);
-            line-height: 1;
-            opacity: 0.05;
-            z-index: -1;
-            pointer-events: none;
-        }
-        .usp-content { flex: 1; }
-        .usp-content strong {
-            display: block;
+        .check-item__title {
             font-size: 0.8125rem;
             font-weight: 700;
-            color: var(--navy);
-            margin-bottom: 3px;
+            color: var(--white);
+            line-height: 1.2;
+        }
+        .check-item__desc {
+            font-size: 0.5625rem;
+            font-weight: 400;
+            color: var(--white-50);
+            line-height: 1.3;
             text-transform: uppercase;
-        }
-        .usp-content p {
-            font-size: 0.6875rem;
-            color: var(--text-muted);
-            line-height: 1.5;
-        }
-
-        .target-list {
-            list-style: none;
-        }
-        .target-item {
-            font-size: 0.625rem;
-            font-weight: 500;
-            color: #FFFFFF;
-            display: flex;
-            align-items: baseline;
-            gap: 8px;
-            border-bottom: 1px solid var(--line-light);
-            padding-bottom: 6px;
-        }
-        .target-item::before {
-            content: '■';
-            color: var(--blue-light);
-            font-size: 0.4375rem;
-        }
-
-        .quote-block {
-            background: var(--accent);
-            padding: var(--space-2);
-            color: #FFFFFF;
-            font-style: italic;
-            font-size: 0.625rem;
-            line-height: 1.6;
-            font-weight: 600;
+            letter-spacing: 0.04em;
         }
 
         /* ============================================
-           8. DEBUG GRID OVERLAY  (Cmd+G to toggle)
+           7. USP NUMBERED LIST
            ============================================ */
-        body.debug-grid .page::after {
+        .usp-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--white-10);
+        }
+        .usp-item:first-child { border-top: 1px solid var(--white-10); }
+        .usp-num {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--sky-blue);
+            line-height: 1;
+            letter-spacing: -0.03em;
+            min-width: 36px;
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+        }
+        .usp-text {
+            flex: 1;
+        }
+        .usp-title {
+            font-size: 0.8125rem;
+            font-weight: 700;
+            color: var(--white);
+            line-height: 1.2;
+        }
+        .usp-desc {
+            font-size: 0.625rem;
+            font-weight: 400;
+            color: var(--white-50);
+            line-height: 1.4;
+            margin-top: 2px;
+        }
+
+        /* ============================================
+           8. PRINT
+           ============================================ */
+        @page { size: 303mm 216mm; margin: 0; }
+        @media print {
+            html, body { width: 303mm; margin: 0; padding: 0; }
+            .spread { width: 303mm; height: 216mm; box-shadow: none; margin: 0; }
+            .fold-guide, .spread-label { display: none !important; }
+        }
+
+        /* ============================================
+           9. DEBUG GRID (Cmd+G)
+           ============================================ */
+        body.debug-grid .spread::after {
             content: '';
             position: absolute;
             inset: 0;
@@ -380,212 +274,268 @@
             z-index: 9999;
             background-size: 64px 64px, 64px 64px, 8px 8px, 8px 8px;
             background-image:
-                linear-gradient(to right,  rgba(255,   0, 0, 0.10) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255,   0, 0, 0.10) 1px, transparent 1px),
-                linear-gradient(to right,  rgba(  0,   0, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(  0,   0, 255, 0.03) 1px, transparent 1px);
-        }
-
-        /* ============================================
-           9. PRINT
-           ============================================ */
-        @page { size: 303mm 216mm; margin: 0; }
-        @media print {
-            html, body { width: 303mm; background: var(--bg-primary); margin: 0; padding: 0; }
-            .spread { width: 303mm; height: 216mm; box-shadow: none; outline: none !important; margin: 0; background: var(--bg-primary); }
-            .spread::after { display: none !important; }
-            .fold-guide, .spread-label { display: none !important; }
+                linear-gradient(to right,  rgba(255, 0, 0, 0.10) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 0, 0, 0.10) 1px, transparent 1px),
+                linear-gradient(to right,  rgba(0, 0, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 255, 0.03) 1px, transparent 1px);
         }
     </style>
 </head>
 <body>
 <div class="spread-label">Inside (Unfolded)</div>
-<!-- Inner Spread (Side 2) -->
-    <!-- [Left: Unternehmen] | [Middle: USPs] | [Right: Zielgruppe] -->
-    <section class="spread frame-row fill-width" id="inner-spread">
-        <div class="fold-guide" style="left: calc(100mm + var(--bleed));"></div>
-        <div class="fold-guide" style="left: calc(200mm + var(--bleed));"></div>
 
-        <!-- Panel 4: Inside Left (Zielgruppe / Expertise) -->
-        <!-- White safety margin around navy: prevents dark ink at trim edge (rispeln) -->
-        <div class="panel panel-s2-left fill-height" style="background: #FFFFFF; padding: 5mm;">
-            <div class="frame-col fill-height" style="background: var(--navy); position: relative; overflow: hidden; border-radius: 2px;">
-                <div style="height: 200px; flex-shrink: 0; overflow: hidden; position: relative;">
-                    <img alt="Firma Gebäude" src="../assets/Firma02.webp" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
-                    <!-- Gradient fade from photo to navy -->
-                    <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 60px; background: linear-gradient(to bottom, transparent, var(--navy));"></div>
-                </div>
+<section class="spread" id="inner-spread">
+    <div class="fold-guide" style="left: calc(100mm + var(--bleed));"></div>
+    <div class="fold-guide" style="left: calc(200mm + var(--bleed));"></div>
 
-                <div class="frame-col gap-8" style="padding: 20px 24px 24px 24px;">
-                    <h2 class="text-h1 text-white">Für wen wir<br>arbeiten</h2>
-                    <div class="divider light"></div>
-                    <p class="text-body text-light" style="font-size: 0.8125rem; font-weight: 500; line-height: 1.4; margin-top: 8px;">Unsere Leistungen richten sich an Unternehmen und Organisationen, die Wert auf funktionierende Prozesse und einen zuverlässigen Partner legen.</p>
-                </div>
+    <!-- ═══════════════════════════════════════════
+         PANEL 4: INSIDE LEFT — Für wen wir arbeiten
+         Full-bleed building photo + dark overlay + checkmark list
+         ═══════════════════════════════════════════ -->
+    <div class="photo-panel panel-left">
+        <img class="photo-panel__bg"
+             src="../assets/Firma02.webp"
+             alt="Firmengebäude"
+             style="object-position: center center;">
+        <div class="photo-panel__overlay" style="background: linear-gradient(to bottom, rgba(28,36,75,0.50) 0%, rgba(28,36,75,0.80) 35%, rgba(28,36,75,0.93) 100%);"></div>
 
-            <ul class="frame-col gap-0" style="list-style: none; padding-left: 0; padding: 0 24px;">
-                <li style="display: flex; align-items: center; gap: 16px; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 10px 0;">
-                    <div style="width: 20px; height: 20px; background: rgba(255,255,255,0.05); border: 2px solid #52B1E1; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                        <svg width="12" height="10" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3.5 6.2L0.8 3.5L0 4.3L3.5 7.8L10 1.3L9.2 0.5L3.5 6.2Z" fill="#52B1E1"/>
+        <div class="photo-panel__content" style="padding-left: calc(32px + var(--bleed));">
+            <!-- Accent line -->
+            <div style="width: 35px; height: 3px; background: var(--sky-blue); border-radius: 2px; margin-bottom: 16px;"></div>
+
+            <h2 class="heading-lg" style="margin-bottom: 8px;">Für wen wir<br>arbeiten</h2>
+            <p class="body-text" style="margin-bottom: 24px;">
+                Unsere Leistungen richten sich an Unternehmen, die Wert auf funktionierende Prozesse legen.
+            </p>
+
+            <!-- Target audience checkmarks -->
+            <ul class="check-list" style="margin-bottom: auto;">
+                <li class="check-item">
+                    <div class="check-icon">
+                        <svg viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3.5 6.2L0.8 3.5L0 4.3L3.5 7.8L10 1.3L9.2 0.5L3.5 6.2Z" fill="#FFFFFF"/>
                         </svg>
                     </div>
-                    <span style="color: white; font-size: 0.75rem; font-weight: 600;">Unternehmen &amp; Gewerbebetriebe</span>
+                    <span class="check-item__title">Unternehmen &amp; Gewerbebetriebe</span>
                 </li>
-                <li style="display: flex; align-items: center; gap: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 10px 0;">
-                    <div style="width: 20px; height: 20px; background: rgba(255,255,255,0.05); border: 2px solid #52B1E1; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                        <svg width="12" height="10" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3.5 6.2L0.8 3.5L0 4.3L3.5 7.8L10 1.3L9.2 0.5L3.5 6.2Z" fill="#52B1E1"/>
+                <li class="check-item">
+                    <div class="check-icon">
+                        <svg viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3.5 6.2L0.8 3.5L0 4.3L3.5 7.8L10 1.3L9.2 0.5L3.5 6.2Z" fill="#FFFFFF"/>
                         </svg>
                     </div>
-                    <span style="color: white; font-size: 0.75rem; font-weight: 600;">Immobilienverwaltungen</span>
+                    <span class="check-item__title">Immobilienverwaltungen</span>
                 </li>
-                <li style="display: flex; align-items: center; gap: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 10px 0;">
-                    <div style="width: 20px; height: 20px; background: rgba(255,255,255,0.05); border: 2px solid #52B1E1; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                        <svg width="12" height="10" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3.5 6.2L0.8 3.5L0 4.3L3.5 7.8L10 1.3L9.2 0.5L3.5 6.2Z" fill="#52B1E1"/>
+                <li class="check-item">
+                    <div class="check-icon">
+                        <svg viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3.5 6.2L0.8 3.5L0 4.3L3.5 7.8L10 1.3L9.2 0.5L3.5 6.2Z" fill="#FFFFFF"/>
                         </svg>
                     </div>
-                    <span style="color: white; font-size: 0.75rem; font-weight: 600;">Facility Manager</span>
+                    <span class="check-item__title">Facility Manager</span>
                 </li>
-                <li style="display: flex; align-items: center; gap: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 10px 0;">
-                    <div style="width: 20px; height: 20px; background: rgba(255,255,255,0.05); border: 2px solid #52B1E1; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                        <svg width="12" height="10" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3.5 6.2L0.8 3.5L0 4.3L3.5 7.8L10 1.3L9.2 0.5L3.5 6.2Z" fill="#52B1E1"/>
+                <li class="check-item">
+                    <div class="check-icon">
+                        <svg viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3.5 6.2L0.8 3.5L0 4.3L3.5 7.8L10 1.3L9.2 0.5L3.5 6.2Z" fill="#FFFFFF"/>
                         </svg>
                     </div>
-                    <span style="color: white; font-size: 0.75rem; font-weight: 600;">Bauherren &amp; Projektentwickler</span>
+                    <span class="check-item__title">Bauherren &amp; Projektentwickler</span>
                 </li>
-                <li style="display: flex; align-items: center; gap: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding: 10px 0;">
-                    <div style="width: 20px; height: 20px; background: rgba(255,255,255,0.05); border: 2px solid #52B1E1; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                        <svg width="12" height="10" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3.5 6.2L0.8 3.5L0 4.3L3.5 7.8L10 1.3L9.2 0.5L3.5 6.2Z" fill="#52B1E1"/>
+                <li class="check-item">
+                    <div class="check-icon">
+                        <svg viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3.5 6.2L0.8 3.5L0 4.3L3.5 7.8L10 1.3L9.2 0.5L3.5 6.2Z" fill="#FFFFFF"/>
                         </svg>
                     </div>
-                    <span style="color: white; font-size: 0.75rem; font-weight: 600;">Öffentliche Auftraggeber &amp; Architekten</span>
+                    <span class="check-item__title">Öffentliche Auftraggeber</span>
                 </li>
             </ul>
 
-            <div style="border-left: 3px solid var(--sky-blue); padding-left: 16px; margin-top: auto; padding: 0 24px 24px 24px;">
-                <div style="border-left: 3px solid var(--sky-blue); padding-left: 16px;">
-                    <p class="text-body" style="color: rgba(255,255,255,0.9); font-size: 0.75rem; font-style: italic; line-height: 1.4; margin: 0;">„Ob laufender Betrieb oder neue Projekte – wir sorgen dafür, dass Ihr Gebäude in professionellen Händen ist.“</p>
-                </div>
-            </div>
-            </div>
-        </div>
-
-        <!-- Panel 5: Inside Center (Leistungen) -->
-        <div class="panel panel-center bg-grey p-32 justify-start fill-height" style="position: relative;">
-            <!-- Horizontal gradient bar at top -->
-            <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--brand-gradient);"></div>
-            <div class="frame-col gap-8">
-                <h2 class="text-h1">Unsere<br>Leistungen</h2>
-                <div class="divider accent"></div>
-                <p class="text-body" style="font-size: 0.8125rem; font-weight: 500; line-height: 1.4; color: var(--text-primary); margin-top: 8px;">Ganzheitliches Facility Management, individuell abgestimmt.</p>
-            </div>
-
-                <div class="frame-col fill-container justify-center gap-32" style="margin-top: 16px; margin-bottom: 16px;">
-                    <div class="service-block">
-                        <div class="service-title">Persönliche Beratung</div>
-                        <div class="service-desc">Individuelle Lösungsansätze.</div>
-                    </div>
-                    <div class="service-block">
-                        <div class="service-title">Hausmeisterservice</div>
-                        <div class="service-desc">Fachgerechte Objektbetreuung.</div>
-                    </div>
-                    <div class="service-block">
-                        <div class="service-title">Brandschutz</div>
-                        <div class="service-desc">Prüfung &amp; Wartung von Anlagen.</div>
-                    </div>
-                    <div class="service-block">
-                        <div class="service-title">Feuerlöscher</div>
-                        <div class="service-desc">Verkauf, Vermietung &amp; Instandhaltung.</div>
-                    </div>
-                    <div class="service-block">
-                        <div class="service-title">Schulungen</div>
-                        <div class="service-desc">Brandschutzhelfer &amp; Einweisung.</div>
-                    </div>
-                    <div class="service-block">
-                        <div class="service-title">Winterdienst</div>
-                        <div class="service-desc">Professioneller Räum- und Streudienst.</div>
-                    </div>
-                    <div class="service-block">
-                        <div class="service-title">Spielplatzprüfer</div>
-                        <div class="service-desc">Zertifiziert nach DIN SPEC 79161.</div>
-                    </div>
-                    <div class="service-block">
-                        <div class="service-title">24h Notdienst</div>
-                        <div class="service-desc">Rund-um-die-Uhr in Bereitschaft.</div>
-                    </div>
-                </div>
-
-                <div class="frame-col" style="margin-top: auto; padding-top: 14px; border-top: 2px solid var(--navy);">
-                    <div class="contact-line">
-                        Vollständiges Portfolio <span>gmsued.de/leistungen</span>
-                    </div>
-                </div>
-        </div>
-
-        <!-- Panel 6: Inside Right/Flap (USPs / Vorteile) -->
-        <div class="panel panel-s2-right bg-white p-32 justify-start fill-height" style="position: relative;">
-            <!-- Gradient bar at top -->
-            <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--brand-gradient);"></div>
-            <div class="frame-col gap-8">
-                <h2 class="text-h1">Was uns<br>auszeichnet</h2>
-                <div class="divider accent"></div>
-                <p class="text-body" style="font-size: 0.8125rem; font-weight: 500; line-height: 1.4; color: var(--text-primary); margin-top: 8px;">Qualität ist kein Zufall. Wir setzen auf strukturierte Prozesse und geschultes Personal.</p>
-            </div>
-
-            <div style="margin-top: 16px; margin-bottom: 8px; overflow: hidden; height: 232px;">
-                <img src="https://www.gmsued.de/wp-content/uploads/2022/12/gms2.jpg" style="width: 100%; height: 100%; object-fit: cover; object-position: center 15%;" alt="GMSUD Dispatcher">
-            </div>
-
-            <div class="frame-col gap-16 fill-container justify-center" style="margin-top: 12px;">
-                <div style="display: grid; grid-template-columns: 48px 1fr; gap: 16px; align-items: start; padding-bottom: 8px; border-bottom: 1px solid rgba(30, 61, 116, 0.1);">
-                    <div style="font-size: 2.25rem; font-weight: 800; line-height: 0.75; letter-spacing: -0.04em; margin-top: 4px; text-align: right; font-variant-numeric: tabular-nums; color: var(--sky-blue);">01</div>
-                    <div class="frame-col gap-4">
-                        <strong class="text-primary" style="font-size: 0.875rem; font-weight: 800; line-height: 1.1;">Zuverlässigkeit</strong>
-                        <p class="text-body" style="font-size: 0.625rem; line-height: 1.4;">auf die Sie sich verlassen können. Wir denken mit und handeln proaktiv.</p>
-                    </div>
-                </div>
-                <div style="display: grid; grid-template-columns: 48px 1fr; gap: 16px; align-items: start; padding-bottom: 8px; border-bottom: 1px solid rgba(30, 61, 116, 0.1);">
-                    <div style="font-size: 2.25rem; font-weight: 800; line-height: 0.75; letter-spacing: -0.04em; margin-top: 4px; text-align: right; font-variant-numeric: tabular-nums; color: var(--sky-blue);">02</div>
-                    <div class="frame-col gap-4">
-                        <strong class="text-primary" style="font-size: 0.875rem; font-weight: 800; line-height: 1.1;">Fachkräfte</strong>
-                        <p class="text-body" style="font-size: 0.625rem; line-height: 1.4;">Aus- und weitergebildet: Unser Team ist auf dem neusten Technik-Stand.</p>
-                    </div>
-                </div>
-                <div style="display: grid; grid-template-columns: 48px 1fr; gap: 16px; align-items: start; padding-bottom: 8px; border-bottom: 1px solid rgba(30, 61, 116, 0.1);">
-                    <div style="font-size: 2.25rem; font-weight: 800; line-height: 0.75; letter-spacing: -0.04em; margin-top: 4px; text-align: right; font-variant-numeric: tabular-nums; color: var(--sky-blue);">03</div>
-                    <div class="frame-col gap-4">
-                        <strong class="text-primary" style="font-size: 0.875rem; font-weight: 800; line-height: 1.1;">Praxis-Know-how</strong>
-                        <p class="text-body" style="font-size: 0.625rem; line-height: 1.4;">Keine Theorie. Wir verstehen, worauf es im Alltag wirklich ankommt.</p>
-                    </div>
-                </div>
-                <div style="display: grid; grid-template-columns: 48px 1fr; gap: 16px; align-items: start; padding-bottom: 8px; border-bottom: 1px solid rgba(30, 61, 116, 0.1);">
-                    <div style="font-size: 2.25rem; font-weight: 800; line-height: 0.75; letter-spacing: -0.04em; margin-top: 4px; text-align: right; font-variant-numeric: tabular-nums; color: var(--sky-blue);">04</div>
-                    <div class="frame-col gap-4">
-                        <strong class="text-primary" style="font-size: 0.875rem; font-weight: 800; line-height: 1.1;">Maßgeschneidert</strong>
-                        <p class="text-body" style="font-size: 0.625rem; line-height: 1.4;">Individuelle Lösungen statt Standardkonzepte. Ihre Anforderungen zählen.</p>
-                    </div>
-                </div>
-                <div style="display: grid; grid-template-columns: 48px 1fr; gap: 16px; align-items: start;">
-                    <div style="font-size: 2.25rem; font-weight: 800; line-height: 0.75; letter-spacing: -0.04em; margin-top: 4px; text-align: right; font-variant-numeric: tabular-nums; color: var(--sky-blue);">05</div>
-                    <div class="frame-col gap-4">
-                        <strong class="text-primary" style="font-size: 0.875rem; font-weight: 800; line-height: 1.1;">Partnerschaft</strong>
-                        <p class="text-body" style="font-size: 0.625rem; line-height: 1.4;">Wir begleiten Sie nachhaltig – nicht nur projektbezogen.</p>
-                    </div>
-                </div>
+            <!-- Quote at bottom -->
+            <div style="border-left: 3px solid var(--sky-blue); padding-left: 12px; margin-top: 16px;">
+                <p style="font-size: 0.6875rem; font-style: italic; color: var(--white-70); line-height: 1.4;">
+                    „Ob laufender Betrieb oder neue Projekte – Ihr Gebäude in professionellen Händen."
+                </p>
             </div>
         </div>
-    </section>
-    <script>
-        // Cmd+G / Ctrl+G — toggle the debug grid overlay
-        document.addEventListener('keydown', (e) => {
-            if ((e.ctrlKey || e.metaKey) && e.key === 'g') {
-                e.preventDefault();
-                document.body.classList.toggle('debug-grid');
-            }
-        });
-    </script>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         PANEL 5: INSIDE CENTRE — Leistungen (Services)
+         Full-bleed photo + heavy overlay + checkmark service list
+         This is THE key panel — mimics the reference style exactly
+         ═══════════════════════════════════════════ -->
+    <div class="photo-panel panel-center">
+        <img class="photo-panel__bg"
+             src="../assets/gmsued_hvac_technician_1773785132080.png"
+             alt="GM Süd Techniker"
+             style="object-position: center top;">
+        <div class="photo-panel__overlay" style="background: linear-gradient(to bottom, rgba(28,36,75,0.82) 0%, rgba(28,36,75,0.90) 40%, rgba(28,36,75,0.95) 100%);"></div>
+
+        <div class="photo-panel__content">
+            <!-- Logo + service title -->
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">
+                <img alt="GM Süd" src="../assets/gmsued_logo.png" 
+                     style="height: 24px; filter: brightness(0) invert(1); opacity: 0.8;">
+            </div>
+            <h2 class="heading-lg" style="margin-bottom: 4px;">Hausmeister-<br>Service</h2>
+            <div style="width: 35px; height: 3px; background: var(--sky-blue); border-radius: 2px; margin-bottom: 20px;"></div>
+
+            <!-- Service checklist — THE reference style -->
+            <ul class="check-list" style="flex: 1; justify-content: center;">
+                <li class="check-item">
+                    <div class="check-icon">
+                        <svg viewBox="0 0 10 8" fill="none"><path d="M3.5 6.2L0.8 3.5L0 4.3L3.5 7.8L10 1.3L9.2 0.5L3.5 6.2Z" fill="#FFF"/></svg>
+                    </div>
+                    <div class="check-item__text">
+                        <span class="check-item__title">Persönliche Beratung</span>
+                    </div>
+                </li>
+                <li class="check-item">
+                    <div class="check-icon">
+                        <svg viewBox="0 0 10 8" fill="none"><path d="M3.5 6.2L0.8 3.5L0 4.3L3.5 7.8L10 1.3L9.2 0.5L3.5 6.2Z" fill="#FFF"/></svg>
+                    </div>
+                    <div class="check-item__text">
+                        <span class="check-item__title">Hausmeisterservice</span>
+                    </div>
+                </li>
+                <li class="check-item">
+                    <div class="check-icon">
+                        <svg viewBox="0 0 10 8" fill="none"><path d="M3.5 6.2L0.8 3.5L0 4.3L3.5 7.8L10 1.3L9.2 0.5L3.5 6.2Z" fill="#FFF"/></svg>
+                    </div>
+                    <div class="check-item__text">
+                        <span class="check-item__title">Brandschutz</span>
+                    </div>
+                </li>
+                <li class="check-item">
+                    <div class="check-icon">
+                        <svg viewBox="0 0 10 8" fill="none"><path d="M3.5 6.2L0.8 3.5L0 4.3L3.5 7.8L10 1.3L9.2 0.5L3.5 6.2Z" fill="#FFF"/></svg>
+                    </div>
+                    <div class="check-item__text">
+                        <span class="check-item__title">Feuerlöscher</span>
+                        <span class="check-item__desc">Verkauf, Vermietung, Prüfung &amp; Instandhaltung</span>
+                    </div>
+                </li>
+                <li class="check-item">
+                    <div class="check-icon">
+                        <svg viewBox="0 0 10 8" fill="none"><path d="M3.5 6.2L0.8 3.5L0 4.3L3.5 7.8L10 1.3L9.2 0.5L3.5 6.2Z" fill="#FFF"/></svg>
+                    </div>
+                    <div class="check-item__text">
+                        <span class="check-item__title">Schulungen</span>
+                        <span class="check-item__desc">Brandschutzhelfer &amp; Feuerlöscher-Einweisung</span>
+                    </div>
+                </li>
+                <li class="check-item">
+                    <div class="check-icon">
+                        <svg viewBox="0 0 10 8" fill="none"><path d="M3.5 6.2L0.8 3.5L0 4.3L3.5 7.8L10 1.3L9.2 0.5L3.5 6.2Z" fill="#FFF"/></svg>
+                    </div>
+                    <div class="check-item__text">
+                        <span class="check-item__title">Winterdienst</span>
+                    </div>
+                </li>
+                <li class="check-item">
+                    <div class="check-icon">
+                        <svg viewBox="0 0 10 8" fill="none"><path d="M3.5 6.2L0.8 3.5L0 4.3L3.5 7.8L10 1.3L9.2 0.5L3.5 6.2Z" fill="#FFF"/></svg>
+                    </div>
+                    <div class="check-item__text">
+                        <span class="check-item__title">Spielplatzprüfer</span>
+                        <span class="check-item__desc">Zertifiziert nach DIN SPEC 79161</span>
+                    </div>
+                </li>
+                <li class="check-item">
+                    <div class="check-icon">
+                        <svg viewBox="0 0 10 8" fill="none"><path d="M3.5 6.2L0.8 3.5L0 4.3L3.5 7.8L10 1.3L9.2 0.5L3.5 6.2Z" fill="#FFF"/></svg>
+                    </div>
+                    <div class="check-item__text">
+                        <span class="check-item__title">24 Stunden Notdienst</span>
+                    </div>
+                </li>
+            </ul>
+
+            <!-- Tagline at bottom -->
+            <p style="font-size: 0.6875rem; font-weight: 300; font-style: italic; color: var(--white-50); margin-top: 16px; text-align: center;">
+                Ihr Eigentum in professionellen Händen
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════
+         PANEL 6: INSIDE RIGHT/FLAP — Was uns auszeichnet
+         Full-bleed photo + overlay + numbered USPs
+         ═══════════════════════════════════════════ -->
+    <div class="photo-panel panel-right">
+        <img class="photo-panel__bg"
+             src="../assets/gmsued_dispatcher_clean_1773785592110.png"
+             alt="GM Süd Disposition"
+             style="object-position: center top;">
+        <div class="photo-panel__overlay" style="background: linear-gradient(to bottom, rgba(28,36,75,0.55) 0%, rgba(28,36,75,0.78) 35%, rgba(28,36,75,0.93) 100%);"></div>
+
+        <div class="photo-panel__content" style="padding-right: calc(32px + var(--bleed));">
+            <!-- Accent line -->
+            <div style="width: 35px; height: 3px; background: var(--sky-blue); border-radius: 2px; margin-bottom: 16px;"></div>
+
+            <h2 class="heading-lg" style="margin-bottom: 8px;">Was uns<br>auszeichnet</h2>
+            <p class="body-text" style="margin-bottom: 24px;">
+                Qualität ist kein Zufall. Wir setzen auf Prozesse und geschultes Personal.
+            </p>
+
+            <!-- USPs -->
+            <div style="display: flex; flex-direction: column; gap: 0; flex: 1; justify-content: center;">
+                <div class="usp-item">
+                    <div class="usp-num">01</div>
+                    <div class="usp-text">
+                        <div class="usp-title">Zuverlässigkeit</div>
+                        <div class="usp-desc">Wir denken mit und handeln proaktiv.</div>
+                    </div>
+                </div>
+                <div class="usp-item">
+                    <div class="usp-num">02</div>
+                    <div class="usp-text">
+                        <div class="usp-title">Fachkräfte</div>
+                        <div class="usp-desc">Aus- und weitergebildet, auf neustem Stand.</div>
+                    </div>
+                </div>
+                <div class="usp-item">
+                    <div class="usp-num">03</div>
+                    <div class="usp-text">
+                        <div class="usp-title">Praxis-Know-how</div>
+                        <div class="usp-desc">Keine Theorie — wir verstehen den Alltag.</div>
+                    </div>
+                </div>
+                <div class="usp-item">
+                    <div class="usp-num">04</div>
+                    <div class="usp-text">
+                        <div class="usp-title">Maßgeschneidert</div>
+                        <div class="usp-desc">Individuelle Lösungen statt Standardkonzepte.</div>
+                    </div>
+                </div>
+                <div class="usp-item">
+                    <div class="usp-num">05</div>
+                    <div class="usp-text">
+                        <div class="usp-title">Partnerschaft</div>
+                        <div class="usp-desc">Wir begleiten Sie nachhaltig.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA at bottom -->
+            <div style="border-top: 1px solid var(--white-20); padding-top: 12px; margin-top: 16px; text-align: center;">
+                <p style="font-size: 0.6875rem; font-weight: 600; color: var(--white-50);">Vollständiges Portfolio</p>
+                <p style="font-size: 0.875rem; font-weight: 700; color: var(--sky-blue);">gmsued.de/leistungen</p>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script>
+    document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'g') {
+            e.preventDefault();
+            document.body.classList.toggle('debug-grid');
+        }
+    });
+</script>
 </body>
 </html>
