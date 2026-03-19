@@ -232,20 +232,8 @@
         .divider.light  { background-color: var(--blue-light); width: 35px; height: 3px; }
 
         .service-block {
-            position: relative;
-            padding: 10px 16px;
-            background: linear-gradient(90deg, rgba(30, 61, 116, 0.04) 0%, rgba(30, 61, 116, 0) 100%);
-            border-radius: 0 6px 6px 0;
-        }
-        .service-block::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: linear-gradient(180deg, var(--accent) 0%, var(--primary) 100%);
-            border-radius: 2px;
+            border-left: 3px solid var(--accent);
+            padding-left: 16px;
         }
         .service-title {
             font-size: 0.9375rem;
@@ -522,12 +510,12 @@
 
 <!-- Inner Spread (Side 2) -->
     <!-- [Left: Unternehmen] | [Middle: USPs] | [Right: Zielgruppe] -->
-    <section class="spread frame-row fill-width" id="inner-spread">
+    <section class="spread frame-row fill-width" id="inner-spread" style="background: linear-gradient(135deg, rgba(59, 95, 160, 0.1) 0%, rgba(59, 95, 160, 0.03) 33%, rgba(255, 255, 255, 1) 66%);">
         <div class="fold-guide" style="left: calc(100mm + var(--bleed));"></div>
         <div class="fold-guide" style="left: calc(200mm + var(--bleed));"></div>
 
         <!-- Panel 4: Inside Left (USPs) -->
-        <div class="panel panel-s2-left bg-white p-32 justify-start fill-height">
+        <div class="panel panel-s2-left p-32 justify-start fill-height" style="background: transparent;">
             <div class="frame-col gap-8">
                 <div class="text-label">Vorteile</div>
                 <h2 class="text-h1">Was uns<br>auszeichnet</h2>
@@ -579,7 +567,7 @@
         </div>
 
         <!-- Panel 5: Inside Center (Leistungen) -->
-        <div class="panel panel-center bg-white p-32 justify-start fill-height">
+        <div class="panel panel-center p-32 justify-start fill-height" style="background: transparent;">
             <div class="frame-col gap-8">
                 <div class="text-label">Im Überblick</div>
                 <h2 class="text-h1">Unsere<br>Leistungen</h2>
@@ -587,7 +575,7 @@
                 <p class="text-body" style="font-size: 0.8125rem; font-weight: 500; line-height: 1.4; color: var(--text-primary); margin-top: 8px;">Ganzheitliches Facility Management, individuell abgestimmt.</p>
             </div>
 
-                <div class="frame-col fill-container justify-center gap-4" style="margin-top: 16px; margin-bottom: 16px;">
+                <div class="frame-col fill-container justify-center gap-32" style="margin-top: 16px; margin-bottom: 16px;">
                     <div class="service-block">
                         <div class="service-title">Persönliche Beratung</div>
                         <div class="service-desc">Individuelle Lösungsansätze.</div>
