@@ -156,7 +156,12 @@
             flex-direction: row;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             margin: 0 auto;
+            page-break-after: always;
+            break-after: page;
+            page-break-inside: avoid;
+            break-inside: avoid;
         }
+        .spread:last-child { page-break-after: auto; break-after: auto; }
 
         .panel {
             position: relative;
@@ -374,13 +379,12 @@
         /* ============================================
            9. PRINT
            ============================================ */
-        @page { size: 297mm 210mm landscape; margin: 0; }
-
+        @page { size: 303mm 216mm; margin: 0; }
         @media print {
-            html { background: none; }
-            body { background-color: transparent; gap: 0; padding: 0; display: block; }
-            .spread { box-shadow: none; transform: none !important; page-break-after: always; break-after: page; }
-            .page:last-child { page-break-after: auto; break-after: auto; }
+            html, body { width: 303mm; background: var(--bg-primary); margin: 0; padding: 0; }
+            .spread { width: 303mm; height: 216mm; box-shadow: none; outline: none !important; margin: 0; background: var(--bg-primary); }
+            .spread::after { display: none !important; }
+            .fold-guide, .spread-label { display: none !important; }
         }
     </style>
 </head>
