@@ -1,18 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GM Süd GmbH – Flyer Outside Spread</title>
+    <title>GM Süd GmbH – Flyer V4 Outside Spread</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         /* ============================================
-           1. GLOBAL RESET
+           1. RESET
            ============================================ */
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        h1, h2, h3, h4, h5, h6, p, ul, ol, figure { margin: 0; }
 
         /* ============================================
            2. DESIGN TOKENS
@@ -24,18 +23,17 @@
 
             /* Brand colours */
             --navy:       #1C244B;
-            --navy-90:    rgba(28, 36, 75, 0.92);
-            --navy-80:    rgba(28, 36, 75, 0.82);
-            --navy-70:    rgba(28, 36, 75, 0.72);
-            --navy-60:    rgba(28, 36, 75, 0.62);
+            --navy-light: #2A3566;
             --sky-blue:   #52B1E1;
+            --sky-pale:   #EAF6FC;
             --accent:     #3B5FA0;
             --white:      #FFFFFF;
-            --white-90:   rgba(255, 255, 255, 0.9);
-            --white-70:   rgba(255, 255, 255, 0.7);
-            --white-50:   rgba(255, 255, 255, 0.5);
-            --white-20:   rgba(255, 255, 255, 0.2);
-            --white-10:   rgba(255, 255, 255, 0.1);
+            --off-white:  #F8FAFB;
+            --grey-100:   #F1F3F5;
+            --grey-300:   #CED4DA;
+            --grey-500:   #868E96;
+            --grey-700:   #495057;
+            --grey-900:   #212529;
         }
 
         html { font-size: 16px; background: #2a2a2a; }
@@ -46,394 +44,441 @@
             flex-direction: column;
             align-items: center;
             margin: 0; gap: 40px; padding: 48px;
-            color: var(--white);
             min-height: 100vh;
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-        }
-
-        @media print {
-            html { background: none; }
-            body { background: transparent; gap: 0; padding: 0; display: block; }
-            .spread { box-shadow: none; }
-            .spread-label { display: none; }
         }
 
         /* ============================================
-           3. SPREAD & PANEL STRUCTURE
+           3. SPREAD LAYOUT
            ============================================ */
+        .spread-label {
+            color: #888; font-size: 0.75rem; text-transform: uppercase;
+            letter-spacing: 0.15em; font-weight: 600;
+        }
         .spread {
+            position: relative;
             width: var(--spread-w);
             height: var(--spread-h);
-            display: flex;
-            flex-direction: row;
-            position: relative;
+            display: grid;
+            grid-template-columns: 97mm 100mm 100mm;
             overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            flex-shrink: 0;
-        }
-        .spread-label {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: rgba(255,255,255,0.4);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            background: var(--white);
         }
 
-        /* Panel widths — DIN lang tri-fold */
-        .panel-flap   { width: calc(97mm + var(--bleed)); flex-shrink: 0; }
-        .panel-center  { width: 100mm; flex-shrink: 0; }
-        .panel-front   { width: calc(103mm + var(--bleed)); flex-shrink: 0; flex-grow: 1; }
-
-        /* Fold guides (dev only) */
+        /* ============================================
+           4. FOLD GUIDES
+           ============================================ */
         .fold-guide {
-            position: absolute;
-            top: 0; bottom: 0;
+            position: absolute; top: 0; bottom: 0;
             width: 1px;
-            background: rgba(255, 0, 0, 0.15);
-            z-index: 100;
+            background: repeating-linear-gradient(to bottom, rgba(255,0,0,0.3) 0 4px, transparent 4px 8px);
+            z-index: 100; pointer-events: none;
         }
 
         /* ============================================
-           4. PHOTO PANEL — the core design component
+           5. PANELS — Shared
            ============================================ */
-        .photo-panel {
+        .panel {
             position: relative;
+            padding: 24px;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-        }
-        .photo-panel__bg {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: 0;
-        }
-        .photo-panel__overlay {
-            position: absolute;
-            inset: 0;
-            z-index: 1;
-        }
-        .photo-panel__content {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            padding: 32px;
+            color: var(--navy);
         }
 
         /* ============================================
-           5. TYPOGRAPHY
+           6. PANEL 1 — FLAP (Left, 97mm)
+           Company intro — clean white
            ============================================ */
-        .heading-xl {
-            font-size: 2rem;
-            font-weight: 800;
-            line-height: 1.05;
-            letter-spacing: -0.03em;
-            color: var(--white);
+        .panel-flap {
+            padding: 28px 20px;
+            background: var(--white);
         }
-        .heading-lg {
-            font-size: 1.5rem;
-            font-weight: 800;
-            line-height: 1.1;
-            letter-spacing: -0.02em;
-            color: var(--white);
-        }
-        .heading-md {
-            font-size: 1.125rem;
-            font-weight: 700;
-            line-height: 1.15;
-            letter-spacing: -0.01em;
-            color: var(--white);
-        }
-        .tagline {
-            font-size: 1.125rem;
-            font-weight: 300;
-            font-style: italic;
-            line-height: 1.3;
-            color: var(--white-90);
-        }
-        .subtitle {
-            font-size: 0.8125rem;
-            font-weight: 500;
-            line-height: 1.4;
-            color: var(--white-90);
-        }
-        .body-text {
-            font-size: 0.75rem;
-            font-weight: 400;
-            line-height: 1.5;
-            color: var(--white-70);
-        }
-        .label-text {
-            font-size: 0.625rem;
+        .panel-flap .tagline {
+            font-size: 0.5rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--white-50);
+            letter-spacing: 0.2em;
+            color: var(--sky-blue);
+            margin-bottom: 16px;
         }
-
-        /* ============================================
-           6. STAT NUMBERS
-           ============================================ */
-        .stats-row {
+        .panel-flap .heading-main {
+            font-size: 1.375rem;
+            font-weight: 800;
+            line-height: 1.2;
+            color: var(--navy);
+            margin-bottom: 16px;
+        }
+        .panel-flap .accent-bar {
+            width: 40px;
+            height: 3px;
+            background: var(--sky-blue);
+            border-radius: 2px;
+            margin-bottom: 16px;
+        }
+        .panel-flap .body-text {
+            font-size: 0.5625rem;
+            font-weight: 400;
+            line-height: 1.7;
+            color: var(--grey-700);
+            margin-bottom: 16px;
+        }
+        .panel-flap .service-pills {
             display: flex;
-            gap: 0;
-            border-top: 1px solid var(--white-20);
+            flex-wrap: wrap;
+            gap: 6px;
             margin-top: auto;
         }
-        .stat {
-            flex: 1;
-            padding: 16px 0;
-            text-align: center;
-            border-right: 1px solid var(--white-10);
+        .panel-flap .pill {
+            font-size: 0.4375rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 100px;
+            background: var(--sky-pale);
+            color: var(--navy);
+            letter-spacing: 0.02em;
         }
-        .stat:last-child { border-right: none; }
-        .stat__number {
-            font-size: 1.5rem;
+
+        /* Stats row at the very bottom */
+        .panel-flap .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px solid var(--grey-100);
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-item .stat-num {
+            font-size: 1rem;
             font-weight: 800;
             color: var(--sky-blue);
             line-height: 1;
-            letter-spacing: -0.03em;
         }
-        .stat__label {
-            font-size: 0.5rem;
+        .stat-item .stat-label {
+            font-size: 0.375rem;
             font-weight: 500;
-            color: var(--white-50);
+            color: var(--grey-500);
             text-transform: uppercase;
-            letter-spacing: 0.06em;
-            margin-top: 4px;
-            line-height: 1.2;
+            letter-spacing: 0.05em;
+            margin-top: 2px;
         }
 
         /* ============================================
-           7. CONTACT BLOCK
+           7. PANEL 2 — BACK COVER (Centre, 100mm)
+           Contact info — clean white
            ============================================ */
-        .contact-item {
-            display: flex;
-            align-items: baseline;
-            gap: 8px;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--white-10);
+        .panel-contact {
+            padding: 28px 24px;
+            background: var(--white);
+            justify-content: center;
         }
-        .contact-item:last-child { border-bottom: none; }
-        .contact-item__label {
-            font-size: 0.5625rem;
+        .panel-contact .section-label {
+            font-size: 0.4375rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--sky-blue);
+            margin-bottom: 8px;
+        }
+        .panel-contact .contact-heading {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--navy);
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+
+        .contact-block {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .contact-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .contact-row .c-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--sky-pale);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .contact-row .c-icon svg {
+            width: 14px;
+            height: 14px;
+            fill: var(--sky-blue);
+        }
+        .contact-row .c-label {
+            font-size: 0.4375rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.08em;
-            color: var(--sky-blue);
-            min-width: 56px;
+            color: var(--grey-500);
         }
-        .contact-item__value {
-            font-size: 0.8125rem;
+        .contact-row .c-value {
+            font-size: 0.5625rem;
             font-weight: 600;
-            color: var(--white);
-            letter-spacing: -0.01em;
+            color: var(--navy);
         }
 
-        /* QR block */
-        .qr-block {
+        /* QR */
+        .qr-section {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 12px;
+            padding: 12px;
+            background: var(--off-white);
+            border-radius: 8px;
             margin-top: auto;
-            padding: 16px;
-            background: var(--white-10);
-            border-radius: 4px;
-            backdrop-filter: blur(8px);
         }
-        .qr-block img {
-            width: 56px;
-            height: 56px;
-            border-radius: 2px;
+        .qr-section img {
+            width: 48px; height: 48px; border-radius: 4px;
+        }
+        .qr-section .qr-text {
+            font-size: 0.5rem;
+            font-weight: 500;
+            color: var(--grey-700);
+        }
+        .qr-section .qr-url {
+            font-size: 0.5625rem;
+            font-weight: 700;
+            color: var(--navy);
         }
 
         /* ============================================
-           8. PRINT
+           8. PANEL 3 — FRONT COVER (Right, 100mm)
+           Hero building photo with elegant overlay
+           ============================================ */
+        .panel-hero {
+            padding: 0;
+            background: var(--navy);
+            color: var(--white);
+        }
+        .panel-hero .hero-photo {
+            position: absolute;
+            inset: 0;
+            background: url('../assets/modern_commercial_building_1773758968165.png') center/cover no-repeat;
+            z-index: 1;
+        }
+        /* Bottom-heavy gradient for text legibility */
+        .panel-hero .hero-gradient {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(28, 36, 75, 0.05) 0%,
+                rgba(28, 36, 75, 0.15) 40%,
+                rgba(28, 36, 75, 0.6) 70%,
+                rgba(28, 36, 75, 0.88) 100%
+            );
+            z-index: 2;
+        }
+        .panel-hero .hero-content {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 24px;
+            z-index: 3;
+        }
+        .panel-hero .hero-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .panel-hero .hero-logo img {
+            height: 32px;
+            width: auto;
+        }
+        .panel-hero .hero-logo-text {
+            font-size: 0.625rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.7);
+            letter-spacing: 0.05em;
+        }
+        .panel-hero .hero-headline {
+            font-size: 1.25rem;
+            font-weight: 800;
+            line-height: 1.15;
+            color: var(--white);
+            margin-bottom: 8px;
+        }
+        .panel-hero .hero-sub {
+            font-size: 0.5625rem;
+            font-weight: 400;
+            color: rgba(255,255,255,0.75);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        .panel-hero .hero-tag {
+            display: inline-block;
+            font-size: 0.4375rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--white);
+            background: var(--sky-blue);
+            padding: 5px 12px;
+            border-radius: 100px;
+        }
+
+        /* Top badge */
+        .panel-hero .top-badge {
+            position: absolute;
+            top: 20px; left: 24px;
+            z-index: 3;
+        }
+        .panel-hero .top-badge img {
+            height: 44px;
+            width: auto;
+            filter: brightness(0) invert(1);
+            opacity: 0.9;
+        }
+
+        /* ============================================
+           9. PRINT
            ============================================ */
         @page { size: 303mm 216mm; margin: 0; }
         @media print {
-            html, body { width: 303mm; margin: 0; padding: 0; }
+            html, body { width: 303mm; margin: 0; padding: 0; background: white; }
             .spread { width: 303mm; height: 216mm; box-shadow: none; margin: 0; }
             .fold-guide, .spread-label { display: none !important; }
-        }
-
-        /* ============================================
-           9. DEBUG GRID (Cmd+G)
-           ============================================ */
-        body.debug-grid .spread::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            z-index: 9999;
-            background-size: 64px 64px, 64px 64px, 8px 8px, 8px 8px;
-            background-image:
-                linear-gradient(to right,  rgba(255, 0, 0, 0.10) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 0, 0, 0.10) 1px, transparent 1px),
-                linear-gradient(to right,  rgba(0, 0, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(0, 0, 255, 0.03) 1px, transparent 1px);
         }
     </style>
 </head>
 <body>
-<div class="spread-label">Outside (Folded Flat)</div>
+<div class="spread-label">Outside Spread (Folded Flat) — V4 Editorial</div>
 
 <section class="spread" id="outer-spread">
-    <div class="fold-guide" style="left: calc(97mm + var(--bleed));"></div>
-    <div class="fold-guide" style="left: calc(197mm + var(--bleed));"></div>
+    <div class="fold-guide" style="left: 97mm;"></div>
+    <div class="fold-guide" style="left: 197mm;"></div>
 
     <!-- ═══════════════════════════════════════════
-         PANEL 1: FLAP — Das Unternehmen
-         Full-bleed building photo + dark overlay
+         PANEL 1 — FLAP (Left, 97mm)
+         Company intro — clean white
          ═══════════════════════════════════════════ -->
-    <div class="photo-panel panel-flap">
-        <img class="photo-panel__bg" 
-             src="../assets/modern_commercial_building_1773758968165.png" 
-             alt="Modernes Geschäftsgebäude"
-             style="object-position: center center;">
-        <!-- Overlay: heavy navy gradient from bottom -->
-        <div class="photo-panel__overlay" style="background: linear-gradient(to bottom, rgba(28,36,75,0.55) 0%, rgba(28,36,75,0.85) 50%, rgba(28,36,75,0.95) 100%);"></div>
+    <div class="panel panel-flap">
+        <span class="tagline">Gebäudemanagement Süd</span>
 
-        <div class="photo-panel__content" style="padding-left: calc(32px + var(--bleed));">
-            <!-- Tagline at top -->
-            <p class="tagline" style="margin-bottom: auto;">Ihr Eigentum<br>in professionellen Händen</p>
+        <h2 class="heading-main">Ihr Partner für nachhaltiges Facility&nbsp;Management.</h2>
 
-            <!-- Logo -->
-            <div style="margin-bottom: 24px;">
-                <img alt="GM Süd Logo" src="../assets/gmsued_logo.png" 
-                     style="height: 32px; filter: brightness(0) invert(1);">
+        <div class="accent-bar"></div>
+
+        <p class="body-text">
+            Willkommen bei GM Süd. Wir sind Ihr kompetenter Dienstleister für ganzheitliches Gebäudemanagement im süddeutschen Raum.
+        </p>
+        <p class="body-text">
+            Seit über 10 Jahren betreuen wir Gewerbeimmobilien, Bürokomplexe und Wohnanlagen — zuverlässig, transparent und persönlich.
+        </p>
+
+        <div class="service-pills">
+            <span class="pill">Hausmeister</span>
+            <span class="pill">Winterdienst</span>
+            <span class="pill">Reinigung</span>
+            <span class="pill">Brandschutz</span>
+            <span class="pill">Sicherheit</span>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-item">
+                <div class="stat-num">10+</div>
+                <div class="stat-label">Jahre</div>
             </div>
-
-            <!-- Company intro -->
-            <p class="body-text" style="margin-bottom: 24px; color: var(--white-70);">
-                GM Süd steht für zuverlässiges, lösungsorientiertes Facility Management. 
-                Wir unterstützen Unternehmen dabei, Abläufe effizient zu steuern und dauerhaft sicherzustellen.
-            </p>
-
-            <!-- Stats -->
-            <div class="stats-row">
-                <div class="stat">
-                    <div class="stat__number">10+</div>
-                    <div class="stat__label">Jahre<br>Erfahrung</div>
-                </div>
-                <div class="stat">
-                    <div class="stat__number">24/7</div>
-                    <div class="stat__label">Notdienst<br>Bereitschaft</div>
-                </div>
-                <div class="stat">
-                    <div class="stat__number">100%</div>
-                    <div class="stat__label">Fachkraft<br>Kontrolle</div>
-                </div>
+            <div class="stat-item">
+                <div class="stat-num">24/7</div>
+                <div class="stat-label">Erreichbar</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">100%</div>
+                <div class="stat-label">Persönlich</div>
             </div>
         </div>
     </div>
 
     <!-- ═══════════════════════════════════════════
-         PANEL 2: BACK COVER — Kontakt
-         Full-bleed photo + heavy dark overlay
+         PANEL 2 — BACK COVER (Centre, 100mm)
+         Contact — clean white
          ═══════════════════════════════════════════ -->
-    <div class="photo-panel panel-center">
-        <img class="photo-panel__bg"
-             src="../assets/website_hero.jpg"
-             alt="GM Süd Büro"
-             style="object-position: center center;">
-        <div class="photo-panel__overlay" style="background: linear-gradient(to bottom, rgba(28,36,75,0.80) 0%, rgba(28,36,75,0.90) 60%, rgba(28,36,75,0.95) 100%);"></div>
+    <div class="panel panel-contact">
+        <span class="section-label">Kontakt</span>
+        <h2 class="contact-heading">Lassen Sie uns<br>ins Gespräch kommen.</h2>
 
-        <div class="photo-panel__content">
-            <!-- Thin accent line at top -->
-            <div style="width: 40px; height: 3px; background: var(--sky-blue); border-radius: 2px; margin-bottom: 24px;"></div>
-
-            <p class="heading-lg" style="margin-bottom: 8px;">Lassen Sie uns<br>sprechen.</p>
-            <p class="body-text" style="margin-bottom: 32px;">
-                Sie suchen einen zuverlässigen Partner? Wir freuen uns auf den Austausch.
-            </p>
-
-            <!-- Contact details -->
-            <div style="display: flex; flex-direction: column; gap: 0;">
-                <div class="contact-item">
-                    <span class="contact-item__label">Tel.</span>
-                    <span class="contact-item__value">+49 (0)89 4132455-0</span>
+        <div class="contact-block">
+            <div class="contact-row">
+                <div class="c-icon">
+                    <svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.24 1.01l-2.21 2.2z"/></svg>
                 </div>
-                <div class="contact-item">
-                    <span class="contact-item__label">E-Mail</span>
-                    <span class="contact-item__value">info@gmsued.de</span>
-                </div>
-                <div class="contact-item">
-                    <span class="contact-item__label">Adresse</span>
-                    <span class="contact-item__value" style="font-size: 0.6875rem;">Robert-Bosch-Str. 4<br>85716 Unterschleißheim</span>
+                <div>
+                    <div class="c-label">Telefon</div>
+                    <div class="c-value">+49 (0) 89 123 456 – 0</div>
                 </div>
             </div>
 
-            <!-- QR -->
-            <div class="qr-block">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://gmsued.de/kontakt&color=FFFFFF&bgcolor=1C244B&margin=0" alt="QR Code">
-                <div>
-                    <div style="font-size: 0.5625rem; font-weight: 600; color: var(--white-50); text-transform: uppercase; letter-spacing: 0.08em;">Website</div>
-                    <div style="font-size: 0.8125rem; font-weight: 700; color: var(--sky-blue);">www.gmsued.de</div>
+            <div class="contact-row">
+                <div class="c-icon">
+                    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
                 </div>
+                <div>
+                    <div class="c-label">E-Mail</div>
+                    <div class="c-value">info@gmsued.de</div>
+                </div>
+            </div>
+
+            <div class="contact-row">
+                <div class="c-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>
+                </div>
+                <div>
+                    <div class="c-label">Adresse</div>
+                    <div class="c-value">Technopark 12<br>80807 München</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="qr-section">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https://www.gmsued.de&bgcolor=FFFFFF&color=1C244B&format=svg" alt="QR Code">
+            <div>
+                <div class="qr-text">Mehr erfahren</div>
+                <div class="qr-url">www.gmsued.de</div>
             </div>
         </div>
     </div>
 
     <!-- ═══════════════════════════════════════════
-         PANEL 3: FRONT COVER — Hero (First Impression)
-         Full-bleed dramatic photo + bottom gradient
+         PANEL 3 — FRONT COVER (Right, 100mm)
+         Hero photograph — the ONE dramatic image
          ═══════════════════════════════════════════ -->
-    <div class="photo-panel panel-front">
-        <img class="photo-panel__bg"
-             src="https://www.gmsued.de/wp-content/uploads/2022/12/gms1.jpg"
-             alt="GM Süd Facility Management"
-             style="object-position: center 20%; transform: scale(1.05);">
-        <!-- Bottom-heavy gradient for text area -->
-        <div class="photo-panel__overlay" style="background: linear-gradient(to bottom, rgba(28,36,75,0.15) 0%, rgba(28,36,75,0.35) 40%, rgba(28,36,75,0.90) 75%, rgba(28,36,75,0.97) 100%);"></div>
+    <div class="panel panel-hero">
+        <div class="hero-photo"></div>
+        <div class="hero-gradient"></div>
 
-        <div class="photo-panel__content" style="padding-right: calc(36px + var(--bleed)); justify-content: flex-end;">
-            <!-- Logo large and centred -->
-            <div style="position: absolute; top: 32px; right: calc(36px + var(--bleed));">
-                <img alt="GM Süd Logo" src="../assets/gmsued_logo.png" 
-                     style="height: 36px; filter: brightness(0) invert(1); opacity: 0.9;">
+        <div class="top-badge">
+            <img src="../assets/gmsued_logo.png" alt="GM Süd Logo">
+        </div>
+
+        <div class="hero-content">
+            <div class="hero-logo">
+                <span class="hero-logo-text">GM Süd GmbH</span>
             </div>
-
-            <!-- Spacer pushes content to bottom -->
-            <div style="margin-top: auto;"></div>
-
-            <!-- Service label -->
-            <div class="label-text" style="color: var(--sky-blue); margin-bottom: 8px;">Facility Management &amp; Hausmeister-Service</div>
-
-            <!-- Main headline -->
-            <h1 class="heading-xl" style="font-size: 2.25rem; margin-bottom: 12px;">
-                Ihr Eigentum<br>in professionellen<br>Händen
-            </h1>
-
-            <!-- Subtitle -->
-            <p class="subtitle" style="margin-bottom: 24px; max-width: 80%;">
-                Technisches und infrastrukturelles Gebäudemanagement für den Großraum München.
-            </p>
-
-            <!-- Contact bar at bottom -->
-            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--white-20); padding-top: 12px;">
-                <div>
-                    <span class="label-text">Web</span>
-                    <span style="font-size: 0.75rem; font-weight: 600; color: var(--white); margin-left: 8px;">www.gmsued.de</span>
-                </div>
-                <div>
-                    <span class="label-text">Tel.</span>
-                    <span style="font-size: 0.75rem; font-weight: 600; color: var(--white); margin-left: 8px;">+49 (0)89 4132455-0</span>
-                </div>
-            </div>
+            <h1 class="hero-headline">Ihr Eigentum in professionellen&nbsp;Händen.</h1>
+            <p class="hero-sub">Ganzheitliches Gebäudemanagement — von Hausmeisterservice bis Brandschutz.</p>
+            <span class="hero-tag">Facility Management</span>
         </div>
     </div>
-
 </section>
 
 <script>
-    document.addEventListener('keydown', (e) => {
-        if ((e.ctrlKey || e.metaKey) && e.key === 'g') {
+    document.addEventListener('keydown', e => {
+        if ((e.metaKey || e.ctrlKey) && e.key === 'g') {
             e.preventDefault();
             document.body.classList.toggle('debug-grid');
         }
