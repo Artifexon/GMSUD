@@ -198,6 +198,104 @@ small {
     width: calc(97mm + var(--bleed));
 }
 
+/* ---------------------------------------------------------
+   COMPONENT STYLES (UI & Styling Engineer)
+   --------------------------------------------------------- */
+
+/* Shared Container Styles
+   Ensuring a white border around all dark panels to prevent "rispeln"
+   (edge fraying during printing). Margin creates the safe zone. */
+.hero, .proof-points, .contact-footer, .cta {
+    flex: 1;
+    margin: calc(var(--bleed) + 3mm);
+    padding: var(--space-md);
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Hero (Front Cover) --- */
+.hero {
+    background-image: linear-gradient(to bottom, rgba(28, 36, 75, 0.2), rgba(28, 36, 75, 0.9)), url('../../assets/v8_hero_building.png');
+    background-size: cover;
+    background-position: center;
+    color: var(--color-warm-white);
+    justify-content: flex-end; /* Push text to the bottom */
+    border-radius: 2mm;
+}
+.hero h1 {
+    color: var(--color-warm-white);
+    margin-bottom: var(--space-sm);
+}
+.hero p {
+    color: var(--color-warm-white);
+}
+
+/* --- Proof Points (Inside Panels & Flap) --- */
+.proof-points {
+    background-color: var(--color-warm-white);
+    color: var(--color-navy);
+    justify-content: center;
+}
+.proof-points h1 {
+    color: var(--color-navy);
+}
+.proof-points ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: var(--space-sm);
+}
+.proof-points li {
+    position: relative;
+    padding-left: 6mm; /* Space for the custom bullet */
+    margin-bottom: var(--space-sm);
+    font-size: var(--font-size-p);
+    line-height: var(--line-height-base);
+}
+/* Custom Corporate Bullet */
+.proof-points li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 1.5mm;
+    width: 3mm;
+    height: 3mm;
+    background-color: var(--color-sky);
+    border-radius: 0.5mm;
+}
+
+/* --- Contact Footer (Back Cover) --- */
+.contact-footer {
+    background-color: var(--color-navy);
+    color: var(--color-warm-white);
+    justify-content: center;
+    border-radius: 2mm;
+}
+.contact-footer h1 {
+    color: var(--color-sky);
+}
+.contact-footer p {
+    color: var(--color-warm-white);
+}
+.contact-details {
+    margin-top: var(--space-md);
+    padding-top: var(--space-sm);
+    border-top: 0.5mm solid rgba(250, 251, 252, 0.2); /* Subtle warm-white divider */
+}
+
+/* --- CTA (Inner Flap) --- */
+.cta {
+    background-color: var(--color-sky);
+    color: var(--color-navy);
+    justify-content: center;
+    border-radius: 2mm;
+}
+.cta h1 {
+    color: var(--color-navy);
+}
+.cta p {
+    color: var(--color-navy);
+}
+
 /* 6. Print Rules */
 @page {
     size: 303mm 216mm;
