@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GM Süd — Flyer Inside (V8 Premium)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* ── Print Canvas — DIN lang Tri-fold (Wickelfalz) ── */
+            --spread-w: 303mm;   /* 297mm trim + 6mm bleed */
+            --spread-h: 216mm;   /* 210mm trim + 6mm bleed */
+            --bleed: 3mm;
+
+            /* ── Palette ── */
+            --navy:       #1C244B;
+            --navy-deep:  #0F1630;
+            --sky:        #52B1E1;
+            --sky-light:  rgba(82, 177, 225, 0.12);
+            --sky-glow:   rgba(82, 177, 225, 0.25);
+            --grey-dark:  #4B5563;
+            --grey-mid:   #6B7280;
+            --grey-light: #9CA3AF;
+            --grey-rule:  rgba(28, 36, 75, 0.08);
+            --white:      #FFFFFF;
+            --warm-white: #FAFBFC;
+
+            /* ── Typography scale (baseline 4.2mm ≈ 10pt × 1.6) ── */
+            --fs-hero:    28pt;
+            --fs-h1:      26pt;
+            --fs-h2:      15pt;
+            --fs-h3:      13pt;
+            --fs-body:    10pt;
+            --fs-small:   9.5pt;
+            --fs-micro:   8pt;
+            --fs-label:   6.5pt;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0; padding: 0;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #E8EAED;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh;
+            color: var(--navy);
+            line-height: 1.6;
+        }
+
+        /* ── SPREAD CONTAINER ── */
+        .spread {
+            width: var(--spread-w);
+            height: var(--spread-h);
+            background: var(--warm-white);
+            display: flex;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.12), 0 8px 20px rgba(0,0,0,0.06);
+            outline: 1.5px dashed rgba(220,60,60,0.6); /* RED = bleed boundary */
+        }
+
+        .spread::after {
+            content: ''; position: absolute;
+            inset: calc(var(--bleed) + 3mm);
+            border: 1px dashed rgba(0,140,255,0.35);
+            z-index: 9999; pointer-events: none; /* BLUE = safe zone */
+        }
+
+        /* ── PANELS ── */
+        .panel {
+            height: 100%;
+            position: relative;
+            display: flex; flex-direction: column;
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        /* Wickelfalz widths + bleed compensation for INSIDE */
+        .panel-s2-left   { width: calc(100mm + var(--bleed)); padding: 14mm 10mm 14mm calc(10mm + var(--bleed)); }
+        .panel-s2-center { width: 100mm;                      padding: 14mm 10mm 14mm 10mm; }
+        .panel-s2-right  { width: calc(97mm + var(--bleed));  padding: 14mm calc(10mm + var(--bleed)) 14mm 10mm; }
+
+        /* Fold dividers */
+        .panel-s2-left::after,
+        .panel-s2-center::after {
+            content: '';
+            position: absolute; right: 0; top: 5%; height: 90%;
+            border-right: 1px solid var(--grey-rule);
+            z-index: 100;
+        }
+
+        /* ── TYPOGRAPHY ── */
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+        }
+
+        .section-heading {
+            font-size: var(--fs-h1);
+            color: var(--navy);
+            margin-bottom: 2mm;
+        }
+
+        .section-subheading {
+            font-size: 11pt;
+            color: var(--sky);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 700;
+            margin-bottom: 8mm;
+        }
+
+        p {
+            font-size: var(--fs-body);
+            color: var(--grey-dark);
+            line-height: 1.65;
+            margin-bottom: 3.5mm;
+        }
+
+        /* ════════════════════════════════════════════
+           PANEL 4 — TARGET AUDIENCES (S2-Left)
+        ════════════════════════════════════════════ */
+        .panel-s2-left {
+            background: var(--warm-white);
+        }
+
+        /* Decorative diagonal accent */
+        .panel-s2-left::before {
+            content: '';
+            position: absolute; top: -20mm; left: -20mm;
+            width: 55mm; height: 55mm;
+            background: linear-gradient(135deg, var(--sky-light), transparent);
+            transform: rotate(45deg);
+            z-index: 1;
+        }
+
+        .target-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4mm;
+            margin-bottom: auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .target-item {
+            padding-bottom: 3.5mm;
+            border-bottom: 1px solid var(--grey-rule);
+        }
+
+        .target-item:last-child {
+            border-bottom: none;
+        }
+
+        .target-title {
+            font-size: var(--fs-body);
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 1mm;
+        }
+
+        .target-desc {
+            font-size: var(--fs-body);
+            color: var(--grey-dark);
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .quote-block {
+            margin-top: auto;
+            padding-top: 4mm;
+            border-top: 2px solid var(--sky);
+            position: relative;
+            z-index: 10;
+        }
+
+        .quote-text {
+            font-size: var(--fs-body);
+            color: var(--navy);
+            font-style: italic;
+            font-weight: 500;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* ════════════════════════════════════════════
+           PANEL 5 — SERVICES GRID (S2-Centre)
+        ════════════════════════════════════════════ */
+        .panel-s2-center {
+            background: var(--white);
+        }
+
+        .watermark {
+            position: absolute;
+            inset: 0;
+            background-image: url('../assets/v8_texture_abstract.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.07;
+            mix-blend-mode: multiply;
+            z-index: 1;
+        }
+
+        .services-header {
+            position: relative;
+            z-index: 10;
+        }
+
+        .services-grid {
+            position: relative;
+            z-index: 10;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            row-gap: 8mm;
+            column-gap: 4mm;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+
+        .service-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .service-icon {
+            width: 8mm;
+            height: 8mm;
+            color: var(--sky);
+            margin-bottom: 2mm;
+        }
+
+        .service-title {
+            font-size: var(--fs-small);
+            font-weight: 700;
+            color: var(--navy);
+            line-height: 1.2;
+            margin-bottom: 1mm;
+        }
+
+        .service-subtitle {
+            font-size: var(--fs-micro);
+            color: var(--grey-dark);
+            line-height: 1.2;
+        }
+
+        /* ════════════════════════════════════════════
+           PANEL 6 — USPs (S2-Right)
+        ════════════════════════════════════════════ */
+        .panel-s2-right {
+            background: var(--warm-white);
+        }
+
+        /* Decorative diagonal accent */
+        .panel-s2-right::before {
+            content: '';
+            position: absolute; top: -20mm; right: -20mm;
+            width: 55mm; height: 55mm;
+            background: linear-gradient(225deg, var(--sky-light), transparent);
+            transform: rotate(-45deg);
+            z-index: 1;
+        }
+
+        .usp-list {
+            display: flex;
+            flex-direction: column;
+            gap: 5mm;
+            position: relative;
+            z-index: 10;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+
+        .usp-item {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+        }
+
+        .usp-number {
+            font-size: 32pt;
+            font-weight: 800;
+            color: rgba(82, 177, 225, 0.25);
+            line-height: 0.8;
+            width: 15mm;
+            flex-shrink: 0;
+            padding-top: 1mm;
+        }
+
+        .usp-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .usp-title {
+            font-size: var(--fs-h3);
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 1.5mm;
+        }
+
+        .usp-desc {
+            font-size: var(--fs-small);
+            color: var(--grey-dark);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* ── FOLD GUIDES ── */
+        .fold-guide {
+            position: absolute; top: 0; bottom: 0;
+            width: 1px;
+            background: rgba(0, 50, 200, 0.4);
+            z-index: 100; pointer-events: none;
+        }
+
+        /* ── PRINT ── */
+        @page { size: 303mm 216mm; margin: 0; }
+        @media print {
+            body { background: none; margin: 0; padding: 0; }
+            .spread { box-shadow: none; outline: none !important; }
+            .spread::after, .fold-guide { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="spread">
+        <!-- Fold Guides for INSIDE spread -->
+        <div class="fold-guide" style="left: calc(100mm + var(--bleed));"></div>
+        <div class="fold-guide" style="left: calc(200mm + var(--bleed));"></div>
+
+        <!-- ═══ PANEL 4: TARGET AUDIENCES (Left) ═══ -->
+        <div class="panel panel-s2-left">
+            <h1 class="section-heading">Für wen wir arbeiten</h1>
+            <div class="section-subheading">Ihre Zielgruppe im Fokus</div>
+
+            <div class="target-list">
+                <div class="target-item">
+                    <div class="target-title">Gewerbeimmobilien</div>
+                    <p class="target-desc">Büros, Hallen, Lagerflächen und Gewerbeparks.</p>
+                </div>
+                <div class="target-item">
+                    <div class="target-title">Immobilienverwaltungen</div>
+                    <p class="target-desc">Ganzheitliche Betreuung für Verwalter und Eigentümer.</p>
+                </div>
+                <div class="target-item">
+                    <div class="target-title">Facility Manager</div>
+                    <p class="target-desc">Partnerschaftliche Unterstützung bei Kapazitätsengpässen.</p>
+                </div>
+                <div class="target-item">
+                    <div class="target-title">Projektentwickler</div>
+                    <p class="target-desc">Verlässliche Begleitung in Entstehungs- und Betriebsphasen.</p>
+                </div>
+                <div class="target-item">
+                    <div class="target-title">Öffentliche Gebäude</div>
+                    <p class="target-desc">Verwaltung, Krankenhäuser, Kitas und Schulen.</p>
+                </div>
+            </div>
+
+            <div class="quote-block">
+                <p class="quote-text">Ob laufender Betrieb oder neue Projekte — wir sorgen dafür, dass Ihr Gebäude in professionellen Händen ist.</p>
+            </div>
+        </div>
+
+        <!-- ═══ PANEL 5: SERVICES GRID (Centre) ═══ -->
+        <div class="panel panel-s2-center">
+            <div class="watermark"></div>
+
+            <div class="services-header">
+                <h1 class="section-heading">Unsere Leistungen</h1>
+                <div class="section-subheading">Kompetenz von A–Z</div>
+            </div>
+
+            <div class="services-grid">
+                <!-- 1. Hausmeisterservice -->
+                <div class="service-item">
+                    <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                    <div class="service-title">Hausmeister­service</div>
+                </div>
+                <!-- 2. Brandschutz -->
+                <div class="service-item">
+                    <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c-2.28 0-3-1.88-3-3-1.66 1.67-4.11 3.25-4.11 6.13a5.57 5.57 0 0 0 5.4 5.8 4.29 4.29 0 0 0 2.22-.64"/><path d="M11.5 20.89a3 3 0 0 0 5-2.29c0-2-1.2-3.2-3.5-4.6-2-1-3.5-3.5-3.5-6.5"/></svg>
+                    <div class="service-title">Brandschutz</div>
+                </div>
+                <!-- 3. Winterdienst -->
+                <div class="service-item">
+                    <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="2" x2="22" y1="12" y2="12"/><line x1="12" x2="12" y1="2" y2="22"/><path d="m20 16-4-4 4-4"/><path d="m4 8 4 4-4 4"/><path d="m16 4-4 4-4-4"/><path d="m8 20 4-4 4 4"/></svg>
+                    <div class="service-title">Winterdienst</div>
+                </div>
+                <!-- 4. Feuerlöscher -->
+                <div class="service-item">
+                    <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6.5V3a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v3.5"/><path d="M9 18h8"/><path d="M18 3h-3"/><path d="M11 3a6 6 0 0 0-6 6v11"/><path d="M5 13h4"/><path d="M17 10a4 4 0 0 0-8 0v10a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2Z"/></svg>
+                    <div class="service-title">Feuerlöscher</div>
+                    <div class="service-subtitle">Verkauf und Prüfung</div>
+                </div>
+                <!-- 5. Spielplatzprüfer -->
+                <div class="service-item">
+                    <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg>
+                    <div class="service-title">Spielplatz­prüfer</div>
+                    <div class="service-subtitle">Nach DIN SPEC 79161</div>
+                </div>
+                <!-- 6. Schulungen -->
+                <div class="service-item">
+                    <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                    <div class="service-title">Schulungen</div>
+                    <div class="service-subtitle">Brandschutzhelfer</div>
+                </div>
+                <!-- 7. 24h Notdienst -->
+                <div class="service-item">
+                    <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <div class="service-title">24h Notdienst</div>
+                </div>
+                <!-- 8. Objektbegehung -->
+                <div class="service-item">
+                    <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M15 2H9a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1z"/></svg>
+                    <div class="service-title">Objektbegehung</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══ PANEL 6: USPs (Right) ═══ -->
+        <div class="panel panel-s2-right">
+            <h1 class="section-heading">Warum GM Süd?</h1>
+            <div class="section-subheading">Ihre Vorteile im Blick</div>
+
+            <div class="usp-list">
+                <div class="usp-item">
+                    <div class="usp-number">01</div>
+                    <div class="usp-content">
+                        <div class="usp-title">Höchste Zuverlässigkeit</div>
+                        <p class="usp-desc">Wir denken mit und handeln proaktiv. Darauf können Sie sich verlassen.</p>
+                    </div>
+                </div>
+                <div class="usp-item">
+                    <div class="usp-number">02</div>
+                    <div class="usp-content">
+                        <div class="usp-title">Geschultes Fachpersonal</div>
+                        <p class="usp-desc">Unser Team ist permanent auf dem neusten Wissens- und Technik-Stand.</p>
+                    </div>
+                </div>
+                <div class="usp-item">
+                    <div class="usp-number">03</div>
+                    <div class="usp-content">
+                        <div class="usp-title">Technisches Know-how</div>
+                        <p class="usp-desc">Wir verstehen aus der Praxis, worauf es im Alltag wirklich ankommt.</p>
+                    </div>
+                </div>
+                <div class="usp-item">
+                    <div class="usp-number">04</div>
+                    <div class="usp-content">
+                        <div class="usp-title">Individuelle Lösungen</div>
+                        <p class="usp-desc">Keine Standardkonzepte. Ihre einzigartigen Anforderungen stehen im Mittelpunkt.</p>
+                    </div>
+                </div>
+                <div class="usp-item">
+                    <div class="usp-number">05</div>
+                    <div class="usp-content">
+                        <div class="usp-title">Langfristige Begleitung</div>
+                        <p class="usp-desc">Wir begleiten Sie nachhaltig und setzen auf echte Partnerschaften.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
