@@ -1,217 +1,275 @@
-@charset "UTF-8";
+/* =========================================
+   GM Süd V8 Premium - Print Stylesheet
+   ========================================= */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-/* 1. Print Canvas Standard (MANDATORY) */
+/* =========================================
+   1. Print Canvas Variables
+   ========================================= */
 :root {
     --spread-w: 303mm;   /* 297mm trim + 6mm bleed */
     --spread-h: 216mm;   /* 210mm trim + 6mm bleed */
     --bleed: 3mm;
-
-    /* Colors */
-    --color-navy: #1C244B;
-    --color-sky: #52B1E1;
-    --color-warm-white: #FAFBFC;
-
-    /* Typography Scales */
-    --font-family-base: 'Inter', sans-serif;
-    --font-size-h1: 24pt;
-    --font-size-h2: 18pt;
-    --font-size-h3: 14pt;
-    --font-size-p: 10pt;
-    --font-size-small: 8pt;
-
-    --line-height-heading: 1.2;
-    --line-height-base: 1.5;
-
-    /* Spacing Scales (Print specific) */
-    --space-xs: 2mm;
-    --space-sm: 4mm;
-    --space-md: 8mm;
-    --space-lg: 12mm;
-    --space-xl: 16mm;
+    
+    /* Brand Colors */
+    --c-navy: #1C244B;
+    --c-sky: #52B1E1;
+    --c-warm-white: #FAFBFC;
+    --c-accent: #E3F2FD; 
+    --c-text: #2D3748;
+    
+    /* Playful Gradients & Glass */
+    --grad-primary: linear-gradient(135deg, rgba(82,177,225,0.95), rgba(28,36,75,0.95));
+    --glass-bg: rgba(250, 251, 252, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.4);
+    --glass-shadow: 0 8px 32px rgba(28, 36, 75, 0.1);
 }
 
-/* 2. Comprehensive CSS Reset */
-*, *::before, *::after {
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-}
-
-html, body {
-    width: 100%;
-    height: 100%;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
 }
 
 body {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-family: var(--font-family-base);
-    color: var(--color-navy);
-    background-color: var(--color-warm-white);
-    font-size: var(--font-size-p);
-    line-height: var(--line-height-base);
+    background-color: #e0e5ec; /* Desktop background */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20mm;
+    padding: 20mm 0;
+    font-family: 'Inter', sans-serif;
+    color: var(--c-text);
 }
 
-h1, h2, h3, h4, h5, h6 {
-    line-height: var(--line-height-heading);
-    margin-bottom: var(--space-sm);
-}
-
-h1 {
-    font-size: var(--font-size-h1);
-    font-weight: 800;
-}
-
-h2 {
-    font-size: var(--font-size-h2);
-    font-weight: 700;
-}
-
-h3 {
-    font-size: var(--font-size-h3);
-    font-weight: 600;
-}
-
-p {
-    font-size: var(--font-size-p);
-    margin-bottom: var(--space-md);
-}
-
-small {
-    font-size: var(--font-size-small);
-}
-
-/* Helper Classes */
-/* Text Colors */
-.text-navy { color: var(--color-navy); }
-.text-sky { color: var(--color-sky); }
-.text-white { color: var(--color-warm-white); }
-
-/* Background Colors */
-.bg-navy { background-color: var(--color-navy); }
-.bg-sky { background-color: var(--color-sky); }
-.bg-white { background-color: var(--color-warm-white); }
-
-/* Font Weights */
-.font-regular { font-weight: 400; }
-.font-medium { font-weight: 500; }
-.font-semibold { font-weight: 600; }
-.font-bold { font-weight: 700; }
-.font-extrabold { font-weight: 800; }
-
-/* Text Alignment */
-.text-center { text-align: center; }
-.text-left { text-align: left; }
-.text-right { text-align: right; }
-
-/* Margins */
-.mb-xs { margin-bottom: var(--space-xs); }
-.mb-sm { margin-bottom: var(--space-sm); }
-.mb-md { margin-bottom: var(--space-md); }
-.mb-lg { margin-bottom: var(--space-lg); }
-.mb-xl { margin-bottom: var(--space-xl); }
-
-.mt-xs { margin-top: var(--space-xs); }
-.mt-sm { margin-top: var(--space-sm); }
-.mt-md { margin-top: var(--space-md); }
-.mt-lg { margin-top: var(--space-lg); }
-.mt-xl { margin-top: var(--space-xl); }
-
-/* Paddings */
-.p-xs { padding: var(--space-xs); }
-.p-sm { padding: var(--space-sm); }
-.p-md { padding: var(--space-md); }
-.p-lg { padding: var(--space-lg); }
-.p-xl { padding: var(--space-xl); }
-
-.px-md { padding-left: var(--space-md); padding-right: var(--space-md); }
-.py-md { padding-top: var(--space-md); padding-bottom: var(--space-md); }
-
-/* 3. Structural Grid Framework */
-.grid-6-col {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 4mm; /* Base gap for print design */
-}
-
-/* 4. Spread Container Setup */
 .spread {
+    position: relative;
     width: var(--spread-w);
     height: var(--spread-h);
-    position: relative;
+    background-color: var(--c-warm-white);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
     overflow: hidden;
-    display: flex; /* Flexbox for panels */
-}
-
-/* Safe zone indicator (optional but helpful for layout) */
-.spread::after {
-    content: '';
-    position: absolute;
-    inset: calc(var(--bleed) + 3mm);
-    pointer-events: none;
-    z-index: 9999;
-    /* Removed actual border so it doesn't print, but could be added for dev */
 }
 
 /* Base Panel Rules */
 .panel {
+    position: absolute;
+    top: 0;
     height: 100%;
-    position: relative;
+}
+
+/* =========================================
+   2. White Frame & Safe Zone
+   ========================================= */
+/* The client requested "no dark colors without a white border on the edge". 
+   So we enforce a 6mm wrap inside the bleed area. */
+.safe-content {
+    position: absolute;
+    /* 3mm bleed + 3mm white border margin */
+    inset: 6mm;
+    background-color: transparent;
+    border-radius: 4px; /* Slight playful rounding */
     display: flex;
     flex-direction: column;
 }
 
-/* 5. Panel Dimensions */
+/* =========================================
+   3. Panel Setup (Front / Outside)
+   ========================================= */
+.panel-flap { width: calc(97mm + var(--bleed)); left: 0; }
+.panel-back-cover { width: 100mm; left: calc(97mm + var(--bleed)); }
+.panel-front-cover { width: calc(100mm + var(--bleed)); left: calc(197mm + var(--bleed)); }
 
-/* --- Outside Spread (front.html) --- */
-/* S1-Left (Flap) */
-.panel-flap {
-    width: calc(97mm + var(--bleed));
-}
+/* =========================================
+   4. Panel Setup (Back / Inside)
+   ========================================= */
+.panel-inside-left { width: calc(100mm + var(--bleed)); left: 0; }
+.panel-inside-middle { width: 100mm; left: calc(100mm + var(--bleed)); }
+.panel-inner-flap { width: calc(97mm + var(--bleed)); left: calc(200mm + var(--bleed)); }
 
-/* S1-Centre (Back Cover) */
-.panel-back-cover {
-    width: 100mm;
-}
+/* =========================================
+   5. Typography
+   ========================================= */
+h1 { font-size: 26pt; font-weight: 800; color: var(--c-navy); line-height: 1.1; margin-bottom: 4mm; letter-spacing: -0.5px; }
+h2 { font-size: 16pt; font-weight: 700; color: var(--c-navy); margin-bottom: 3mm; line-height: 1.2; }
+h3 { font-size: 11pt; font-weight: 700; color: var(--c-sky); margin-bottom: 1.5mm; }
+h4 { font-size: 10pt; font-weight: 700; color: var(--c-navy); margin-bottom: 1mm; }
+p { font-size: 9pt; line-height: 1.5; margin-bottom: 3mm; }
+.lead { font-size: 10.5pt; color: var(--c-navy); font-weight: 500; margin-bottom: 5mm; }
 
-/* S1-Right (Front Cover) */
+/* =========================================
+   6. Premium Components (Outside)
+   ========================================= */
+
+/* Hero Front Cover */
 .panel-front-cover {
-    width: calc(100mm + var(--bleed));
+    background-image: url('../../assets/v8_hero_building.png');
+    background-size: cover;
+    background-position: center;
+}
+.hero-wrapper {
+    justify-content: space-between;
+    padding: 8mm;
+    margin: 6mm; /* Further inset inside the safe zone for dynamic look */
+}
+.logo-area {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    padding: 4mm 6mm;
+    border-radius: 0 0 12mm 0; /* playful asymmetrical corner */
+    display: inline-block;
+    width: max-content;
+    margin-top: -6mm; 
+    margin-left: -6mm;
+    border: 1px solid var(--glass-border);
+}
+.logo { height: 12mm; }
+.hero-text-box {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    padding: 8mm;
+    border-radius: 6px;
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    /* Playful offset */
+    transform: translateY(-5mm);
+}
+.subtitle { font-weight: 600; color: var(--c-sky); text-transform: uppercase; letter-spacing: 1px; font-size: 8pt; margin-bottom: 4mm; }
+.body-text { font-size: 9.5pt; color: var(--c-navy); }
+.cta-pill {
+    display: inline-block;
+    margin-top: 4mm;
+    padding: 2.5mm 6mm;
+    background: var(--grad-primary);
+    color: white;
+    font-weight: 600;
+    font-size: 9pt;
+    border-radius: 20px;
 }
 
-
-/* --- Inside Spread (back.html) --- */
-/* S2-Left (Inside Left) */
-.panel-inside-left {
-    width: calc(100mm + var(--bleed));
+/* Contact Back Cover */
+.contact-wrapper {
+    padding: 10mm;
+    justify-content: center;
+    background: radial-gradient(circle at top left, var(--c-warm-white) 0%, #edf1f5 100%);
+    border-radius: 6px;
+}
+.contact-header { margin-bottom: 8mm; position: relative; }
+.contact-header::after { content: ''; position: absolute; bottom: -4mm; left: 0; width: 15mm; height: 3px; background: var(--c-sky); border-radius: 2px; }
+.contact-methods p { margin-bottom: 1.5mm; font-size: 9.5pt; }
+.company-name { font-weight: 700; color: var(--c-navy); font-size: 11pt; }
+.phone, .email, .web { font-weight: 500; color: var(--c-sky); }
+.qr-placeholder {
+    width: 25mm; height: 25mm;
+    background: white; border: 1px solid #ccc;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 7pt; color: #999; margin-top: 10mm;
+    border-radius: 4px;
 }
 
-/* S2-Centre (Inside Middle) */
-.panel-inside-middle {
-    width: 100mm;
+/* Flap (Outside Left) */
+.panel-flap {
+    background-image: url('../../assets/v8_texture_abstract.png');
+    background-size: cover;
+    background-position: right center;
+    background-blend-mode: overlay;
+    background-color: rgba(28, 36, 75, 0.05); /* very subtle tint, NO solid tone */
+}
+.floating-card {
+    background: white;
+    margin: 10mm;
+    padding: 8mm;
+    border-radius: 6px;
+    box-shadow: var(--glass-shadow);
+    position: relative;
+    border-top: 4px solid var(--c-sky);
+}
+.custom-list { list-style: none; margin-bottom: 6mm; }
+.custom-list li {
+    position: relative; padding-left: 5mm; margin-bottom: 2.5mm; font-size: 9pt; font-weight: 500;
+}
+.custom-list li::before {
+    content: '→'; position: absolute; left: 0; color: var(--c-sky); font-weight: bold; font-size: 10pt;
+}
+.footer-note { font-style: italic; color: #666; font-size: 8.5pt; border-top: 1px solid #eee; padding-top: 4mm;}
+
+
+/* =========================================
+   7. Inside Spread Styling
+   ========================================= */
+
+/* The shared full-spread texture */
+.spread-inside {
+    background: linear-gradient(120deg, var(--c-warm-white) 0%, #eef3f7 100%);
+}
+.texture-overlay {
+    position: absolute; width: 100%; height: 100%;
+    opacity: 0.15; mix-blend-mode: multiply;
+    pointer-events: none;
 }
 
-/* S2-Right (Inner Flap) */
-.panel-inner-flap {
-    width: calc(97mm + var(--bleed));
+/* Inside Left - Leistungen */
+.panel-inside-left .safe-content { padding: 10mm 12mm 10mm 10mm; }
+.glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    padding: 8mm; border-radius: 8px;
+    border: 1px solid white;
+    height: 100%;
+}
+.service-item {
+    background: white; padding: 5mm; border-radius: 6px; margin-bottom: 4mm;
+    box-shadow: 0 4px 15px rgba(28, 36, 75, 0.05);
+    border-left: 3px solid var(--c-sky);
 }
 
-/* 6. Print Rules */
-@page {
-    size: 303mm 216mm;
-    margin: 0;
+/* Inside Middle - Arbeitsweise */
+.process-wrapper { padding: 10mm 8mm; }
+.process-steps { display: flex; flex-direction: column; gap: 4mm; margin-top: 6mm; }
+.step {
+    display: flex; gap: 3mm; align-items: flex-start;
+    background: white; padding: 4mm; border-radius: 6px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+}
+.step-number {
+    width: 6mm; height: 6mm;
+    background: var(--c-navy); color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: bold; font-size: 9pt; flex-shrink: 0;
+}
+.step-text p { margin-bottom: 0; font-size: 8.5pt; color: #555; }
+
+/* Inner Flap - USP/Werte */
+.values-wrapper { padding: 10mm 8mm; display: flex; align-items: center; justify-content: center; }
+.accent-box {
+    background: var(--c-navy);
+    color: white;
+    padding: 8mm;
+    border-radius: 8px;
+    position: relative;
+}
+.accent-box::before {
+    content: ''; position: absolute; top: -4mm; left: -4mm;
+    width: 20mm; height: 20mm; border: 2px solid var(--c-sky);
+    border-radius: 4px; z-index: 0;
+}
+.accent-box h2 { color: white; position: relative; z-index: 1; margin-bottom: 5mm; }
+.check-list { list-style: none; position: relative; z-index: 1; }
+.check-list li {
+    padding-left: 6mm; margin-bottom: 3.5mm; font-size: 9pt; font-weight: 300; line-height: 1.4;
+}
+.check-list li::before {
+    content: '✓'; position: absolute; left: 0; color: var(--c-sky); font-weight: bold; font-size: 10pt;
 }
 
+/* =========================================
+   8. Print & Export Overrides
+   ========================================= */
 @media print {
-    body {
-        background: none;
-        margin: 0;
-        padding: 0;
-    }
-    .spread {
-        box-shadow: none;
-        outline: none !important;
-    }
+    body { padding: 0; background-color: transparent; }
+    .spread { box-shadow: none; outline: none !important; margin: 0; break-after: page; }
 }
