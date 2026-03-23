@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GM Süd GmbH Flyer Inside Spread</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Open+Sans&display=swap" rel="stylesheet">
+  <style>
+    :root {
+        /* Print Canvas — DIN lang Tri-fold (Wickelfalz) */
+        --spread-w: 303mm; /* 297mm trim + 6mm bleed */
+        --spread-h: 216mm; /* 210mm trim + 6mm bleed */
+        --bleed: 3mm;
+    }
+
+    body {
+      margin: 0;
+      padding: 40px;
+      font-family: 'Open Sans', sans-serif;
+      background-color: #D0D5DD;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .spread {
+      width: var(--spread-w);
+      height: var(--spread-h);
+      display: flex;
+      position: relative;
+      background: white;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      /* RED dashed = bleed boundary */
+      outline: 1.5px dashed rgba(220,60,60,0.7);
+    }
+
+    /* BLUE dashed = safe zone (3mm inside trim) */
+    .spread::after {
+      content: ''; position: absolute; inset: calc(var(--bleed) + 3mm);
+      border: 1px dashed rgba(0,140,255,0.4);
+      z-index: 9999; pointer-events: none;
+    }
+    .panel {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: 15mm;
+    }
+    #panel4 {
+      width: calc(100mm + var(--bleed));
+      padding-left: calc(15mm + var(--bleed));
+      background: linear-gradient(135deg, #003366, #0077B5), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 100 100'%3E%3Crect x='0' y='0' width='100' height='100' fill='none' stroke='%23fff' stroke-width='2' stroke-opacity='0.05'/%3E%3C/svg%3E");
+      background-size: 200px 200px, cover;
+      color: #fff;
+    }
+    #panel5 {
+      width: 100mm;
+      background: #f7f7f7;
+      color: #003366;
+    }
+    #panel6 {
+      width: calc(97mm + var(--bleed));
+      padding-right: calc(15mm + var(--bleed));
+      background: linear-gradient(135deg, #0077B5, #003366);
+      color: #fff;
+    }
+    h1, h2 {
+      font-family: 'Montserrat', sans-serif;
+      margin: 0 0 10px;
+    }
+    h1 {
+      font-size: 24pt;
+      font-weight: 800;
+    }
+    h2 {
+      font-size: 18pt;
+      font-weight: 700;
+    }
+    .services {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 5mm;
+      margin-top: 10mm;
+    }
+    .service {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .service p {
+      text-align: center;
+      margin: 0;
+      font-size: 9pt;
+      word-wrap: break-word;
+      hyphens: auto;
+    }
+    .service svg {
+      width: 25mm;
+      height: 25mm;
+      margin-bottom: 5mm;
+    }
+    .usps {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .usp {
+      margin-bottom: 15mm;
+      font-size: 14pt;
+      display: flex;
+      align-items: flex-start;
+      line-height: 1.4;
+    }
+    .usp::before {
+      content: attr(data-number);
+      font-size: 36pt;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.5);
+      margin-right: 5mm;
+      line-height: 0.8;
+      display: block;
+    }
+    .quote {
+      font-style: italic;
+      font-size: 16pt;
+      margin-top: 20mm;
+    }
+    .target-audiences {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      margin-top: 10mm;
+    }
+    .target-audience {
+      width: 28mm;
+      margin: 2mm;
+      text-align: center;
+    }
+    .target-audience p {
+      font-size: 9pt;
+      margin: 0;
+      word-wrap: break-word;
+    }
+    .target-audience svg {
+      width: 15mm;
+      height: 15mm;
+      margin-bottom: 2mm;
+    }
+    /* Shadows and Overlays for Depth */
+    .shadow-overlay {
+      box-shadow: 0 0 10mm rgba(0,0,0,0.1);
+    }
+    /* Geometric Decorative Elements */
+    .geometric-pattern {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.1;
+      background-image: linear-gradient(45deg, #fff, #fff 20mm, transparent 20mm, transparent), linear-gradient(#fff, #fff 20mm, transparent 20mm, transparent);
+      background-size: 40mm 40mm;
+    }
+
+    /* Fold Guides */
+    .fold-guide {
+        position: absolute; top: 0; bottom: 0;
+        width: 1px; background: rgba(0, 50, 200, 0.4);
+        z-index: 100; pointer-events: none;
+    }
+
+    /* Print */
+    @page { size: 303mm 216mm; margin: 0; }
+    @media print {
+        body { background: none; margin: 0; padding: 0; }
+        .spread { box-shadow: none; outline: none !important; }
+        .spread::after { display: none !important; }
+        .fold-guide { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="spread">
+    <div class="fold-guide" style="left: calc(100mm + var(--bleed));"></div>
+    <div class="fold-guide" style="left: calc(200mm + var(--bleed));"></div>
+    <div id="panel4" class="panel target-audiences shadow-overlay">
+      <h1>Für wen wir arbeiten</h1>
+      <div class="target-audiences">
+        <div class="target-audience">
+          <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" fill="#fff" stroke="#003366" stroke-width="2"/></svg>
+          <p>Gewerbeimmobilien</p>
+        </div>
+        <div class="target-audience">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 12h3v8h8v-8h3L12 2zm-1 5h2v2h-2V7z" fill="#fff" stroke="#003366" stroke-width="2"/></svg>
+          <p>Immobilienverwaltungen</p>
+        </div>
+        <div class="target-audience">
+          <svg viewBox="0 0 24 24"><path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" fill="#fff" stroke="#003366" stroke-width="2"/></svg>
+          <p>Facility Manager</p>
+        </div>
+        <div class="target-audience">
+          <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-1.06-1.06L3 17.25zm16.5-9.75L20.81 3.34l1.06 1.06L19.5 12l3.75 3.75-1.06 1.06L16.5 9.25z" fill="#fff" stroke="#003366" stroke-width="2"/></svg>
+          <p>Projektentwickler</p>
+        </div>
+        <div class="target-audience">
+          <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-8 10V7h2v6h6v2h-8z" fill="#fff" stroke="#003366" stroke-width="2"/></svg>
+          <p>Öffentliche Gebäude</p>
+        </div>
+      </div>
+      <p class="quote">Ob laufender Betrieb oder neue Projekte — wir sorgen dafür, dass Ihr Gebäude in professionellen Händen ist.</p>
+    </div>
+    <div id="panel5" class="panel shadow-overlay">
+      <div class="geometric-pattern"></div>
+      <h1 style="position: relative; z-index: 1;">Unsere Leistungen</h1>
+      <div class="services" style="position: relative; z-index: 1;">
+        <div class="service">
+          <svg viewBox="0 0 24 24"><path d="M15 13h6v6h-6V13zm-6 0h6v6H9V13zm-6 0h6v6H3V13z" fill="#003366"/></svg>
+          <p>Hausmeisterservice</p>
+        </div>
+        <div class="service">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="#003366" stroke-width="2"/><path d="M12 8v8" stroke="#003366" stroke-width="2"/></svg>
+          <p>Brandschutzkonzepte</p>
+        </div>
+        <div class="service">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z" fill="#003366"/></svg>
+          <p>Winterdienst</p>
+        </div>
+        <div class="service">
+          <svg viewBox="0 0 24 24"><path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" fill="#003366"/></svg>
+          <p>Feuerlöscher</p>
+        </div>
+        <div class="service">
+          <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" fill="#003366" stroke="#fff" stroke-width="2"/><path d="M12 12L16 16 12 20 8 16 12 12z" fill="#fff"/></svg>
+          <p>Spielplatzinspektionen</p>
+        </div>
+        <div class="service">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z" fill="#003366"/></svg>
+          <p>Sicherheitsschulungen</p>
+        </div>
+        <div class="service">
+          <svg viewBox="0 0 24 24"><path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" fill="#003366"/></svg>
+          <p>24h Notdienst</p>
+        </div>
+        <div class="service">
+          <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-1.06-1.06L3 17.25zm16.5-9.75L20.81 3.34l1.06 1.06L19.5 12l3.75 3.75-1.06 1.06L16.5 9.25z" fill="#003366"/></svg>
+          <p>Objektbegehung</p>
+        </div>
+      </div>
+    </div>
+    <div id="panel6" class="panel usps shadow-overlay">
+      <h1>Warum GM Süd?</h1>
+      <div class="usps">
+        <p class="usp" data-number="01">Höchste Zuverlässigkeit — Wir denken mit und handeln proaktiv.</p>
+        <p class="usp" data-number="02">Geschultes Fachpersonal — Permanente Weiterbildung auf neuestem Stand.</p>
+        <p class="usp" data-number="03">Praxiserfahrung — Wir wissen aus dem Alltag, worauf es ankommt.</p>
+        <p class="usp" data-number="04">Individuelle Lösungen — Keine Standardkonzepte, Ihre Anforderungen zählen.</p>
+        <p class="usp" data-number="05">Langfristige Partnerschaft — Nachhaltige Zusammenarbeit auf Augenhöhe.</p>
+      </div>
+      <div style="position:absolute; bottom:10mm; left:0; width:100%; text-align:center; padding: 0 10mm; box-sizing: border-box; font-size: 11pt;">
+        <p style="margin: 0 0 5px;">Sprechen Sie uns direkt an</p>
+        <p style="margin: 0;">Jetzt Kontakt aufnehmen — <a href="https://www.gmsued.de" style="color:#fff; text-decoration:underline;">www.gmsued.de</a><br>Tel: +49 (0) 89 413 24 55 0 | <a href="mailto:info@gmsued.de" style="color:#fff; text-decoration:underline;">info@gmsued.de</a></p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GM Süd GmbH Flyer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Open+Sans&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Print Canvas — DIN lang Tri-fold (Wickelfalz) */
+            --spread-w: 303mm; /* 297mm trim + 6mm bleed */
+            --spread-h: 216mm; /* 210mm trim + 6mm bleed */
+            --bleed: 3mm;
+        }
+
+        body {
+            margin: 0;
+            padding: 40px;
+            font-family: 'Open Sans', sans-serif;
+            color: #333;
+            background-color: #D0D5DD;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .spread {
+            width: var(--spread-w);
+            height: var(--spread-h);
+            position: relative;
+            background: white;
+            display: flex;
+            flex-direction: row;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            /* RED dashed = bleed boundary */
+            outline: 1.5px dashed rgba(220,60,60,0.7);
+        }
+
+        /* BLUE dashed = safe zone (3mm inside trim) */
+        .spread::after {
+            content: ''; position: absolute; inset: calc(var(--bleed) + 3mm);
+            border: 1px dashed rgba(0,140,255,0.4);
+            z-index: 9999; pointer-events: none;
+        }
+
+        .panel {
+            height: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        .left-panel {
+            width: calc(97mm + var(--bleed));
+            padding-left: var(--bleed);
+            background: linear-gradient(135deg, #003366, #0077B5);
+            color: white;
+            padding-top: 20mm;
+            padding-right: 15mm;
+            padding-bottom: 20mm;
+            padding-left: calc(15mm + var(--bleed));
+        }
+        .centre-panel {
+            width: 100mm;
+            padding: 20mm 15mm;
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+        }
+        .right-panel {
+            width: calc(100mm + var(--bleed));
+            padding-right: var(--bleed);
+            background: linear-gradient(135deg, #003366, #0077B5);
+            color: white;
+            padding-top: 20mm;
+            padding-left: 15mm;
+            padding-bottom: 20mm;
+            padding-right: calc(15mm + var(--bleed));
+            position: relative;
+        }
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+        h1 {
+            font-size: 28pt;
+            font-weight: 800;
+            color: #003366;
+        }
+        h2 {
+            font-size: 20pt;
+            font-weight: 700;
+        }
+        .hero-headline {
+            font-size: 30pt;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 0 5px rgba(0,0,0,0.2);
+            word-wrap: break-word;
+            hyphens: auto;
+        }
+        .service-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .service-item {
+            width: 45%;
+            margin-bottom: 20px;
+            background: #f9f9f9;
+            color: #003366;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+        .service-item svg {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            fill: #003366;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .stat {
+            flex: 1;
+            text-align: center;
+            margin: 0 10px;
+        }
+        .stat svg {
+            width: 30px;
+            height: 30px;
+            fill: #0077B5;
+            margin: auto;
+            display: block;
+        }
+        .cta {
+            background: #0077B5;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16pt;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        .cta:hover {
+            background: #005a8f;
+        }
+        .contact-info {
+            font-size: 16pt;
+            margin-top: 20px;
+        }
+        .contact-info a {
+            color: #003366;
+            text-decoration: none;
+        }
+        .logo {
+            position: absolute;
+            bottom: 10mm;
+            left: 10mm;
+            width: 50mm;
+        }
+        .decorative-line {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #003366, #0077B5);
+        }
+        .geometric-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+        }
+        .geometric-pattern svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Fold Guides */
+        .fold-guide {
+            position: absolute; top: 0; bottom: 0;
+            width: 1px; background: rgba(0, 50, 200, 0.4);
+            z-index: 100; pointer-events: none;
+        }
+
+        /* Print */
+        @page { size: 303mm 216mm; margin: 0; }
+        @media print {
+            body { background: none; margin: 0; padding: 0; }
+            .spread { box-shadow: none; outline: none !important; }
+            .spread::after { display: none !important; }
+            .fold-guide { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="spread">
+        <div class="fold-guide" style="left: calc(97mm + var(--bleed));"></div>
+        <div class="fold-guide" style="left: calc(197mm + var(--bleed));"></div>
+        <div class="panel left-panel">
+            <h2>Ihr Partner für professionelles Facility Management</h2>
+            <p>Ein Gebäude ist mehr als Wände und Türen. Es ist Ihr Wert, Ihre Sicherheit und Ihre Zukunft.</p>
+            <ul class="service-list">
+                <li class="service-item"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/></svg> Technik</li>
+                <li class="service-item"><svg viewBox="0 0 24 24"><path d="M12 3v1m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Sicherheit</li>
+                <li class="service-item"><svg viewBox="0 0 24 24"><path d="M19 5v3m-3 0a2.9 2.9 0 01-2.9 2.9H15c-.57 0-1 .43-1 1v1m-1.07 4.875l-.875 4.875M6.5 3h3m3.5 2v3m-1.5-3V4m-.5 2.5a.5.5 0 01-.5-.5V3a.5.5 0 01.5-.5h1a.5.5 0 01.5.5z"/></svg> 24h Service</li>
+                <li class="service-item"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/></svg> Brandschutz</li>
+                <li class="service-item"><svg viewBox="0 0 24 24"><path d="M3 3h18v18H3V3zm16 13H9v-2h10v-2H9V9h10v-2h-8V3h8v2h-8v2h8v2z"/></svg> Winterdienst</li>
+                <li class="service-item"><svg viewBox="0 0 24 24"><path d="M12 8v4m0 0v1m0-7v1m4.28-.468a12 12 0 01-.042 3.72A11.946 11.946 0 005.757 6H3v3h3.757a11.966 11.966 0 011.235-.237A11.965 11.965 0 0012 9z"/></svg> Schulungen</li>
+            </ul>
+            <div class="stats">
+                <div class="stat"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/></svg><br>24/7 Erreichbarkeit</div>
+                <div class="stat"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"/></svg><br>50+ Fachkräfte</div>
+                <div class="stat"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/></svg><br>100% Einsatz</div>
+            </div>
+        </div>
+        <div class="panel centre-panel">
+            <h1>Warum GM Süd?</h1>
+            <ul>
+                <li>Zuverlässigkeit</li>
+                <li>Fachkompetenz</li>
+                <li>Individuelle Lösungen</li>
+                <li>Schnelle Reaktionszeiten</li>
+            </ul>
+            <a class="cta" href="https://www.gmsued.de">Jetzt Kontakt aufnehmen</a>
+            <div class="contact-info">
+                <p>Tel: +49 (0) 89 – 413 24 55 0</p>
+                <p>Email: <a href="mailto:info@gmsued.de">info@gmsued.de</a></p>
+                <p>Web: <a href="https://www.gmsued.de">www.gmsued.de</a></p>
+            </div>
+        </div>
+        <div class="panel right-panel">
+            <h1 class="hero-headline">Ihr Gebäude in<br>vertrauensvollen Händen</h1>
+            <p>Wir denken mit, handeln proaktiv und sorgen für Sicherheit.</p>
+            <div class="decorative-line"></div>
+            <svg class="geometric-pattern" viewBox="0 0 100 100"><pattern id="geoPat" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="20" height="20" fill="#fff"/><rect x="2" y="2" width="16" height="16" fill="#fff" stroke="#003366" stroke-width="2"/></pattern><rect width="100%" height="100%" fill="url(#geoPat)"/></svg>
+            <img class="logo" src="../assets/gmsued_logo.png" alt="GM Süd GmbH Logo">
+        </div>
+    </div>
+</body>
+</html>

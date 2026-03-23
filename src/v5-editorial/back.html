@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GM Süd - Flyer Inside (V5)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Print Canvas — DIN lang Tri-fold (Wickelfalz) */
+            --spread-w: 303mm; /* 297mm trim + 6mm bleed */
+            --spread-h: 216mm; /* 210mm trim + 6mm bleed */
+            --bleed: 3mm;
+
+            --navy: #1C244B;
+            --sky: #52B1E1;
+            --sky-light: rgba(82, 177, 225, 0.12);
+            --sky-transparent: rgba(82, 177, 225, 0.25);
+            --grey-dark: #4B5563;
+            --grey-light: #9CA3AF;
+            --white: #FFFFFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--navy);
+            line-height: 1.5;
+        }
+
+        .spread {
+            width: var(--spread-w);
+            height: var(--spread-h);
+            background-color: var(--white);
+            display: flex;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            /* RED dashed = bleed boundary */
+            outline: 1.5px dashed rgba(220,60,60,0.7);
+        }
+
+        /* BLUE dashed = safe zone (3mm inside trim = bleed + 3mm from edge) */
+        .spread::after {
+            content: ''; position: absolute; inset: calc(var(--bleed) + 3mm);
+            border: 1px dashed rgba(0,140,255,0.4);
+            z-index: 9999; pointer-events: none;
+        }
+
+        .panel {
+            /* width: 33.333%; Replaced with precise Wickelfalz widths */
+            height: 100%;
+            position: relative;
+            padding: 12mm 10mm;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+        }
+
+        /* Wickelfalz (Letter fold) precision widths + bleed compensation */
+        .panel-s2-left { width: calc(100mm + var(--bleed)); padding-left: var(--bleed); }   /* Inside Left + left bleed */
+        .panel-s2-center { width: 100mm; } /* Inside Middle */
+        .panel-s2-right { width: calc(97mm + var(--bleed)); padding-right: var(--bleed); }   /* Inner Flap + right bleed */
+
+        .panel:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            border-right: 1px dashed rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        /* Diagonal Accents */
+        .diagonal-corner-tr {
+            position: absolute;
+            top: -15mm;
+            right: -15mm;
+            width: 45mm;
+            height: 45mm;
+            background: linear-gradient(-135deg, var(--sky-light) 0%, rgba(255,255,255,0) 100%);
+            transform: rotate(-45deg);
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .diagonal-corner-tl {
+            position: absolute;
+            top: -15mm;
+            left: -15mm;
+            width: 45mm;
+            height: 45mm;
+            background: linear-gradient(135deg, var(--sky-light) 0%, rgba(255,255,255,0) 100%);
+            transform: rotate(45deg);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: var(--navy);
+        }
+
+        .heading-main {
+            font-size: 26pt;
+            margin-bottom: 2mm;
+            z-index: 10;
+        }
+
+        .heading-sub {
+            font-size: 11pt;
+            font-weight: 600;
+            color: var(--sky);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8mm;
+            z-index: 10;
+        }
+        
+        p {
+            font-size: 10pt;
+            color: var(--grey-dark);
+        }
+
+        /* --- Panel 4: For Whom (Left) --- */
+        .client-list {
+            margin-top: 4mm;
+            display: flex;
+            flex-direction: column;
+            gap: 4mm;
+            flex-grow: 1;
+            z-index: 10;
+        }
+
+        .client-item {
+            padding-bottom: 4mm;
+            border-bottom: 1px solid rgba(28,36,75,0.1);
+        }
+
+        .client-item:last-child {
+            border-bottom: none;
+        }
+
+        .client-name {
+            font-size: 13pt;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 1mm;
+        }
+        
+        .client-desc {
+            font-size: 9.5pt;
+            color: var(--grey-dark);
+            line-height: 1.4;
+        }
+
+        .quote-block {
+            margin-top: auto;
+            padding: 6mm 0;
+            border-top: 2px solid var(--sky);
+            z-index: 10;
+        }
+
+        .quote-text {
+            font-size: 11pt;
+            font-style: italic;
+            color: var(--navy);
+            line-height: 1.6;
+        }
+
+        /* --- Panel 5: Services (Middle) --- */
+        .watermark-bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('../assets/modern_commercial_building_1773758968165.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.08;
+            z-index: 1;
+            mix-blend-mode: multiply;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            row-gap: 8mm;
+            column-gap: 4mm;
+            margin-top: 4mm;
+            z-index: 10;
+        }
+
+        .service-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 2mm;
+        }
+
+        .service-icon {
+            width: 8mm;
+            height: 8mm;
+            color: var(--sky);
+            margin-bottom: 2mm;
+        }
+
+        .service-name {
+            font-size: 9.5pt;
+            font-weight: 700;
+            color: var(--navy);
+            line-height: 1.3;
+        }
+
+        .service-subtext {
+            font-size: 8pt;
+            color: var(--grey-dark);
+            margin-top: 1mm;
+            line-height: 1.3;
+        }
+
+        /* --- Panel 6: USPs (Right) --- */
+        .usp-list {
+            margin-top: 4mm;
+            display: flex;
+            flex-direction: column;
+            gap: 6mm;
+            z-index: 10;
+        }
+
+        .usp-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 4mm;
+        }
+
+        .usp-number {
+            font-size: 32pt;
+            font-weight: 800;
+            color: var(--sky-transparent);
+            line-height: 0.8;
+            letter-spacing: -0.05em;
+            width: 15mm;
+            flex-shrink: 0;
+            margin-top: 1mm;
+        }
+
+        .usp-content {
+            flex-grow: 1;
+        }
+
+        .usp-title {
+            font-size: 13pt;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 1.5mm;
+            line-height: 1.2;
+        }
+
+        .usp-desc {
+            font-size: 9.5pt;
+            color: var(--grey-dark);
+            line-height: 1.5;
+        }
+
+        /* Fold Guides */
+        .fold-guide {
+            position: absolute; top: 0; bottom: 0;
+            width: 1px; background: rgba(0, 50, 200, 0.4);
+            z-index: 100; pointer-events: none;
+        }
+
+        /* Print */
+        @page { size: 303mm 216mm; margin: 0; }
+        @media print {
+            body { background: none; margin: 0; padding: 0; }
+            .spread { box-shadow: none; outline: none !important; }
+            .spread::after { display: none !important; }
+            .fold-guide { display: none !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="spread">
+        <div class="fold-guide" style="left: calc(100mm + var(--bleed));"></div>
+        <div class="fold-guide" style="left: calc(200mm + var(--bleed));"></div>
+        
+        <!-- PANEL 4: FOR WHOM (Left) -->
+        <div class="panel panel-s2-left">
+            <div class="diagonal-corner-tl"></div>
+            
+            <h1 class="heading-main">Für wen wir<br/>arbeiten</h1>
+            <div class="heading-sub">Ihre Zielgruppe im Fokus</div>
+
+            <div class="client-list">
+                <div class="client-item">
+                    <div class="client-name">Gewerbeimmobilien</div>
+                    <div class="client-desc">Büros, Hallen, Lagerflächen und Gewerbeparks.</div>
+                </div>
+                <div class="client-item">
+                    <div class="client-name">Immobilienverwaltungen</div>
+                    <div class="client-desc">Ganzheitliche Betreuung für Verwalter und Eigentümer.</div>
+                </div>
+                <div class="client-item">
+                    <div class="client-name">Facility Manager</div>
+                    <div class="client-desc">Partnerschaftliche Unterstützung bei Kapazitätsengpässen.</div>
+                </div>
+                <div class="client-item">
+                    <div class="client-name">Projektentwickler</div>
+                    <div class="client-desc">Verlässliche Begleitung in Entstehungs- und Betriebsphasen.</div>
+                </div>
+                <div class="client-item">
+                    <div class="client-name">Öffentliche Gebäude</div>
+                    <div class="client-desc">Verwaltung, Krankenhäuser, Kitas und Schulen.</div>
+                </div>
+            </div>
+
+            <div class="quote-block">
+                <div class="quote-text">„Ob laufender Betrieb oder neue Projekte, wir sorgen dafür, dass Ihr Gebäude in professionellen Händen ist.“</div>
+            </div>
+        </div>
+
+        <!-- PANEL 5: SERVICES (Middle) -->
+        <div class="panel panel-s2-center" style="position: relative;">
+            <div class="watermark-bg"></div>
+            
+            <h1 class="heading-main">Unsere<br/>Leistungen</h1>
+            <div class="heading-sub">Kompetenz von A-Z</div>
+
+            <div class="services-grid">
+                <!-- Hausmeister -->
+                <div class="service-item">
+                    <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                    <div class="service-name">Hausmeister-<br>service</div>
+                </div>
+                
+                <!-- Brandschutz -->
+                <div class="service-item">
+                    <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c-2.28 0-3-1.88-3-3-1.66 1.67-4.11 3.25-4.11 6.13a5.57 5.57 0 0 0 5.4 5.8 4.29 4.29 0 0 0 2.22-.64M17.65 10c0-6-4.57-7.24-5.65-8-1.54 1.54-5 4.54-5 9.17 0 3 1.94 5.38 4.41 6M11.5 20.89a3 3 0 0 0 5-2.29c0-2-1.2-3.2-3.5-4.6-2-1-3.5-3.5-3.5-6.5"/></svg>
+                    <div class="service-name">Brandschutz</div>
+                </div>
+                
+                <!-- Winterdienst -->
+                <div class="service-item">
+                    <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10 20-3-3 3-3"/><path d="m14 4 3 3-3 3"/><path d="M12 2v20"/><path d="M4 10l3 2-3 2"/><path d="M20 10l-3 2 3 2"/><path d="m2 12 20 0"/></svg>
+                    <div class="service-name">Winterdienst</div>
+                </div>
+                
+                <!-- Feuerlöscher -->
+                <div class="service-item">
+                    <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4V2"/><path d="M5 12h14"/><path d="M12 4a5 5 0 0 0-5 5v13h10V9a5 5 0 0 0-5-5Z"/><path d="M9 4v3"/><path d="M15 4v3"/></svg>
+                    <div class="service-name">Feuerlöscher</div>
+                    <div class="service-subtext">Verkauf &amp; Prüfung</div>
+                </div>
+                
+                <!-- Spielplatz -->
+                <div class="service-item">
+                    <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 21a1.5 1.5 0 0 1-3 0v-4c0-.6.4-1 1-1h1.5l2 3"/><path d="M14 15V8"/><path d="M12 4a2 2 0 1 0 0 4 2 2 0 1 0 0-4Z"/><path d="M10 15H9l-2 3"/><path d="M6 12h8"/><path d="m5 21 2-4"/></svg>
+                    <div class="service-name">Spielplatzprüfer</div>
+                    <div class="service-subtext">Nach DIN SPEC 79161</div>
+                </div>
+                
+                <!-- Schulungen -->
+                <div class="service-item">
+                    <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                    <div class="service-name">Schulungen</div>
+                    <div class="service-subtext">Brandschutzhelfer</div>
+                </div>
+                
+                <!-- Notdienst -->
+                <div class="service-item">
+                    <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <div class="service-name">24h Notdienst</div>
+                </div>
+                
+                <!-- Objektbegehung -->
+                <div class="service-item">
+                    <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                    <div class="service-name">Objekt-<br>begehung</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANEL 6: USPs (Right) -->
+        <div class="panel panel-s2-right">
+            <div class="diagonal-corner-tr"></div>
+            
+            <h1 class="heading-main">Warum<br/>GM Süd?</h1>
+            <div class="heading-sub">Ihre Vorteile im Blick</div>
+
+            <div class="usp-list">
+                <div class="usp-item">
+                    <div class="usp-number">01</div>
+                    <div class="usp-content">
+                        <div class="usp-title">Höchste Zuverlässigkeit</div>
+                        <div class="usp-desc">Wir denken mit und handeln proaktiv. Darauf können Sie sich verlassen.</div>
+                    </div>
+                </div>
+                
+                <div class="usp-item">
+                    <div class="usp-number">02</div>
+                    <div class="usp-content">
+                        <div class="usp-title">Geschultes Fachpersonal</div>
+                        <div class="usp-desc">Unser Team ist permanent auf dem neusten Wissens- & Technik-Stand.</div>
+                    </div>
+                </div>
+
+                <div class="usp-item">
+                    <div class="usp-number">03</div>
+                    <div class="usp-content">
+                        <div class="usp-title">Technisches Know-how</div>
+                        <div class="usp-desc">Wir verstehen aus der Praxis, worauf es im Alltag wirklich ankommt.</div>
+                    </div>
+                </div>
+
+                <div class="usp-item">
+                    <div class="usp-number">04</div>
+                    <div class="usp-content">
+                        <div class="usp-title">Individuelle Lösungen</div>
+                        <div class="usp-desc">Keine Standardkonzepte. Ihre einzigartigen Anforderungen stehen im Mittelpunkt.</div>
+                    </div>
+                </div>
+
+                <div class="usp-item">
+                    <div class="usp-number">05</div>
+                    <div class="usp-content">
+                        <div class="usp-title">Langfristige Begleitung</div>
+                        <div class="usp-desc">Wir begleiten Sie nachhaltig und setzen auf echte Partnerschaften.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
