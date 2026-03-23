@@ -1,10 +1,35 @@
 @charset "UTF-8";
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
 /* 1. Print Canvas Standard (MANDATORY) */
 :root {
     --spread-w: 303mm;   /* 297mm trim + 6mm bleed */
     --spread-h: 216mm;   /* 210mm trim + 6mm bleed */
     --bleed: 3mm;
+
+    /* Colors */
+    --color-navy: #1C244B;
+    --color-sky: #52B1E1;
+    --color-warm-white: #FAFBFC;
+
+    /* Typography Scales */
+    --font-family-base: 'Inter', sans-serif;
+    --font-size-h1: 24pt;
+    --font-size-h2: 18pt;
+    --font-size-h3: 14pt;
+    --font-size-p: 10pt;
+    --font-size-small: 8pt;
+
+    --line-height-heading: 1.2;
+    --line-height-base: 1.5;
+
+    /* Spacing Scales (Print specific) */
+    --space-xs: 2mm;
+    --space-sm: 4mm;
+    --space-md: 8mm;
+    --space-lg: 12mm;
+    --space-xl: 16mm;
 }
 
 /* 2. Comprehensive CSS Reset */
@@ -22,7 +47,87 @@ html, body {
 body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-family: var(--font-family-base);
+    color: var(--color-navy);
+    background-color: var(--color-warm-white);
+    font-size: var(--font-size-p);
+    line-height: var(--line-height-base);
 }
+
+h1, h2, h3, h4, h5, h6 {
+    line-height: var(--line-height-heading);
+    margin-bottom: var(--space-sm);
+}
+
+h1 {
+    font-size: var(--font-size-h1);
+    font-weight: 800;
+}
+
+h2 {
+    font-size: var(--font-size-h2);
+    font-weight: 700;
+}
+
+h3 {
+    font-size: var(--font-size-h3);
+    font-weight: 600;
+}
+
+p {
+    font-size: var(--font-size-p);
+    margin-bottom: var(--space-md);
+}
+
+small {
+    font-size: var(--font-size-small);
+}
+
+/* Helper Classes */
+/* Text Colors */
+.text-navy { color: var(--color-navy); }
+.text-sky { color: var(--color-sky); }
+.text-white { color: var(--color-warm-white); }
+
+/* Background Colors */
+.bg-navy { background-color: var(--color-navy); }
+.bg-sky { background-color: var(--color-sky); }
+.bg-white { background-color: var(--color-warm-white); }
+
+/* Font Weights */
+.font-regular { font-weight: 400; }
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+.font-extrabold { font-weight: 800; }
+
+/* Text Alignment */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+/* Margins */
+.mb-xs { margin-bottom: var(--space-xs); }
+.mb-sm { margin-bottom: var(--space-sm); }
+.mb-md { margin-bottom: var(--space-md); }
+.mb-lg { margin-bottom: var(--space-lg); }
+.mb-xl { margin-bottom: var(--space-xl); }
+
+.mt-xs { margin-top: var(--space-xs); }
+.mt-sm { margin-top: var(--space-sm); }
+.mt-md { margin-top: var(--space-md); }
+.mt-lg { margin-top: var(--space-lg); }
+.mt-xl { margin-top: var(--space-xl); }
+
+/* Paddings */
+.p-xs { padding: var(--space-xs); }
+.p-sm { padding: var(--space-sm); }
+.p-md { padding: var(--space-md); }
+.p-lg { padding: var(--space-lg); }
+.p-xl { padding: var(--space-xl); }
+
+.px-md { padding-left: var(--space-md); padding-right: var(--space-md); }
+.py-md { padding-top: var(--space-md); padding-bottom: var(--space-md); }
 
 /* 3. Structural Grid Framework */
 .grid-6-col {
