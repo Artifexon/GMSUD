@@ -2,12 +2,344 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>Concept 2: Clean Minimal</title>
-    <!-- TODO for Jules: Implement a completely fresh Clean Minimalist layout based on the brief. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GM Süd - Premium Flyer Concept Minimal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Exact variables from AGENTS.md */
+            --spread-w: 303mm;   /* 297mm trim + 6mm bleed */
+            --spread-h: 216mm;   /* 210mm trim + 6mm bleed */
+            --bleed: 3mm;
+
+            /* Safe zone is 3mm inside trim edge, which is 6mm from canvas edge */
+            --safe-margin: calc(var(--bleed) + 3mm);
+
+            /* Corporate Colors */
+            --navy: #1C244B;
+            --sky: #52B1E1;
+            --warm-white: #FAFBFC;
+
+            /* Typography */
+            --font-main: 'Inter', sans-serif;
+        }
+
+        /* Print Canvas Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        @page {
+            size: var(--spread-w) var(--spread-h);
+            margin: 0;
+        }
+
+        body {
+            width: var(--spread-w);
+            height: var(--spread-h);
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-main);
+            background-color: var(--warm-white);
+            color: var(--navy);
+            overflow: hidden;
+            display: flex; /* Outside Spread Structure */
+        }
+
+        /* Panel Basics */
+        .panel {
+            height: 100%;
+            position: relative;
+        }
+
+        /* Container inside panels to enforce safe zone */
+        .safe-zone {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /*
+         * Outside Spread Panel Widths
+         * Left (Flap)   : 97mm trim + 3mm bleed = calc(97mm + var(--bleed))
+         * Centre (Back) : 100mm trim
+         * Right (Front) : 100mm trim + 3mm bleed = calc(100mm + var(--bleed))
+         */
+
+        #flap {
+            width: calc(97mm + var(--bleed));
+            background-color: var(--warm-white);
+        }
+        #flap .safe-zone {
+            /* Top, Right, Bottom, Left */
+            /* Right is fold, Left is trim+bleed */
+            inset: var(--safe-margin) 3mm var(--safe-margin) var(--safe-margin);
+        }
+
+        #back {
+            width: 100mm;
+            background-color: var(--warm-white);
+        }
+        #back .safe-zone {
+            /* Top, Right, Bottom, Left */
+            /* Right is fold, Left is fold */
+            inset: var(--safe-margin) 3mm var(--safe-margin) 3mm;
+        }
+
+        #front {
+            width: calc(100mm + var(--bleed));
+            background-color: var(--warm-white);
+        }
+        #front .safe-zone {
+            /* Top, Right, Bottom, Left */
+            /* Right is trim+bleed, Left is fold */
+            inset: var(--safe-margin) var(--safe-margin) var(--safe-margin) 3mm;
+        }
+
+        /* Utility */
+        h1, h2, h3, h4, p { margin: 0; }
+        img { display: block; max-width: 100%; }
+
+
+        /* --- Front Cover (Right Panel) Styles --- */
+        #front {
+            display: flex;
+            flex-direction: column;
+        }
+        #front .hero-img-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            overflow: hidden;
+        }
+        #front .hero-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        #front .typography-block {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            background-color: var(--warm-white);
+            padding: 8mm var(--safe-margin) var(--safe-margin) 3mm;
+            display: flex;
+            flex-direction: column;
+        }
+        #front .logo {
+            width: 45mm;
+            margin-bottom: 8mm;
+        }
+        #front h1 {
+            font-size: 16pt;
+            font-weight: 700;
+            color: var(--navy);
+            line-height: 1.2;
+            margin-bottom: 2mm;
+            letter-spacing: -0.02em;
+        }
+        #front .subline {
+            font-size: 10pt;
+            font-weight: 600;
+            color: var(--sky);
+            margin-bottom: 3mm;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        #front p {
+            font-size: 10pt;
+            font-weight: 400;
+            line-height: 1.4;
+            color: var(--navy);
+        }
+        #front .cta-print {
+            font-size: 11pt;
+            font-weight: 700;
+            color: var(--sky);
+            margin-top: auto; /* Push to bottom */
+        }
+        #front .safe-zone { display: none; }
+
+
+        /* --- Back Cover (Centre Panel) Styles --- */
+        #back {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--warm-white);
+        }
+        #back .safe-zone {
+            justify-content: center;
+            padding: 10mm 5mm;
+        }
+        #back .content-wrapper {
+            max-width: 100%;
+        }
+        #back h2 {
+            font-size: 14pt;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 3mm;
+            letter-spacing: -0.02em;
+        }
+        #back p {
+            font-size: 10pt;
+            font-weight: 400;
+            line-height: 1.5;
+            color: var(--navy);
+            margin-bottom: 8mm;
+        }
+        #back .contact-details {
+            margin-bottom: 12mm;
+            border-left: 2px solid var(--sky);
+            padding-left: 4mm;
+        }
+        #back .contact-details p {
+            font-size: 10pt;
+            font-weight: 500;
+            margin-bottom: 1mm;
+        }
+        #back .contact-details strong {
+            font-weight: 700;
+            color: var(--navy);
+        }
+        #back .qr-container {
+            display: flex;
+            align-items: center;
+            gap: 4mm;
+        }
+        #back .qr-placeholder {
+            width: 25mm;
+            height: 25mm;
+            background-color: #fff;
+            border: 1px solid rgba(28, 36, 75, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8pt;
+            color: var(--sky);
+            text-align: center;
+        }
+        #back .qr-text {
+            font-size: 10pt;
+            font-weight: 600;
+            color: var(--navy);
+            line-height: 1.2;
+        }
+
+
+        /* --- Flap (Left Panel) Styles --- */
+        #flap {
+            display: flex;
+            align-items: center;
+            background-color: var(--warm-white);
+        }
+        #flap .safe-zone {
+            justify-content: center;
+            padding: 10mm 3mm 10mm var(--safe-margin); /* Account for bleed on left */
+        }
+        #flap h2 {
+            font-size: 14pt;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 6mm;
+            line-height: 1.3;
+            letter-spacing: -0.02em;
+            position: relative;
+            padding-left: 5mm;
+        }
+        #flap h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 2mm;
+            bottom: 2mm;
+            width: 3px;
+            background-color: var(--sky);
+        }
+        #flap p {
+            font-size: 10pt;
+            font-weight: 400;
+            line-height: 1.5;
+            color: var(--navy);
+            margin-bottom: 5mm;
+        }
+        #flap .highlight-box {
+            margin-top: 8mm;
+            padding: 6mm;
+            background-color: rgba(82, 177, 225, 0.05); /* Very light sky blue tint */
+            border: 1px solid rgba(82, 177, 225, 0.2);
+        }
+        #flap .highlight-box p {
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 0;
+            font-size: 11pt;
+        }
+
+    </style>
 </head>
 <body>
-    <div class="canvas">
-        <!-- Start your fresh design from scratch here -->
+
+    <!-- Panel 1: S1-Left (Flap) - Unternehmen -->
+    <div id="flap" class="panel">
+        <div class="safe-zone">
+            <h2>Ihr Partner für professionelles Facility Management</h2>
+            <p>GM Süd steht für zuverlässiges, lösungsorientiertes und erfahrenes Facility Management.</p>
+            <p>Wir unterstützen Unternehmen, Immobilienbetreiber und Projektverantwortliche dabei, Abläufe effizient zu steuern und dauerhaft sicherzustellen.</p>
+            <p>Dabei legen wir besonderen Wert auf Qualität &amp; Zuverlässigkeit.</p>
+
+            <div class="highlight-box">
+                <p>Bei uns steht der Kunde an erster Stelle.</p>
+            </div>
+        </div>
     </div>
+
+    <!-- Panel 2: S1-Centre - Rückseite (CTA) -->
+    <div id="back" class="panel">
+        <div class="safe-zone">
+            <div class="content-wrapper">
+                <h2>Lassen Sie uns sprechen</h2>
+                <p>Sie suchen einen zuverlässigen Partner für Ihr Facility Management?<br><br>Dann kommen Sie gerne direkt auf uns zu, wir freuen uns auf den Austausch.</p>
+
+                <div class="contact-details">
+                    <p><strong>GM Süd</strong></p>
+                    <p>+49 (0) 89 &ndash; 413 24 55 0</p>
+                    <p>info@gmsued.de</p>
+                    <p>www.gmsued.de</p>
+                </div>
+
+                <div class="qr-container">
+                    <div class="qr-placeholder">[QR Code]</div>
+                    <div class="qr-text">Jetzt Kontakt<br>aufnehmen</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Panel 3: S1-Right - Front Cover -->
+    <div id="front" class="panel">
+        <div class="hero-img-container">
+            <img src="../../assets/v8_hero_building.png" alt="GM Süd Hero">
+        </div>
+        <div class="typography-block">
+            <img src="../../assets/gmsued_logo.png" alt="GM Süd Logo" class="logo">
+            <div class="subline">Ihr Eigentum in professionellen Händen</div>
+            <h1>Zuverlässiges Gebäude&shy;management für Unternehmen, die mehr erwarten</h1>
+            <p>
+                Mit GM Süd setzen Sie auf einen Partner, der Ihr Gebäude versteht; technisch, wirtschaftlich und organisatorisch.<br><br>
+                Bei unserem Service setzen wir auf höchste Qualität und unbedingte Zuverlässigkeit. Zu jeder Zeit, an jedem Ort.
+            </p>
+            <div class="cta-print">Sprechen Sie uns direkt an</div>
+        </div>
+    </div>
+
 </body>
 </html>
