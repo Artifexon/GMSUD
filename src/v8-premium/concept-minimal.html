@@ -3,11 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <title>Concept 2: Clean Minimal</title>
-    <!-- TODO for Jules: Implement a completely fresh Clean Minimalist layout based on the brief. -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --spread-w: 303mm;
+            --spread-h: 216mm;
+            --bleed: 3mm;
+            --navy: #1C244B;
+            --sky: #52B1E1;
+            --white: #FAFBFC;
+            --flap-w: calc(97mm + var(--bleed));
+            --back-w: 100mm;
+            --front-w: calc(100mm + var(--bleed));
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .canvas {
+            width: var(--spread-w);
+            height: var(--spread-h);
+            background: var(--white);
+            position: relative;
+            display: flex;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            color: var(--navy);
+        }
+
+        .panel {
+            position: relative;
+            height: 100%;
+            padding: calc(var(--bleed) + 12mm);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* S1-Left (Flap) */
+        .flap { width: var(--flap-w); border-right: 1px solid rgba(28,36,75,0.1); }
+        .flap-num { font-size: 40pt; font-weight: 300; color: var(--sky); margin-bottom: 5mm; }
+        .flap-title { font-size: 16pt; font-weight: 500; margin-bottom: 10mm; }
+        .flap-text { font-size: 10pt; line-height: 1.8; font-weight: 300; color: #444; }
+
+        /* S1-Centre (Back Cover) */
+        .back { width: var(--back-w); }
+        .back-title { font-size: 12pt; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--sky); margin-bottom: 20mm; }
+        .contact { font-size: 9.5pt; font-weight: 400; line-height: 2; margin-top: auto; }
+        .qr-box { margin-top: 15mm; border-top: 1px solid rgba(28,36,75,0.1); padding-top: 10mm; display: flex; align-items: center; gap: 15px;}
+        .qr-code { width: 25mm; height: 25mm; }
+
+        /* S1-Right (Front Cover) */
+        .front { width: var(--front-w); padding-top: 0; padding-right: 0; }
+        .front-hero { width: 100%; height: 60%; object-fit: cover; object-position: center bottom; }
+        .front-content { padding: 12mm calc(var(--bleed) + 12mm) 12mm 0; display: flex; flex-direction: column; height: 40%; }
+        
+        .logo-box { margin-bottom: auto; }
+        .logo-box img { height: 25px; }
+
+        .headline { font-size: 24pt; font-weight: 300; line-height: 1.2; letter-spacing: -0.5px; }
+        .headline strong { font-weight: 600; color: var(--sky); }
+
+    </style>
 </head>
 <body>
     <div class="canvas">
-        <!-- Start your fresh design from scratch here -->
+        <!-- Flap -->
+        <div class="panel flap">
+            <div class="flap-num">01</div>
+            <h2 class="flap-title">Präzision in jedem Detail.</h2>
+            <p class="flap-text">Wir verstehen, dass der erste Eindruck zählt. Mit unserem umfassenden Gebäude-Management sichern wir nicht nur den Werterhalt Ihrer Immobilie, sondern schaffen Räume, in denen sich Menschen wohlfühlen.</p>
+        </div>
+
+        <!-- Back Cover -->
+        <div class="panel back">
+            <h2 class="back-title">Kontakt</h2>
+            <div class="contact">
+                <strong>GM Süd GmbH</strong><br>
+                Arnulfstraße 37<br>
+                80335 München<br><br>
+                T +49 89 123 456 0<br>
+                E info@gm-sued.de
+            </div>
+            <div class="qr-box">
+                <img class="qr-code" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.gm-sued.de" alt="QR">
+                <span style="font-size: 8pt; color: #888;">Online Besuchen</span>
+            </div>
+        </div>
+
+        <!-- Front Cover -->
+        <div class="panel front">
+            <img class="front-hero" src="../../assets/v8_hero_building.png" alt="Building">
+            <div class="front-content">
+                <div class="logo-box">
+                    <img src="../../assets/gmsued_logo.png" alt="Logo">
+                </div>
+                <h1 class="headline">Exzellenz im<br><strong>Gebäude-<br>Management.</strong></h1>
+            </div>
+        </div>
     </div>
 </body>
 </html>

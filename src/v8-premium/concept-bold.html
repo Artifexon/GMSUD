@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Concept 1: Bold Geometric</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --spread-w: 303mm;
+            --spread-h: 216mm;
+            --bleed: 3mm;
+            --navy: #1C244B;
+            --sky: #52B1E1;
+            --white: #FAFBFC;
+            --flap-w: calc(97mm + var(--bleed));
+            --back-w: 100mm;
+            --front-w: calc(100mm + var(--bleed));
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .canvas {
+            width: var(--spread-w);
+            height: var(--spread-h);
+            background: var(--navy);
+            position: relative;
+            display: flex;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            color: var(--white);
+        }
+
+        /* Hexagon Background Texture */
+        .texture {
+            position: absolute;
+            inset: 0;
+            background-image: url('../../assets/v8_texture_abstract.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            mix-blend-mode: color-dodge;
+            z-index: 1;
+        }
+
+        /* Fold Lines (for visualization only, usually hidden for print) */
+        .fold {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: rgba(255,255,255,0.2);
+            z-index: 10;
+            border-left: 1px dashed rgba(255,255,255,0.5);
+        }
+        .fold-1 { left: var(--flap-w); }
+        .fold-2 { left: calc(var(--flap-w) + var(--back-w)); }
+
+        .panel {
+            position: relative;
+            height: 100%;
+            padding: calc(var(--bleed) + 10mm);
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Panel S1-Left: Flap */
+        .flap {
+            width: var(--flap-w);
+            background: var(--navy);
+            border-right: 2px solid var(--sky);
+        }
+
+        /* Panel S1-Centre: Back Cover */
+        .back {
+            width: var(--back-w);
+            background: var(--white);
+            color: var(--navy);
+        }
+
+        /* Panel S1-Right: Front Cover */
+        .front {
+            width: var(--front-w);
+            background: var(--navy);
+        }
+
+        /* Front Cover Specifics */
+        .logo-box {
+            background: var(--white);
+            padding: 15px;
+            display: inline-block;
+            margin-bottom: 20mm;
+            border-bottom: 4px solid var(--sky);
+        }
+        .logo-box img {
+            height: 35px;
+            display: block;
+        }
+
+        .front-hero-container {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 80%;
+            height: 60%;
+            clip-path: polygon(100% 0, 100% 100%, 0 100%, 20% 0);
+            z-index: 2;
+        }
+
+        .front-hero {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: contrast(1.1) saturate(1.1);
+        }
+
+        .front-content {
+            position: relative;
+            z-index: 5;
+        }
+
+        .headline {
+            font-size: 32pt;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 10mm;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+        
+        .headline span {
+            color: var(--sky);
+            display: block;
+        }
+
+        .subheadline {
+            font-size: 14pt;
+            font-weight: 600;
+            max-width: 70%;
+            line-height: 1.4;
+            border-left: 3px solid var(--sky);
+            padding-left: 15px;
+        }
+
+        /* Back Cover Specifics */
+        .back-title {
+            font-size: 16pt;
+            font-weight: 800;
+            color: var(--sky);
+            margin-bottom: 15mm;
+            text-transform: uppercase;
+        }
+        
+        .contact-block {
+            margin-top: auto;
+            font-size: 10pt;
+            line-height: 1.6;
+        }
+        
+        .contact-block strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 11pt;
+            color: var(--navy);
+        }
+
+        /* Flap Specifics */
+        .flap-title {
+            font-size: 20pt;
+            font-weight: 800;
+            color: var(--sky);
+            margin-bottom: 10mm;
+        }
+        .flap-text {
+            font-size: 11pt;
+            line-height: 1.5;
+            opacity: 0.9;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="canvas">
+        <div class="texture"></div>
+        
+        <!-- Folds -->
+        <div class="fold fold-1"></div>
+        <div class="fold fold-2"></div>
+
+        <!-- S1-Left (Flap) -->
+        <div class="panel flap">
+            <h2 class="flap-title">Werte Erhalten.</h2>
+            <p class="flap-text">
+                Ein gepflegtes Gebäude ist mehr als eine Visitenkarte – es ist ein Versprechen. GM Süd sorgt dafür, dass dieses Versprechen jeden Tag gehalten wird.
+            </p>
+        </div>
+
+        <!-- S1-Centre (Back Cover) -->
+        <div class="panel back">
+            <h2 class="back-title">Kontakt</h2>
+            <div class="contact-block">
+                <strong>GM Süd GmbH</strong>
+                Arnulfstraße 37<br>
+                80335 München<br><br>
+                T +49 89 123 456 0<br>
+                E info@gm-sued.de<br>
+                W www.gm-sued.de
+            </div>
+            
+            <div style="margin-top: 15mm;">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.gm-sued.de" style="width: 30mm; height: 30mm;" alt="QR Code">
+                <p style="font-size: 8pt; margin-top: 5px; color: #666;">Scannen für mehr Infos</p>
+            </div>
+        </div>
+
+        <!-- S1-Right (Front Cover) -->
+        <div class="panel front">
+            <div class="front-hero-container">
+                <img src="../../assets/v8_hero_building.png" class="front-hero" alt="Hero Building">
+            </div>
+            
+            <div class="front-content">
+                <div class="logo-box">
+                    <img src="../../assets/gmsued_logo.png" alt="GM Süd Logo">
+                </div>
+                
+                <h1 class="headline">
+                    Gebäude.
+                    <span>Management.</span>
+                    Perfektion.
+                </h1>
+                
+                <div class="subheadline">
+                    Hausmeisterservice, Reinigung & Instandhaltung für Ihre Immobilien in München.
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
