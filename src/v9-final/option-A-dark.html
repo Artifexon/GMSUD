@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<!--
+    GM Süd – Option A: Dark Premium (v9-final)
+    ===========================================
+    PRINT PRODUCTION NOTES:
+    - Size: DIN lang tri-fold (Wickelfalz / Letter fold)
+    - Paper: 170gsm silk recommended
+    - Colors: Navy (#1C244B), Sky (#52B1E1)
+    - Expert Print Feature: Dark colors must NOT bleed to edges to prevent 'ausrispeln' (fraying).
+      SOLUTION: We use a white base canvas. Dark elements are inset by 8mm using the `.dark-card` container.
+      This creates a stunning "floating panel" aesthetic that is 100% print-safe.
+    - Export: HTML → Chrome Print → PDF → Ghostscript CMYK PDF/X-4
+-->
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GM Süd – Option A: Dark Premium</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           1. GLOBAL RESET
+           ============================================ */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* ============================================
+           2. DESIGN TOKENS (Centralised Local Variables)
+           ============================================ */
+        :root {
+            /* Page Dimensions - DIN lang Tri-fold (Letter-fold) */
+            --spread-w: 303mm; /* 297mm trim + 6mm bleed */
+            --spread-h: 216mm; /* 210mm trim + 6mm bleed */
+            --bleed: 3mm;
+            --safe-margin: 8mm; /* Keep dark colors 8mm from trim */
+
+            /* Semantic Colours - Dark Premium Palette */
+            --navy:         #151b3b;
+            --navy-light:   #1C244B;
+            --sky:          #52B1E1;
+            --bg-white:     #FFFFFF;
+            --bg-grey:      #F5F7FA;
+            
+            --text-main:    #FFFFFF;
+            --text-light:   rgba(255,255,255,0.7);
+            --line:         rgba(255,255,255,0.1);
+        }
+
+        html { font-size: 16px; background: var(--bg-grey); }
+        body {
+            background: var(--bg-grey); padding: 48px;
+            -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
+            font-family: 'Inter', sans-serif; color: var(--text-main);
+            display: flex; flex-direction: column; align-items: center; gap: 48px;
+        }
+
+        /* ============================================
+           3. TYPOGRAPHY STYLES (Dark Mode specific)
+           ============================================ */
+        h1 { font-size: 2.2rem; font-weight: 300; line-height: 1.1; letter-spacing: -0.03em; color: var(--text-main); margin-bottom: 0.5rem; }
+        h1 strong { font-weight: 800; }
+        h2 { font-size: 1.4rem; font-weight: 300; line-height: 1.2; letter-spacing: -0.02em; color: var(--text-main); margin-bottom: 0.5rem; }
+        h2 strong { font-weight: 700; }
+        h3 { font-size: 0.85rem; font-weight: 700; color: var(--text-main); letter-spacing: 0.02em; }
+        
+        p { font-size: 0.8rem; line-height: 1.5; color: var(--text-light); font-weight: 400; margin-bottom: 1rem; }
+        .text-lead { font-size: 0.95rem; font-weight: 600; color: var(--sky); line-height: 1.4; }
+        
+        .accent { color: var(--sky); }
+
+        /* ============================================
+           4. SPREAD & PANEL MECHANICS
+           ============================================ */
+        .spread-container { display: flex; flex-direction: column; gap: 8px; }
+        .spread-label { font-size: 14px; font-weight: 700; color: #667085; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .spread {
+            width: var(--spread-w); height: var(--spread-h);
+            background: var(--bg-white); /* White base prevents edge fraying physically */
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1); flex-shrink: 0;
+            position: relative; overflow: hidden; display: flex; flex-direction: row;
+            outline: 1px dashed rgba(220,60,60,0.5); /* Bleed preview */
+        }
+
+        .fold-guide { position: absolute; top: 0; bottom: 0; width: 1px; border-left: 1px dashed rgba(0,0,0,0.15); z-index: 100; pointer-events: none; }
+        .panel { position: relative; height: var(--spread-h); flex-shrink: 0; display: flex; flex-direction: column; }
+        
+        /* Panel Widths (No padding needed as the internal card has margins) */
+        .panel-s1-left   { width: calc(97mm + var(--bleed)); }
+        .panel-s1-center { width: 100mm; }
+        .panel-s1-right  { width: calc(100mm + var(--bleed)); }
+        
+        .panel-s2-left   { width: calc(100mm + var(--bleed)); }
+        .panel-s2-center { width: 100mm; }
+        .panel-s2-right  { width: calc(97mm + var(--bleed)); }
+
+        /* ============================================
+           5. THE FLOATING DARK CARDS (The print solution)
+           ============================================ */
+        .dark-card {
+            background: linear-gradient(145deg, var(--navy) 0%, var(--navy-light) 100%);
+            border-radius: 4mm;
+            overflow: hidden;
+            display: flex; flex-direction: column;
+            position: relative;
+            box-shadow: 0 8px 25px rgba(21, 27, 59, 0.15);
+        }
+
+        /* 
+           Card Insets (8mm safe margin from Trim) 
+           We must calculate the bleed into the margin for the outside edges of the paper.
+        */
+        .panel-s1-left .dark-card   { margin: calc(var(--bleed) + var(--safe-margin)) 4mm calc(var(--bleed) + var(--safe-margin)) calc(var(--bleed) + var(--safe-margin)); height: calc(100% - (var(--bleed) * 2) - (var(--safe-margin) * 2)); }
+        .panel-s1-center .dark-card { margin: calc(var(--bleed) + var(--safe-margin)) 4mm; height: calc(100% - (var(--bleed) * 2) - (var(--safe-margin) * 2)); }
+        .panel-s1-right .dark-card  { margin: calc(var(--bleed) + var(--safe-margin)) calc(var(--bleed) + var(--safe-margin)) calc(var(--bleed) + var(--safe-margin)) 4mm; height: calc(100% - (var(--bleed) * 2) - (var(--safe-margin) * 2)); }
+        
+        .panel-s2-left .dark-card   { margin: calc(var(--bleed) + var(--safe-margin)) 4mm calc(var(--bleed) + var(--safe-margin)) calc(var(--bleed) + var(--safe-margin)); height: calc(100% - (var(--bleed) * 2) - (var(--safe-margin) * 2)); }
+        .panel-s2-center .dark-card { margin: calc(var(--bleed) + var(--safe-margin)) 4mm; height: calc(100% - (var(--bleed) * 2) - (var(--safe-margin) * 2)); }
+        .panel-s2-right .dark-card  { margin: calc(var(--bleed) + var(--safe-margin)) calc(var(--bleed) + var(--safe-margin)) calc(var(--bleed) + var(--safe-margin)) 4mm; height: calc(100% - (var(--bleed) * 2) - (var(--safe-margin) * 2)); }
+
+        .card-inner { padding: 12mm 10mm; display: flex; flex-direction: column; height: 100%; position: relative; z-index: 10; }
+
+        /* Diagonal Accent inside cards */
+        .card-accent-line {
+            position: absolute; right: 0; bottom: 20%; width: 50%; height: 2px;
+            background: linear-gradient(90deg, rgba(82,177,225,0) 0%, var(--sky) 100%);
+            transform: rotate(-30deg); transform-origin: right center; opacity: 0.3;
+        }
+
+        /* Front Cover Specifics */
+        .cover-photo {
+            flex: 1; background: url('../../assets/v8_hero_building.png') center/cover no-repeat;
+            position: relative; margin: -12mm -10mm; margin-top: 10mm;
+        }
+        .cover-photo::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(0deg, var(--navy) 0%, rgba(21,27,59,0) 60%);
+        }
+
+        /* ============================================
+           6. COMPONENTS
+           ============================================ */
+        .tagline { font-size: 0.65rem; font-weight: 800; color: var(--sky); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; display: block; }
+        
+        ul.bullet-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+        ul.bullet-list li { display: flex; align-items: flex-start; gap: 8px; font-size: 0.8rem; color: var(--text-main); font-weight: 500; }
+        ul.bullet-list li::before { content: ''; display: block; width: 4px; height: 4px; background: var(--sky); border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+
+        .contact-wrap { display: flex; flex-direction: column; gap: 12px; margin-top: auto; padding-top: 16px; border-top: 1px solid var(--line); }
+        .contact-line { display: flex; align-items: center; gap: 10px; font-weight: 500; font-size: 0.75rem; color: var(--text-main); }
+        .contact-line svg { width: 14px; height: 14px; stroke: var(--sky); stroke-width: 2; flex-shrink: 0; }
+
+        .service-grid { display: flex; flex-direction: column; gap: 16px; margin-top: 12px; }
+        .service-card {
+            background: rgba(255,255,255,0.03); border-radius: 4px; padding: 12px;
+            border-left: 2px solid var(--sky); display: flex; flex-direction: column; gap: 4px;
+        }
+        
+        .usp-list { display: flex; flex-direction: column; gap: 24px; margin-top: 16px; }
+        .usp-item { position: relative; padding-left: 12px; }
+        .usp-number {
+            position: absolute; left: -10px; top: -15px;
+            font-size: 3.5rem; font-weight: 900; color: var(--sky); opacity: 0.1;
+            line-height: 1; z-index: -1; letter-spacing: -2px;
+        }
+
+        @media print {
+            body { background: transparent; padding: 0; gap: 0; }
+            .spread-container { gap: 0; }
+            .spread { box-shadow: none; outline: none !important; margin: 0; page-break-after: always; break-after: page; }
+            .spread-label, .fold-guide { display: none !important; }
+            @page { size: 303mm 216mm; margin: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SPREAD 1: OUTSIDE -->
+    <div class="spread-container">
+        <div class="spread-label">Option A: Dark Premium | Outside Spread (Flap - Back - Front)</div>
+        <section class="spread" id="outside-spread">
+            <div class="fold-guide" style="left: calc(97mm + var(--bleed));"></div>
+            <div class="fold-guide" style="left: calc(197mm + var(--bleed));"></div>
+
+            <!-- Panel 1: FLAP (LEFT) -->
+            <div class="panel panel-s1-left">
+                <div class="dark-card">
+                    <div class="card-accent-line"></div>
+                    <div class="card-inner">
+                        <span class="tagline">Anwendung</span>
+                        <h2>Für wen<br><strong>wir arbeiten</strong></h2>
+                        <p>Zuschnitt auf Unternehmen, die reibungslose Prozesse und verlässliche Partner schätzen.</p>
+                        
+                        <ul class="bullet-list" style="margin-top: 12px;">
+                            <li>Gewerbebetriebe</li>
+                            <li>Immobilienverwaltung</li>
+                            <li>Facility Manager</li>
+                            <li>Projektentwickler</li>
+                            <li>Auftraggeber</li>
+                        </ul>
+
+                        <div style="margin-top: auto; padding-top: 16px; border-top: 1px solid var(--line);">
+                            <p class="text-lead" style="margin-bottom: 4px;">Projekt & Betrieb</p>
+                            <p style="font-size: 0.75rem; margin: 0;">Wir sorgen dafür, dass Ihr Gebäude in absolut zukunftssicheren Händen ist.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel 2: BACK COVER (CENTER) -->
+            <div class="panel panel-s1-center">
+                <div class="dark-card">
+                    <div class="card-inner" style="align-items: center; text-align: center;">
+                        
+                        <img src="../../assets/gmsued_logo.png" alt="GM Süd Logo" style="width: 45mm; filter: brightness(0) invert(1); margin-bottom: 24px;">
+                        
+                        <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; width: 100%;">
+                            <span class="tagline" style="margin: 0;">Kontakt</span>
+                            <h2 style="font-size: 1.2rem; margin-top: 4px;">Lassen Sie<br><strong>uns sprechen</strong></h2>
+                            <p style="font-size: 0.75rem; margin-bottom: 0;">Kommen Sie direkt auf uns zu. Wir freuen uns auf den professionellen Austausch.</p>
+                            
+                            <div class="contact-wrap" style="text-align: left;">
+                                <div class="contact-line">
+                                    <svg viewBox="0 0 24 24" fill="none"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                                    +49 (0) 89 413 24 55 0
+                                </div>
+                                <div class="contact-line">
+                                    <svg viewBox="0 0 24 24" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                                    info@gmsued.de
+                                </div>
+                                <div class="contact-line">
+                                    <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                                    www.gmsued.de
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- QR Code with white background for scanning -->
+                        <div style="margin-top: 16px;">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://www.gmsued.de/kontakt/&color=151b3b&bgcolor=FFFFFF" alt="QR Code" style="width: 22mm; height: 22mm; background: white; padding: 2mm; border-radius: 2mm;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel 3: FRONT COVER (RIGHT) -->
+            <div class="panel panel-s1-right">
+                <div class="dark-card">
+                    <div class="card-inner">
+                        <span class="tagline">Gebäudemanagement</span>
+                        <h1 style="color: var(--bg-white); font-size: 2.3rem; line-height: 1.05;">Zuverlässig<span class="accent">.</span><br><strong>Professionell<span class="accent">.</span></strong></h1>
+                        <p style="color: rgba(255,255,255,0.8); font-size: 0.8rem; margin-top: 8px;">Das Eigentum in den Händen von Experten. Technisch wie wirtschaftlich durchdacht.</p>
+                        
+                        <div class="cover-photo">
+                            <div style="position: absolute; bottom: 10mm; left: 10mm; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); padding: 3mm 6mm; border-radius: 20mm; z-index: 20; border: 1px solid rgba(255,255,255,0.2);">
+                                <img src="../../assets/gmsued_logo.png" alt="GM Süd" style="height: 4.5mm; display: block; filter: brightness(0) invert(1);">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- SPREAD 2: INSIDE -->
+    <div class="spread-container">
+        <div class="spread-label">Option A: Dark Premium | Inside Spread (Company - Services - Why Us)</div>
+        <section class="spread" id="inside-spread">
+            
+            <div class="fold-guide" style="left: calc(100mm + var(--bleed));"></div>
+            <div class="fold-guide" style="left: calc(200mm + var(--bleed));"></div>
+
+            <!-- Panel 4: INSIDE LEFT (Company) -->
+            <div class="panel panel-s2-left">
+                <div class="dark-card">
+                    <div class="card-accent-line"></div>
+                    <div class="card-inner">
+                        <span class="tagline">Das Unternehmen</span>
+                        <h2 style="font-size: 1.7rem; line-height: 1.1;">Ihr Partner <br><strong>für cleveres<br>Management.</strong></h2>
+                        <div style="width: 24px; height: 2px; background: var(--sky); margin: 16px 0;"></div>
+                        
+                        <p class="text-lead" style="color: var(--bg-white);">Verlässlichkeit trifft auf lösungsorientierte Expertise.</p>
+                        <p>Wir unterstützen Immobilienbetreiber und Projektverantwortliche dabei, den Gebäudebetrieb dauerhaft und ausfallsicher zu gewährleisten.</p>
+                        <p>Dabei legen wir größten Wert auf herausragende Qualität und proaktives Handeln. Bei GM Süd steht der Kunde konsequent an erster Stelle.</p>
+
+                        <div style="margin-top: auto; padding-top: 16px; border-top: 1px solid var(--line);">
+                            <span style="display: flex; align-items: center; gap: 8px; font-size: 0.65rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--sky)" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                Zertifizierte Qualität
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel 5: INSIDE CENTRE (Services) -->
+            <div class="panel panel-s2-center">
+                <div class="dark-card">
+                    <div class="card-accent-line"></div>
+                    <div class="card-inner">
+                        <span class="tagline">Expertise</span>
+                        <h2>Unsere<br><strong>Kernleistungen</strong></h2>
+                        
+                        <div class="service-grid">
+                            <div class="service-card">
+                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--sky)" stroke-width="2.5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 9.36l-7.1 7.1a2.12 2.12 0 0 1-3-3l7.1-7.1a6 6 0 0 1 9.36-7.94l-3.77 3.77a1 1 0 0 0 0 1.41z"/></svg>
+                                    <h3>Instandhaltung</h3>
+                                </div>
+                                <p style="font-size: 0.75rem; margin: 0; line-height: 1.4;">Präventive Wartung und technische Betreuung zur Ausfallvermeidung.</p>
+                            </div>
+
+                            <div class="service-card">
+                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--sky)" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                                    <h3>Brandschutz</h3>
+                                </div>
+                                <p style="font-size: 0.75rem; margin: 0; line-height: 1.4;">Prüfung von Feuerlöschern und praxisnahe Brandschutz-Schulungen.</p>
+                            </div>
+
+                            <div class="service-card">
+                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--sky)" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                    <h3>Sicherheit</h3>
+                                </div>
+                                <p style="font-size: 0.75rem; margin: 0; line-height: 1.4;">24/7 Notdienst und Koordination sicherheitsrelevanter Gewerke.</p>
+                            </div>
+
+                            <div class="service-card">
+                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--sky)" stroke-width="2.5"><polyline points="9 22 9 12 15 12 15 22"/><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                                    <h3>Infrastruktur</h3>
+                                </div>
+                                <p style="font-size: 0.75rem; margin: 0; line-height: 1.4;">Hausmeisterservice, Winterdienst und zertifizierte Spielplatzprüfung.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel 6: INSIDE RIGHT (Why Us) -->
+            <div class="panel panel-s2-right">
+                <div class="dark-card">
+                    <div class="card-accent-line"></div>
+                    <div class="card-inner">
+                        <span class="tagline">Vorteile</span>
+                        <h2>Warum<br><strong>GM Süd?</strong></h2>
+                        
+                        <div class="usp-list">
+                            <div class="usp-item">
+                                <span class="usp-number">01</span>
+                                <h3>100% Zuverlässig</h3>
+                                <p style="font-size: 0.75rem; margin: 0; line-height: 1.4;">Wir denken mit und handeln proaktiv für Ihr Eigentum.</p>
+                            </div>
+                            <div class="usp-item">
+                                <span class="usp-number">02</span>
+                                <h3>Geprüftes Know-how</h3>
+                                <p style="font-size: 0.75rem; margin: 0; line-height: 1.4;">Fachkräfte auf dem technisch neuesten Stand, laufend geschult.</p>
+                            </div>
+                            <div class="usp-item">
+                                <span class="usp-number">03</span>
+                                <h3>Praxisorientiert</h3>
+                                <p style="font-size: 0.75rem; margin: 0; line-height: 1.4;">Maßgeschneiderte Lösungen statt fester Standardkonzepte.</p>
+                            </div>
+                            <div class="usp-item">
+                                <span class="usp-number">04</span>
+                                <h3>Transparenz</h3>
+                                <p style="font-size: 0.75rem; margin: 0; line-height: 1.4;">Klare Kommunikation und detaillierte Dokumentation.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </div>
+
+</body>
+</html>

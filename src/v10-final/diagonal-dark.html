@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GM Süd – Diagonal Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           1. RESET & TOKENS
+           ============================================ */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            /* Structural Print Variables */
+            --spread-w: 303mm;
+            --spread-h: 216mm;
+            --bleed: 3mm;
+            --safe: 8mm; /* White border safe zone around outer edge */
+            
+            /* Premium Dark Theme */
+            --bg-canvas:    #FFFFFF;
+            --bg-card:      #121833;
+            --bg-card-alt:  #1C244B;
+            --text-primary: #FFFFFF;
+            --text-muted:   #A0AABF;
+            --accent-sky:   #52B1E1;
+            --accent-line:  rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background: #E5E7EB;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+            align-items: center;
+        }
+
+        h1, h2, h3, p, ul { margin: 0; }
+        ul { list-style: none; }
+
+        /* Typography */
+        .text-hero    { font-size: 3.5rem; font-weight: 800; line-height: 1.05; letter-spacing: -0.04em; }
+        .text-h2      { font-size: 2.5rem; font-weight: 700; line-height: 1.1; letter-spacing: -0.03em; }
+        .text-h3      { font-size: 1.25rem; font-weight: 600; line-height: 1.2; }
+        .text-body    { font-size: 0.95rem; font-weight: 400; line-height: 1.6; color: var(--text-muted); }
+        .text-label   { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent-sky); }
+        .text-accent  { color: var(--accent-sky); }
+        
+        /* Layout Utilities */
+        .flex-col { display: flex; flex-direction: column; }
+        .flex-row { display: flex; flex-direction: row; }
+        .gap-1 { gap: 8px; }
+        .gap-2 { gap: 16px; }
+        .gap-3 { gap: 24px; }
+        .gap-4 { gap: 32px; }
+        .gap-6 { gap: 48px; }
+        .gap-8 { gap: 64px; }
+
+        /* ============================================
+           2. SPREAD CANVAS & PANELS
+           ============================================ */
+        .spread {
+            width: var(--spread-w);
+            height: var(--spread-h);
+            background: var(--bg-canvas);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+            position: relative;
+            flex-shrink: 0;
+            overflow: hidden; 
+        }
+
+        /* Fold Guides for visual design reference only */
+        .fold-guide {
+            position: absolute; top: 0; bottom: 0; width: 1px;
+            background: rgba(0,0,0,0.1); z-index: 1000; pointer-events: none;
+        }
+
+        /* Safe Zone Overlay - visualizes the 8mm white border */
+        .spread::before {
+            content: ''; position: absolute; inset: calc(var(--bleed) + var(--safe));
+            border: 1px dashed rgba(255, 0, 0, 0.2); z-index: 1000; pointer-events: none;
+        }
+
+        /* ============================================
+           3. DIAGONAL LAYOUT SYSTEM
+           ============================================ */
+        /*
+           Instead of styling individual panels, we style giant floating cards 
+           using clip-path that span across the folds!
+           We constrain everything inside a 'margin-wrapper' that sits exactly inside the 8mm safe zone.
+        */
+        .safe-area {
+            position: absolute;
+            inset: calc(var(--bleed) + var(--safe));
+            /* This safe area is 271mm x 184mm */
+            z-index: 10;
+        }
+
+        /* 
+           Diagonal Card 1: Front Cover overlapping onto Back Cover (Outside Spread)
+           Starts on the right, angles sharply left across the 197mm fold.
+        */
+        .diag-front {
+            position: absolute;
+            top: 0; right: 0; bottom: 0;
+            width: 150mm; /* Spans front cover and bleeds into back cover */
+            background: var(--bg-card);
+            clip-path: polygon(18% 0, 100% 0, 100% 100%, 0% 100%);
+            padding: 40px;
+            display: flex; flex-direction: column; justify-content: center;
+            z-index: 20;
+        }
+
+        /* 
+           Diagonal Card 2: Back Cover (Outside Spread)
+           Underneath the front card, filling the rest.
+        */
+        .diag-back {
+            position: absolute;
+            top: 0; left: 0; bottom: 0;
+            width: 140mm;
+            background: var(--bg-card-alt);
+            clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
+            padding: 40px;
+            display: flex; flex-direction: column; justify-content: center;
+        }
+
+        /* 
+           Diagonal Card 3: Inside Flap overlapping into Center (Inside Spread)
+           Starts on the right (flap), angles sharply left into the center panel.
+        */
+        .diag-inside-flap {
+            position: absolute;
+            top: 0; right: 0; bottom: 0;
+            width: 140mm;
+            background: var(--bg-card);
+            clip-path: polygon(12% 0, 100% 0, 100% 100%, 0% 100%);
+            padding: 40px;
+            display: flex; flex-direction: column; justify-content: center;
+            z-index: 20;
+        }
+
+        /* 
+           Diagonal Card 4: Inside Left & Center
+           Base layer for the inside spread.
+        */
+        .diag-inside-base {
+            position: absolute;
+            top: 0; left: 0; bottom: 0;
+            width: 180mm;
+            background: var(--bg-card-alt);
+            clip-path: polygon(0 0, 100% 0, 92% 100%, 0% 100%);
+            padding: 40px;
+        }
+
+
+        /* ============================================
+           4. SPECIFIC CONTENT BLOCKS
+           ============================================ */
+        .content-front {
+            width: 90mm; /* Constrain content width so it doesn't hit clip-path */
+            margin-left: auto; /* Push to right */
+        }
+
+        .content-back {
+            width: 80mm; 
+        }
+
+        .content-flap {
+            width: 80mm;
+            margin-left: auto;
+        }
+
+        .content-inside-left {
+            width: 85mm;
+            position: absolute;
+            left: 40px; top: 40px;
+        }
+
+        .content-inside-center {
+            width: 85mm;
+            position: absolute;
+            left: 100mm; top: 40px; /* Aligned roughly into center panel */
+        }
+
+
+        .qr-box {
+            width: 25mm; height: 25mm;
+            background: white; padding: 2mm; border-radius: 2mm;
+        }
+        .qr-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        .service-list li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 24px;
+        }
+        .service-list li::before {
+            content: '';
+            position: absolute; left: 0; top: 8px;
+            width: 6px; height: 6px; border-radius: 50%;
+            background: var(--accent-sky);
+        }
+        
+        .swiss-check-list li {
+            display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; font-size: 0.95rem; color: var(--text-muted);
+        }
+        .swiss-check-list li::before {
+            content: '✓'; color: var(--accent-sky); font-weight: 900;
+        }
+
+        .usp-grid {
+            display: grid; grid-template-columns: 1fr; gap: 32px;
+        }
+
+        @media print {
+            body { padding: 0; background: none; gap: 0; }
+            .spread { box-shadow: none; page-break-after: always; break-after: page; }
+            .fold-guide, .spread::before { display: none !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 
+       OUTSIDE SPREAD 
+       Physical panels from left to right:
+       FLAP (97mm) | BACK COVER (100mm) | FRONT COVER (100mm)
+    -->
+    <div class="spread">
+        <!-- Structural Guides -->
+        <div class="fold-guide" style="left: calc(97mm + var(--bleed));"></div>
+        <div class="fold-guide" style="left: calc(197mm + var(--bleed));"></div>
+
+        <div class="safe-area">
+            
+            <!-- BACK COVER / FLAP BASE DIAGONAL -->
+            <div class="diag-back">
+                <div class="content-back flex-col gap-6">
+                    <img src="../../assets/gmsued_logo.png" style="width: 140px; filter: brightness(0) invert(1);" alt="GM Sud Logo">
+                    
+                    <div class="flex-col gap-3">
+                        <div class="text-label">Kontakt</div>
+                        <h2 class="text-h2" style="font-size: 2rem;">Lassen Sie<br>uns sprechen</h2>
+                        <p class="text-body" style="max-width: 280px;">Kommen Sie direkt auf uns zu. Wir freuen uns auf den professionellen Austausch.</p>
+                    </div>
+
+                    <div class="flex-col gap-2">
+                        <div class="text-body flex-row gap-2"><span>📞</span> +49 (0) 89 413 24 55 0</div>
+                        <div class="text-body flex-row gap-2"><span>✉️</span> info@gmsued.de</div>
+                        <div class="text-body flex-row gap-2"><span>🌐</span> www.gmsued.de</div>
+                    </div>
+
+                    <div class="qr-box">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://www.gmsued.de&color=121833&bgcolor=ffffff" alt="QR">
+                    </div>
+                </div>
+            </div>
+
+            <!-- FRONT COVER DIAGONAL (Overlaps back cover sharply) -->
+            <div class="diag-front">
+                <div class="content-front flex-col gap-8">
+                    <img src="../../assets/gmsued_logo.png" style="width: 160px; filter: brightness(0) invert(1);" alt="GM Sud Logo">
+                    
+                    <div class="flex-col gap-3">
+                        <div class="text-label">Gebäudemanagement</div>
+                        <h1 class="text-hero">Zuverlässig.<br><span class="text-accent">Professionell.</span></h1>
+                        <p class="text-body" style="font-size: 1.1rem; padding-top: 16px; border-top: 1px solid var(--accent-line);">Das Eigentum in den Händen von Experten. Technisch wie wirtschaftlich durchdacht.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- 
+       INSIDE SPREAD 
+       Physical panels from left to right:
+       INSIDE LEFT (100mm) | INSIDE CENTER (100mm) | INSIDE FLAP (97mm)
+    -->
+    <div class="spread">
+        <!-- Structural Guides -->
+        <div class="fold-guide" style="left: calc(100mm + var(--bleed));"></div>
+        <div class="fold-guide" style="left: calc(200mm + var(--bleed));"></div>
+
+        <div class="safe-area">
+            
+            <!-- INSIDE LEFT + CENTER BASE DIAGONAL -->
+            <div class="diag-inside-base">
+                
+                <div class="content-inside-left flex-col gap-6">
+                    <div class="flex-col gap-2">
+                        <div class="text-label">Das Unternehmen</div>
+                        <h2 class="text-h2">Ihr Partner<br><span class="text-accent">für cleveres</span><br>Management.</h2>
+                    </div>
+
+                    <div class="flex-col gap-3">
+                        <h3 class="text-h3" style="color: var(--text-primary);">Verlässlichkeit trifft auf lösungsorientierte Expertise.</h3>
+                        <p class="text-body">Wir unterstützen Immobilienbetreiber und Projektverantwortliche dabei, den Gebäudebetrieb dauerhaft und ausfallsicher zu gewährleisten.</p>
+                        <p class="text-body">Dabei legen wir größten Wert auf herausragende Qualität und proaktives Handeln. Bei GM Süd steht der Kunde konsequent an erster Stelle.</p>
+                    </div>
+
+                    <ul class="swiss-check-list" style="margin-top: 24px;">
+                        <li>Zertifizierte Qualität</li>
+                        <li>Transparente Prozesse</li>
+                        <li>Persönlicher Ansprechpartner</li>
+                    </ul>
+                </div>
+
+                <div class="content-inside-center flex-col gap-6">
+                    <div class="flex-col gap-2">
+                        <div class="text-label">Vorteile</div>
+                        <h2 class="text-h2">Warum<br>GM Süd?</h2>
+                    </div>
+
+                    <div class="usp-grid">
+                        <div class="flex-col gap-1">
+                            <h3 class="text-h3" style="font-size: 1.1rem; color: var(--accent-sky);">100% Zuverlässig</h3>
+                            <p class="text-body" style="font-size: 0.85rem;">Wir denken mit und handeln proaktiv für Ihr Eigentum.</p>
+                        </div>
+                        <div class="flex-col gap-1">
+                            <h3 class="text-h3" style="font-size: 1.1rem; color: var(--accent-sky);">Geprüftes Know-how</h3>
+                            <p class="text-body" style="font-size: 0.85rem;">Fachkräfte auf dem technisch neuesten Stand, laufend geschult.</p>
+                        </div>
+                        <div class="flex-col gap-1">
+                            <h3 class="text-h3" style="font-size: 1.1rem; color: var(--accent-sky);">Praxisorientiert</h3>
+                            <p class="text-body" style="font-size: 0.85rem;">Maßgeschneiderte Lösungen statt fester Standardkonzepte.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- INSIDE FLAP DIAGONAL (Overlaps heavily into the center panel) -->
+            <div class="diag-inside-flap">
+                <div class="content-flap flex-col gap-6">
+                    <div class="flex-col gap-2">
+                        <div class="text-label">Expertise</div>
+                        <h2 class="text-h2" style="font-size: 2rem;">Unsere<br>Kernleistungen</h2>
+                    </div>
+
+                    <ul class="service-list">
+                        <li>
+                            <h3 class="text-h3" style="font-size: 1rem; color: white;">Instandhaltung</h3>
+                            <p class="text-body" style="font-size: 0.85rem; margin-top: 4px;">Präventive Wartung und technische Betreuung zur Ausfallvermeidung.</p>
+                        </li>
+                        <li>
+                            <h3 class="text-h3" style="font-size: 1rem; color: white;">Brandschutz</h3>
+                            <p class="text-body" style="font-size: 0.85rem; margin-top: 4px;">Prüfung von Feuerlöschern und praxisnahe Brandschutz-Schulungen.</p>
+                        </li>
+                        <li>
+                            <h3 class="text-h3" style="font-size: 1rem; color: white;">Sicherheit</h3>
+                            <p class="text-body" style="font-size: 0.85rem; margin-top: 4px;">24/7 Notdienst und Koordination sicherheitsrelevanter Gewerke.</p>
+                        </li>
+                        <li>
+                            <h3 class="text-h3" style="font-size: 1rem; color: white;">Infrastruktur</h3>
+                            <p class="text-body" style="font-size: 0.85rem; margin-top: 4px;">Hausmeisterservice, Winterdienst und zertifizierte Spielplatzprüfung.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

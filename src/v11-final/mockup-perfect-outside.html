@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GM Süd – Mockup Perfect Outside</title>
+    <!-- We will use Inter to perfectly replicate that clean geometric sans-serif look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           1. RESET & TOKENS
+           ============================================ */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            /* Structural Print Variables */
+            --spread-w: 303mm;
+            --spread-h: 216mm;
+            --bleed: 3mm;
+            
+            /* The user wants the exact look of the mockup:
+               White background, deep dark navy/black text, cyan/sky-blue accents */
+            --bg-canvas:    #FFFFFF;
+            --bg-alt:       #F8F9FA;
+            --text-heading: #111424; /* Almost black navy */
+            --text-body:    #4A5568; 
+            --accent-cyan:  #00A3C4; /* GM Süd Sky Blue adapted to match the vibrant cyan of the mockup */
+        }
+
+        body {
+            background: #E5E7EB;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-body);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1, h2, h3, h4, p, ul { margin: 0; }
+        ul { list-style: none; }
+
+        /* Typography Matching the Mockup */
+        .mockup-title { 
+            font-size: 2.1rem; 
+            font-weight: 800; 
+            line-height: 1.05; 
+            letter-spacing: -0.02em; 
+            color: var(--text-heading); 
+            text-transform: uppercase;
+        }
+        
+        .mockup-body { 
+            font-size: 0.85rem; 
+            line-height: 1.5; 
+            color: var(--text-body); 
+            font-weight: 500;
+        }
+        
+        .mockup-accent-header {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--accent-cyan);
+        }
+
+        .mockup-number {
+            font-size: 4.5rem;
+            font-weight: 800;
+            line-height: 0.8;
+            letter-spacing: -0.04em;
+            color: var(--accent-cyan);
+        }
+
+        /* Helpers */
+        .flex-col { display: flex; flex-direction: column; }
+        .flex-row { display: flex; flex-direction: row; }
+
+        /* ============================================
+           2. SPREAD CANVAS
+           ============================================ */
+        .spread {
+            width: var(--spread-w);
+            height: var(--spread-h);
+            background: var(--bg-canvas);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            position: relative;
+            flex-shrink: 0;
+            overflow: hidden; 
+            display: flex;
+        }
+
+        /* Fold Guides */
+        .fold-guide {
+            position: absolute; top: 0; bottom: 0; width: 1px;
+            background: rgba(0,0,0,0.1); z-index: 1000; pointer-events: none;
+        }
+
+        /* ============================================
+           3. PANELS
+           ============================================ */
+        /* DIN Lang Outside Spread: Flap (97) | Back (100) | Front (100) */
+        .panel { height: 100%; position: relative; }
+        
+        .panel-flap {
+            width: calc(97mm + var(--bleed));
+            padding: calc(40px + var(--bleed)) 40px 40px calc(40px + var(--bleed));
+            background: #F4F6F8;
+            border-right: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .panel-back {
+            width: 100mm;
+            padding: 40px 40px 40px 40px;
+        }
+        
+        .panel-front {
+            width: calc(100mm + var(--bleed));
+            padding: 40px calc(40px + var(--bleed)) 40px 40px;
+        }
+
+        /* ============================================
+           4. SPECIFIC MOCKUP COMPONENTS
+           ============================================ */
+        .accent-line {
+            width: 24px;
+            height: 3px;
+            background: var(--accent-cyan);
+            margin-bottom: 8px;
+        }
+
+        .square-image {
+            width: 100%;
+            aspect-ratio: 1.1 / 1;
+            object-fit: cover;
+            margin: 24px 0;
+            filter: grayscale(20%) contrast(1.1);
+        }
+
+        .spanning-image-container {
+            position: absolute;
+            top: 155px; /* Same visual height as inside for consistency when opened */
+            left: -40px; /* Spans from the back cover into the flap */
+            width: calc(100mm + 97mm - 40px);
+            height: 180px;
+            z-index: 10;
+        }
+        .spanning-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) opacity(0.1); /* Very subtle texture for back cover spanning */
+        }
+
+        .qr-box {
+            width: 30mm; height: 30mm;
+            padding: 2mm; background: white;
+            border: 1px solid rgba(0,0,0,0.1);
+            margin-top: auto;
+        }
+        .qr-box img { width: 100%; height: 100%; display: block; object-fit: cover; }
+
+        .logo-block {
+            width: 120px;
+            filter: grayscale(1) contrast(2) brightness(0.2);
+            margin-bottom: 24px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 
+       OUTSIDE SPREAD 
+       Flap | Back Cover | Front Cover
+    -->
+    <div class="spread">
+        <!-- Structural Guides -->
+        <div class="fold-guide" style="left: calc(97mm + var(--bleed));"></div>
+        <div class="fold-guide" style="left: calc(197mm + var(--bleed));"></div>
+
+        <!-- ==========================================
+             FLAP (LEFT)
+             ========================================== -->
+        <div class="panel panel-flap flex-col">
+            <h2 class="mockup-title" style="margin-bottom: 16px; font-size: 1.8rem;">CLEVERES<br>GEBÄUDE<br>MANAGEMENT</h2>
+            <p class="mockup-body" style="margin-bottom: 24px;">
+                Eigentum in den Händen von Experten. Technisch wie wirtschaftlich durchdacht, um den Wert Ihrer Immobilie langfristig zu sichern.
+            </p>
+
+            <div class="accent-line"></div>
+            <div class="mockup-accent-header">LASSEN SIE UNS SPRECHEN</div>
+
+            <!-- Square Image -->
+            <img src="../../assets/fresh-gradient.jpg" class="square-image" alt="GMSUD Material" style="filter: none;">
+
+            <!-- Number and Block -->
+            <div class="flex-row" style="gap: 16px; align-items: flex-start; margin-bottom: 24px;">
+                <div class="mockup-number">03</div>
+                <div class="flex-col" style="padding-top: 6px;">
+                    <h3 style="font-size: 1rem; font-weight: 800; color: var(--text-heading); margin-bottom: 4px;">Individuell.</h3>
+                    <p style="font-size: 0.8rem; line-height: 1.4; color: var(--text-body);">Wir prüfen Ihre Anforderungen und erstellen eine exakte Lösung.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             BACK COVER (CENTER)
+             ========================================== -->
+        <div class="panel panel-back flex-col">
+            <img src="../../assets/gmsued_logo.png" class="logo-block" alt="GM Sud Logo">
+
+            <div class="mockup-title" style="margin-top: 8px;">VERTRAUEN.<br>TRANSPARENZ.</div>
+
+            <!-- Contact Spanning Block -->
+            <div class="flex-col" style="margin-top: 180px; z-index: 20;">
+                <div class="accent-line"></div>
+                <div class="mockup-accent-header" style="margin-bottom: 16px;">KONTAKT GM SÜD</div>
+
+                <div class="flex-col" style="gap: 12px;">
+                    <div class="flex-row" style="gap: 8px;">
+                        <span style="color: var(--accent-cyan); font-weight: 700;">T</span>
+                        <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-heading);">+49 (0) 89 413 24 55 0</span>
+                    </div>
+                    <div class="flex-row" style="gap: 8px;">
+                        <span style="color: var(--accent-cyan); font-weight: 700;">E</span>
+                        <a href="mailto:info@gmsued.de" style="font-size: 0.85rem; font-weight: 700; color: var(--text-heading); text-decoration: none;">info@gmsued.de</a>
+                    </div>
+                    <div class="flex-row" style="gap: 8px;">
+                        <span style="color: var(--accent-cyan); font-weight: 700;">W</span>
+                        <a href="https://www.gmsued.de" style="font-size: 0.85rem; font-weight: 700; color: var(--text-heading); text-decoration: none;">www.gmsued.de</a>
+                    </div>
+                </div>
+
+                <div class="qr-box" style="margin-top: 40px;">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://www.gmsued.de&color=111424&bgcolor=ffffff" alt="QR Code">
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             FRONT COVER (RIGHT)
+             ========================================== -->
+        <div class="panel panel-front flex-col" style="background: var(--bg-canvas);">
+            
+            <img src="../../assets/gmsued_logo.png" style="width: 140px; margin-bottom: 40px;" alt="GM Sud Logo">
+
+            <h1 class="mockup-title" style="font-size: 2.8rem; line-height: 1;">
+                KLASSES<br>GEBÄUDE<br>MANAGEMENT
+            </h1>
+
+            <div class="accent-line" style="margin-top: 24px; margin-bottom: 16px;"></div>
+            
+            <p class="mockup-body" style="font-size: 1rem;">
+                Wir fördern den Wert Ihrer Immobilie. Professionell, verlässlich und mit technischem Sachverstand.
+            </p>
+
+            <img src="../../assets/gms2_hero.jpg" class="square-image" style="margin-top: auto; aspect-ratio: 1/1.2;" alt="Modern Building">
+
+        </div>
+
+    </div>
+
+</body>
+</html>
