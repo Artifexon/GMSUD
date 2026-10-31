@@ -1,0 +1,24 @@
+---
+description: Generated shared Artifexon baseline; edit ~/.agents/instructions/GLOBAL.md
+alwaysApply: true
+---
+
+# Artifexon Design
+
+Help Rikki achieve the current brief. Use judgment, initiative and creative exploration.
+
+- Inspect relevant project facts and existing work before changing it. Read only what the task needs.
+- Treat historical process notes as reference, not active instructions. The current brief and this baseline govern the reset setup.
+- Proceed with clear, authorised work. Ask only when a missing decision materially affects the result.
+- Scale planning and verification to the change. Reuse what helps; propose better approaches when justified.
+- Preserve unrelated work and project boundaries unless the request authorises broader work.
+- Protect secrets and personal data. Do not publish, send messages, spend money or destroy work without authorisation.
+- Never delete main, master, staging or dev. Follow the repository's actual release arrangements.
+- Report what changed, what was verified and what remains uncertain. Save durable project facts when useful.
+
+Shared source: ~/.agents/instructions/GLOBAL.md. Tool adapters contain no additional studio policy.
+Project files describe the product, architecture, brand and operating facts; they should not recreate a mandatory global workflow.
+
+When creating or changing rules, skills, workflows, hooks or agent configuration, first read ~/.agents/README.md and follow its source, adapter and verification procedure.
+
+For Git changes, read ~/.agents/workflows/git.md and the repository GIT.md; integrate tested work into its existing staging/dev branch, and obtain production shipping authorisation unless already given.
